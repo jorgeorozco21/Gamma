@@ -17,10 +17,9 @@ class Usuario extends Model
 
     protected $fillable = [
         "Nombre_Usuario",
+        "Email",
         "Contrasena",
         "Nombre",
-        "Apellido_Paterno",
-        "Apellido_Materno",
         "Tipo_Usuario",
         "ID_Grupo",
         "ID_Institucion"

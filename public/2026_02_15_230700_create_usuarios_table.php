@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('laboratorios', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
+            $table->string("Nombre_Usuario")->unique();
+            $table->string("Contrasena");
             $table->string("Nombre");
-            $table->string("Tipo");
-            $table->integer("Cantidad_Computadoras")->nullable();
+            $table->string("Tipo_Usuario");
+            $table->unsignedBigInteger("ID_Grupo")->nullable();
             $table->unsignedBigInteger("ID_Institucion");
             $table->timestamps();
 
+            $table->foreign("ID_Grupo")->references("id")->on("grupos")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("ID_Institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('laboratorios');
+        Schema::dropIfExists('usuarios');
     }
 };
