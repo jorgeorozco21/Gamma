@@ -19,6 +19,10 @@ Route::get('/Admin', function(){
     return view('Admin.indexAdmin');
 });
 
+Route::get('/normal', function(){
+    return view('Normal.index');
+});
+
 Route::resource('/Admin/Usuarios', UsuarioController::class)->names('admin.usuarios');
 
 Route::post('/Admin/Usuarios/{id}/cambiar-contrasena',[UsuarioController::class, 'cambioContrasena'])->name('admin.usuarios.cambiarContrasena');
