@@ -25,6 +25,11 @@
             </div>
         @endif
 
+        <form action="{{ url('/Logout') }}" method="POST">
+            @csrf
+            <button type="submit">Cerrar sesión</button>
+        </form>
+
         <div>
             <ul>
                 <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
@@ -64,7 +69,7 @@
                     </select>
                     <label for="cantidad-edit" id="label-cantidad-edit">Cantidad de Computadoras</label>
                     <input type="number" min="1" id="cantidad-edit" name="Cantidad_Computadoras">
-                    <input type="hidden" name="ID_Institucion" value="1">
+                    <input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
                     <input type="submit" value="Editar Laboratorio">
             </form>
             </div>

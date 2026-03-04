@@ -21,6 +21,7 @@ class MaterialController extends Controller
                 "m.Descripcion",
                 "m.Tipo"
             )
+            ->where("m.ID_Institucion","=",session("id_institucion"))
             ->orderBy("m.Nombre","ASC")
             ->orderBy("m.created_at","DESC")
             ->get()

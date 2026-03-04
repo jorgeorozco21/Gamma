@@ -31,6 +31,8 @@ class UsuarioController extends Controller
                 "g.Grado",
                 "g.Grupo"
             )
+            ->where("u.ID_Institucion","=",session('id_institucion'))
+            ->where("u.Tipo_Usuario","!=","Admin")
             ->orderBy("u.Nombre","ASC")
             ->orderBy("u.created_at","DESC")
             ->get()
@@ -45,6 +47,7 @@ class UsuarioController extends Controller
                 "g.Grupo"
             )
             ->orderBy("g.Nombre","ASC")
+            ->where("g.ID_Institucion","=",session('id_institucion'))
             ->orderBy("g.created_at","DESC")
             ->get()
         ;

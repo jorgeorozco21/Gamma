@@ -13,5 +13,5 @@
 <div id="laboratorios-agregados">
 </div>
 <input type="hidden" id="inf-laboratorios" name="Laboratorios">
-<input type="hidden" name="ID_Institucion" value="1">
+<input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
 <input type="submit" value="Crear Grupo">

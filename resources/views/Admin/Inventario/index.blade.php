@@ -24,6 +24,11 @@
                 </ul>
             </div>
         @endif
+
+        <form action="{{ url('/Logout') }}" method="POST">
+            @csrf
+            <button type="submit">Cerrar sesión</button>
+        </form>
         
         <div>
             <ul>

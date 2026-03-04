@@ -24,6 +24,11 @@
                 </ul>
             </div>
         @endif
+
+        <form action="{{ url('/Logout') }}" method="POST">
+            @csrf
+            <button type="submit">Cerrar sesión</button>
+        </form>
         
         <div>
             <ul>
@@ -66,7 +71,7 @@
                         <option value="Prestamos por Unidad">Prestamos por Unidad</option>
                         <option value="Prestamos por Cantidad">Prestamos por Cantidad</option>
                     </select>
-                    <input type="hidden" name="ID_Institucion" value="1">
+                    <input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
                     <input type="submit" value="Editar Material">
                 </form>
             </div>

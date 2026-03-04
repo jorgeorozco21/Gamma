@@ -19,6 +19,7 @@ class GrupoController extends Controller
                 "l.id",
                 "l.Nombre"
             )
+            ->where("l.ID_Institucion","=",session("id_institucion"))
             ->orderBy("l.Nombre","ASC")
             ->get()
         ;
@@ -32,6 +33,7 @@ class GrupoController extends Controller
                 "g.Grupo",
                 "g.Laboratorios"
             )
+            ->where("g.ID_Institucion","=",session("id_institucion"))
             ->orderBy("g.Nombre","ASC")
             ->orderBy("g.created_at","DESC")
             ->get()

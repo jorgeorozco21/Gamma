@@ -7,5 +7,5 @@
 </select>
 <label for="cantidad" id="label-cantidad" style="display: none;">Cantidad de Computadoras</label>
 <input type="number" min="1" value="1" id="cantidad" name="Cantidad_Computadoras" style="display: none;">
-<input type="hidden" name="ID_Institucion" value="1">
+<input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
 <input type="submit" value="Crear Laboratorio">

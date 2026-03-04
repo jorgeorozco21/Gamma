@@ -21,6 +21,7 @@ class LaboratorioController extends Controller
                 "l.Tipo",
                 "l.Cantidad_Computadoras"
             )
+            ->where("l.ID_Institucion","=",session("id_institucion"))
             ->orderBy("l.Nombre","ASC")
             ->orderBy("l.created_at","DESC")
             ->get()

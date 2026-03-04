@@ -16,5 +16,5 @@
         <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
     @endforeach
 </select>
-<input type="hidden" name="ID_Institucion" value="1">
+<input type="hidden" name="ID_Institucion" value="{{ session('id_institucion') }}">
 <input type="submit" value="Crear Usuario">

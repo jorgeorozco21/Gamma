@@ -19,6 +19,7 @@ class InventarioController extends Controller
                 "m.id",
                 "m.Nombre"
             )
+            ->where("m.ID_Institucion","=",session("id_institucion"))
             ->orderBy("m.Nombre","ASC")
             ->orderBy("m.created_at","DESC")
             ->get()
@@ -31,6 +32,7 @@ class InventarioController extends Controller
                 "l.Nombre"
             )
             ->where("l.Tipo","=","Prestamos")
+            ->where("l.ID_Institucion","=",session("id_institucion"))
             ->orderBy("l.Nombre","ASC")
             ->orderBy("l.created_at","DESC")
             ->get()
@@ -46,6 +48,7 @@ class InventarioController extends Controller
                 "i.Cantidad_Total",
                 "l.Nombre as nombreLaboratorio"
             )
+            ->where("l.ID_Institucion","=",session("id_institucion"))
             ->orderBy("l.Nombre","ASC")
             ->orderBy("m.Nombre","ASC")
             ->orderBy("i.created_at","DESC")

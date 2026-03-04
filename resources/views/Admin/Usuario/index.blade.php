@@ -24,6 +24,11 @@
                 </ul>
             </div>
         @endif
+
+        <form action="{{ url('/Logout') }}" method="POST">
+            @csrf
+            <button type="submit">Cerrar sesión</button>
+        </form>
         
         <div>
             <ul>
@@ -72,7 +77,7 @@
                             <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
                         @endforeach
                     </select>
-                    <input type="hidden" name="ID_Institucion" value="1">
+                    <input type="hidden" name="ID_Institucion" value="{{ session('id_institucion') }}">
                     <input type="submit" value="Editar Usuario">
                 </form>
             </div>

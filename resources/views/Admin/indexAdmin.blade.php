@@ -6,6 +6,10 @@
         <title>Admin</title>
     </head>
     <body>
+        <form action="{{ url('/Logout') }}" method="POST">
+            @csrf
+            <button type="submit">Cerrar sesión</button>
+        </form>
         <div>
             <ul>
                 <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
