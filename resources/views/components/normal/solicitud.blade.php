@@ -28,7 +28,7 @@
 
     <!-- Contenido -->
     <div class="flex-1 overflow-y-auto space-y-4 pr-2">
-        <!-- items aquí -->
+        <x-normal.items-solicitud />
     </div>
 
     <!-- Footer -->
@@ -63,7 +63,6 @@
         cart.classList.remove('translate-y-full');
         overlay.classList.remove('opacity-0', 'pointer-events-none');
 
-        // 👇 ocultar botón flotante
         openBtn.classList.add('opacity-0', 'pointer-events-none');
     }
 

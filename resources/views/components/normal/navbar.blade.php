@@ -6,10 +6,19 @@
     </div>
 
     <!-- Desktop Menu -->
-    <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
-        <a href="#" class="text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1">Materiales</a>
-        <a href="#" class="text-gray-400 hover:text-[#7B1FA3] transition">Solicitudes</a>
-    </div>
+    <div class="hidden md:flex justify-center gap-8 text-sm font-semibold">
+    
+    <a href="{{ route('materiales') }}" class="transition-all {{ request()->routeIs('materiales') 
+            ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+        Materiales
+    </a>
+
+    <a href="{{ route('solicitudes') }}" class="transition-all {{ request()->routeIs('solicitudes') 
+            ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+        Solicitudes
+    </a>
+
+</div>
 
     <!-- Desktop User -->
     <div class="hidden md:flex items-center gap-4">
@@ -53,8 +62,15 @@
 
     <!-- Links -->
     <div class="flex flex-col gap-6 text-sm font-semibold">
-        <a href="#" class="text-[#7B1FA3]">Materiales</a>
-        <a href="#" class="text-gray-600">Solicitudes</a>
+        <a href="{{ route('materiales') }}" class="transition-colors {{ request()->routeIs('materiales') 
+                ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
+            Materiales
+        </a>
+
+        <a href="{{ route('solicitudes') }}" class="transition-colors {{ request()->routeIs('solicitudes') 
+                ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
+            Solicitudes
+        </a>
     </div>
 
     <!-- User Section -->

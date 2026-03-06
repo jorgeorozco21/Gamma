@@ -19,9 +19,13 @@ Route::get('/Admin', function(){
     return view('Admin.indexAdmin');
 });
 
-Route::get('/normal', function(){
-    return view('Normal.index');
-});
+Route::get('/materiales', function(){
+    return view('Normal.materiales');
+})->name('materiales');
+
+Route::get('/solicitudes', function(){
+    return view('Normal.solicitudes');
+})->name('solicitudes');
 
 Route::resource('/Admin/Usuarios', UsuarioController::class)->names('admin.usuarios');
 
