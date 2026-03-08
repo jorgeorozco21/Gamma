@@ -338,46 +338,6 @@ Route::get('/laboratorios', function(){
     return view('Normal.laboratorios');
 })->name('laboratorios');
 
-Route::resource('/Admin/Usuarios', UsuarioController::class)->names('admin.usuarios');
-
-Route::post('/Admin/Usuarios/{id}/cambiar-contrasena',[UsuarioController::class, 'cambioContrasena'])->name('admin.usuarios.cambiarContrasena');
-
-Route::get('/api/usuarios', function (Illuminate\Http\Request $request){
-    $query = 
-        DB::table("usuarios as u")
-        ->leftJoin("grupos as g","g.id","=","u.ID_Grupo")
-        ->select(
-            "u.id",
-            "u.Nombre_Usuario",
-            "u.Email",
-            "u.Nombre",
-            "u.Tipo_Usuario",
-            "g.Nombre as nombreGrupo",
-            "g.Grado",
-            "g.Grupo"
-        )
-        ->where(function ($buscador) use ($request){
-            $buscador->where("u.Nombre_Usuario","ilike","%".$request->texto."%")
-            ->orWhere("u.Email","ilike","%".$request->texto."%")
-            ->orWhere("u.Nombre","ilike","%".$request->texto."%");
-        })
-    ;
-
-    if ($request->tipoUsuario != "Sin Filtro"){
-        $query->where("u.Tipo_Usuario","=",$request->tipoUsuario);
-    }
-
-    if ($request->grupo != "Sin Filtro"){
-        $query->where("u.ID_Grupo","=",$request->grupo);
-    }
-
-    $query->orderBy("u.Nombre","ASC")->orderBy("u.created_at","DESC");
-
-    $usuarios = $query->get();
-        
-    return response()->json($usuarios);
-});
-
 Route::get('/Login', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/Login', [LoginController::class, 'login'])->name('login.login');
