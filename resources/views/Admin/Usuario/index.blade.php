@@ -145,6 +145,15 @@
             </table>
         </div>
 
+        <div>
+            <h2>Carga Masiva</h2>
+            <form action="{{ url('/cargaUsuario') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="archivo">
+                <input type="submit" value="Subir">
+            </form>
+        </div>
+
         @vite('resources/js/Admin/crud_usuarios.js')
         @vite('resources/js/Admin/buscador_usuarios.js')
         @vite('resources/js/Admin/alertas.js')

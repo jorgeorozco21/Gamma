@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CargaUsuariosController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\LaboratorioController;
@@ -59,7 +60,7 @@ Route::middleware('check.login')->group(function (){
         $query->where('u.ID_Institucion',"=",session("id_institucion"));
         $query->where("u.Tipo_Usuario","!=","Admin");
 
-        $query->orderBy("u.Nombre","ASC")->orderBy("u.created_at","DESC");
+        $query->orderBy("u.id","ASC")->orderBy("u.created_at","DESC");
 
         $usuarios = $query->get();
             
@@ -315,8 +316,8 @@ Route::middleware('check.login')->group(function (){
 
         return response()->json($inventarios);
     });
-    
-    
+
+    Route::post('/cargaUsuario', [CargaUsuariosController::class, 'cargarMasivaUsuarios']);
 });
 
 Route::get('/Generar/Hash/Contrasenas/Administradores', function(){
