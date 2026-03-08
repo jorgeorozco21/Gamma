@@ -33,7 +33,7 @@ class UsuarioController extends Controller
             )
             ->where("u.ID_Institucion","=",session('id_institucion'))
             ->where("u.Tipo_Usuario","!=","Admin")
-            ->orderBy("u.Nombre","ASC")
+            ->orderBy("u.id","ASC")
             ->orderBy("u.created_at","DESC")
             ->get()
         ;
