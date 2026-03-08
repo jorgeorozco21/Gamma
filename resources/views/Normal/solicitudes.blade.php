@@ -3,30 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Normal</title>
+        <title>Solicitudes</title>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#F7F6F8]">
+        <!-- Header -->
         <x-normal.navbar />
+        <!-- Contenedor -->
         <main class="flex flex-1 overflow-hidden">
-        <div class="flex-1 p-8 overflow-y-auto">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800">Solicitudes</h1>
-                    <p class="text-gray-500 text-sm">Revisa las solicutudes realizadas</p>
+            <div class="flex-1 p-8 overflow-y-auto">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Solicitudes</h1>
+                        <p class="text-gray-500 text-sm">Revisa las solicutudes realizadas</p>
+                    </div>
+                    <!-- Buscador -->
+                    <div class="relative w-80">
+                        <input type="text" placeholder="Buscar" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7B1FA3] outline-none transition">
+                            <span class="absolute left-3 top-2.5 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        d="M21 21l-4.35-4.35m1.85-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </span>
+                    </div>
                 </div>
-                <div class="relative w-80">
-                    <input type="text" placeholder="Buscar" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7B1FA3] outline-none transition">
-                    <span class="absolute left-3 top-2.5 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                            d="M21 21l-4.35-4.35m1.85-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                    </span>
-                </div>
+                <!-- Componente Card Estado de la Solicitud-->
+                <x-normal.card-estado-solicitud />
             </div>
-            <x-normal.card-estado-solicitud />
-        </div>
-        <x-normal.solicitud />
+            <!-- Componente Solicitud de Materiales-->
+            <x-normal.solicitud />
+        </main>
     </body>
 </html>

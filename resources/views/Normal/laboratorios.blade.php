@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Materiales</title>
+        <title>Laboratorios</title>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-[#F7F6F8]">
@@ -14,8 +14,8 @@
             <div class="flex-1 p-8 overflow-y-auto">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Materiales Disponibles</h1>
-                        <p class="text-gray-500 text-sm">Selecciona los materiales que necesitas</p>
+                        <h1 class="text-2xl font-bold text-gray-800">Laboratorios</h1>
+                        <p class="text-gray-500 text-sm">Selecciona el laboratorio</p>
                     </div>
                     <!-- Buscador -->
                     <div class="relative w-80">
@@ -28,11 +28,9 @@
                             </span>
                     </div>
                 </div>
-                <!--Componente de las Cards de Materiales -->
-                <x-normal.cards-material />
+                <!-- Componente Card Laboratorio-->
+                <x-normal.card-laboratorio />
             </div>
-            <!-- Componente Solicitud de Materiales -->
-            <x-normal.solicitud />
         </main>
     </body>
 </html>

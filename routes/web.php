@@ -27,6 +27,10 @@ Route::get('/solicitudes', function(){
     return view('Normal.solicitudes');
 })->name('solicitudes');
 
+Route::get('/laboratorios', function(){
+    return view('Normal.laboratorios');
+})->name('laboratorios');
+
 Route::resource('/Admin/Usuarios', UsuarioController::class)->names('admin.usuarios');
 
 Route::post('/Admin/Usuarios/{id}/cambiar-contrasena',[UsuarioController::class, 'cambioContrasena'])->name('admin.usuarios.cambiarContrasena');

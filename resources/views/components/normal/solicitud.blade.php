@@ -1,4 +1,4 @@
-<!-- Overlay (solo móvil) -->
+<!-- Overlay (Movil) -->
 <div id="overlay"
     class="fixed inset-0 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
 </div>
@@ -26,18 +26,20 @@
         </p>
     </div>
 
-    <!-- Contenido -->
+    <!-- Cards de Items -->
     <div class="flex-1 overflow-y-auto space-y-4 pr-2">
         <x-normal.items-solicitud />
     </div>
 
     <!-- Footer -->
     <div class="mt-6 pt-6 border-t border-gray-100">
+        <!-- Total de Items Seleccionados -->
         <div class="flex justify-between items-center">
             <span class="text-xs text-gray-500 font-medium">Total Items</span>
             <span class="text-xl font-black text-gray-900">4</span>
         </div>
 
+        <!-- Boton de Enviar Solicitud -->
         <button class="w-full mt-4 bg-purple-700 hover:bg-[#7B1FA3] text-white py-4 rounded-2xl font-bold transition-all">
             Enviar Solicitud
         </button>
@@ -45,6 +47,7 @@
 
 </aside>
 
+<!-- Boton de Ver Solicitud (Movil) -->
 <button id="openCart" class="fixed bottom-6 right-6 md:hidden bg-purple-700 text-white p-4 rounded-full shadow-xl transition-opacity duration-300">
     <span class="text-white">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -69,8 +72,6 @@
     function closeCart() {
         cart.classList.add('translate-y-full');
         overlay.classList.add('opacity-0', 'pointer-events-none');
-
-        // 👇 volver a mostrar botón
         openBtn.classList.remove('opacity-0', 'pointer-events-none');
     }
 
