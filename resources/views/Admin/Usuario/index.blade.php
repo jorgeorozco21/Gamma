@@ -1,162 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Admin</title>
-    </head>
-    <body>
-        @if ($errors->any())
-            <div class="alerta errores">
-                <h2>Errores</h2>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+<html lang="en" class="h-full bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Usuarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="h-full overflow-hidden">
+
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <x-admin.sidebar-admin />
+
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            
+            <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-4">
+                    <button id="abrir-sidebar" class="md:hidden p-2 rounded-xl bg-gray-50 text-[#7B1FA3] hover:bg-purple-50 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <div>
+                        <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Usuarios</h1>
+                        <p class="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                            Administración de Usuarios
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button id="abrir-modal" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span class="hidden xs:block">Nuevo Usuario</span>
+                        <span class="xs:hidden">Nuevo</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8 pt-0 no-scrollbar space-y-8">
+            
+                <!-- Alertas -->
+                <x-admin.alertas-usuarios />
+
+                <!-- Filtros -->
+                <x-admin.filtro-usuarios :grupos="$grupos" />
+
+                <!-- Tabla de Usuarios -->
+                <x-admin.tabla-usuarios :usuarios="$usuarios" />
+
+                <!-- Boton de Carga Masiva -->
+                <x-admin.carga-masiva-usuarios />
+
             </div>
-        @endif
-        @if (session('success'))
-            <div class="alerta success">
-                <ul>
-                    <li>{{ session('success') }}</li>
-                </ul>
+        </main>
+    </div>
+
+    <div id="modal" style="display: none;" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
+            <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+                <h3 class="font-extrabold text-gray-800">Registrar Usuario</h3>
+                <button id="cerrar-modal" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
             </div>
-        @endif
-
-        <form action="{{ url('/Logout') }}" method="POST">
-            @csrf
-            <button type="submit">Cerrar sesión</button>
-        </form>
-        
-        <div>
-            <ul>
-                <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url('/Admin/Grupos') }}">Grupos</a></li>
-                <li><a href="{{ url('/Admin/Laboratorios') }}">Laboratorios</a></li>
-                <li><a href="{{ url('/Admin/Materiales') }}">Materiales</a></li>
-                <li><a href="{{ url('/Admin/Inventario') }}">Inventario</a></li>
-            </ul>
-        </div>
-
-        <div>
-            <button id="abrir-modal">Crear</button>
-        </div>
-
-        <!-- Modal para crear  -->
-        <div id="modal" style="display: none;">
-            <button id="cerrar-modal"> X </button>
-            <div id="contenido-modal">
-                <form action="{{ route('admin.usuarios.store') }}" method="post">
+            <div class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
+                <form action="{{ route('admin.usuarios.store') }}" method="post" class="space-y-4">
                     @csrf
                     @include('Admin.Usuario.form')
                 </form>
             </div>
         </div>
+    </div>
 
-        <!-- Modal para editar -->
-        <div id="modal-edit" style="display: none;">
-            <button id="cerrar-modal-edit"> X </button>
-            <div id="contenido-modal-edit">
-                <form method="post" id="formulario-editar">
+    <div id="modal-edit" style="display: none;" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
+            <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+                <h3 class="font-extrabold text-gray-800">Editar Usuario</h3>
+                <button id="cerrar-modal-edit" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
+            </div>
+            <div class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
+                <form method="post" id="formulario-editar" class="space-y-4">
                     @csrf
                     {{ method_field('PATCH') }}
-                    <label for="nombre-usuario">Nombre de Usuario</label>
-                    <input type="text" id="nombre-usuario-edit" name="Nombre_Usuario">
-                    <label for="email-edit">Email</label>
-                    <input type="email" id="email-edit" name="Email" readonly>
-                    <label for="nombre-completo-edit">Nombre Completo</label>
-                    <input type="text" id="nombre-completo-edit" name="Nombre">
-                    <label for="tipo-usuario">Tipo Usuario</label>
-                    <select id="tipo-usuario-edit" name="Tipo_Usuario">
-                    </select>
-                    <label for="grupo" id="label-grupo-edit">Grupo</label>
-                    <select id="grupo-edit" name="ID_Grupo">
-                        @foreach ($grupos as $grupo)
-                            <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
-                        @endforeach
-                    </select>
+                    
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre de Usuario</label>
+                        <input type="text" id="nombre-usuario-edit" name="Nombre_Usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
+                        <input type="email" id="email-edit" name="Email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre Completo</label>
+                        <input type="text" id="nombre-completo-edit" name="Nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipo Usuario</label>
+                            <select id="tipo-usuario-edit" name="Tipo_Usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]"></select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo</label>
+                            <select id="grupo-edit" name="ID_Grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
+                                @foreach ($grupos as $grupo)
+                                    <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <input type="hidden" name="ID_Institucion" value="{{ session('id_institucion') }}">
-                    <input type="submit" value="Editar Usuario">
+                    <button type="submit" class="w-full bg-[#7B1FA3] text-white font-bold py-3 rounded-2xl mt-4 hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">Actualizar Usuario</button>
                 </form>
             </div>
         </div>
+    </div>
 
-        <div>
-            <!-- El id del input del buscador siempre tiene que ser buscador -->
-            <label for="buscador">Buscar: </label>
-            <input type="text" id="buscador">
-            <label for="filtrar-tipo">Filtrar por tipo</label>
-            <select id="filtrar-tipo">
-                <option value="Sin Filtro"></option>
-                <option value="Normal">Normal</option>
-                <option value="Encargado de Area">Encargado de Area</option>
-                <option value="Encargado de Mantenimiento">Encargado de Mantenimiento</option>
-            </select>
-            <label for="filtrar-grupo" id="filtrar-grupo-label">Filtrar por grupo</label>
-            <select id="filtrar-grupo">
-                <option value="Sin Filtro"></option>
-                @foreach ($grupos as $grupo)
-                    <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre de Usuario</th>
-                        <th>Email</th>
-                        <th>Nombre</th>
-                        <th>Tipo de Usuario</th>
-                        <th>Grupo</th>
-                        <th>Contraseña</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <!-- En todos los archivos que se va a mostar la informacion la parte del tbody tiene que tener ese id para que funcione el filtro de informacion -->
-                <tbody id="informacion-filtrada">
-                    @foreach ($usuarios as $usuario)
-                        <tr>
-                            <td>{{ $usuario->Nombre_Usuario }}</td>
-                            <td>{{ $usuario->Email }}
-                            <td>{{ $usuario->Nombre }}</td>
-                            <td>{{ $usuario->Tipo_Usuario }}</td>
-                            <td>{{ $usuario->Grado }} {{ $usuario->Grupo }} {{ $usuario->nombreGrupo }}</td>
-                            <td>
-                                <button class="btn-cambiar-contrasena" data-id="{{ $usuario->id }}" data-url="{{ route('admin.usuarios.cambiarContrasena', $usuario->id) }}">Cambiar Contraseña</button>
-                            </td>
-                            <td>
-                                <button class="abrir-modal-edit" data-id="{{ $usuario->id }}">Editar</button>
-                            </td>
-                            <td>
-                                <form action="{{ url('/Admin/Usuarios/'.$usuario->id) }}" method="post">
-                                    @csrf
-                                    {{ method_field('DELETE') }}
-                                    <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el usuario ??')">
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <div>
-            <h2>Carga Masiva</h2>
-            <form action="{{ url('/cargaUsuario') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="file" name="archivo">
-                <input type="submit" value="Subir">
-            </form>
-        </div>
-
-        @vite('resources/js/Admin/crud_usuarios.js')
-        @vite('resources/js/Admin/buscador_usuarios.js')
-        @vite('resources/js/Admin/alertas.js')
-        @vite('resources/js/Admin/modal.js')
-    </body>
+    @vite(['resources/js/Admin/crud_usuarios.js', 'resources/js/Admin/buscador_usuarios.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/modal.js'])
+</body>
 </html>
