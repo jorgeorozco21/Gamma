@@ -110,13 +110,11 @@
             const estaEscondido = aside.classList.contains('-translate-x-full');
             
             if (estaEscondido) {
-                // ABRIR
                 aside.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
                 btnAbrir.classList.add('opacity-0', 'pointer-events-none');
                 document.body.classList.add('overflow-hidden');
             } else {
-                // CERRAR
                 aside.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
                 btnAbrir.classList.remove('opacity-0', 'pointer-events-none');
