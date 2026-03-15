@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\UsuariosImport;
+use App\Imports\FilasImport;
 use App\Mail\UsuarioCreadoMail;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CargaUsuariosController extends Controller
 {
-    public function cargarMasivaUsuarios(Request $request)
+    public function cargaMasivaUsuarios(Request $request)
     {
         $request->validate([
             'archivo' => 'required|file|mimes:csv,xlsx,xls,json'
@@ -28,7 +28,7 @@ class CargaUsuariosController extends Controller
 
         if ($extension == "csv" || $extension == "xlsx" || $extension == "xls"){
 
-            $contenido = Excel::toCollection(new UsuariosImport, $archivo);
+            $contenido = Excel::toCollection(new FilasImport, $archivo);
 
             $datos = json_decode($contenido[0], true);
 

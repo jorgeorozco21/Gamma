@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CargaLaboratoriosController;
 use App\Http\Controllers\CargaUsuariosController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\InventarioController;
@@ -321,7 +322,9 @@ Route::middleware('check.login')->group(function (){
         return response()->json($inventarios);
     });
 
-    Route::post('/cargaUsuario', [CargaUsuariosController::class, 'cargarMasivaUsuarios']);
+    Route::post('/cargaUsuario', [CargaUsuariosController::class, 'cargaMasivaUsuarios']);
+
+    Route::post('/cargaLaboratorio', [CargaLaboratoriosController::class, 'cargaMasivaLaboratorios']);
 });
 
 Route::get('/Generar/Hash/Contrasenas/Administradores', function(){

@@ -121,6 +121,16 @@
             </table>
         </div>
 
+        <div>
+            <form  action="{{ url('/cargaLaboratorio') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="archivo">
+                <button type="submit">
+                    Cargar
+                </button>
+            </form>
+        </div>
+
         @vite('resources/js/Admin/modal.js')
         @vite('resources/js/Admin/crud_laboratorios.js')
         @vite('resources/js/Admin/buscador_laboratorios.js')

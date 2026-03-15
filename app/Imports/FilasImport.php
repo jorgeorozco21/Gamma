@@ -2,12 +2,15 @@
 
 namespace App\Imports;
 
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Collection;
 
-class UsuariosImport implements ToCollection, WithHeadingRow
+class FilasImport implements ToCollection, WithHeadingRow
 {
+    /**
+    * @param Collection $collection
+    */
     public function collection(Collection $rows)
     {
         return $rows;
