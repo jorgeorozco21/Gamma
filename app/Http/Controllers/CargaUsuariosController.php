@@ -52,7 +52,10 @@ class CargaUsuariosController extends Controller
                     "Email" => $usuario["Email"],
                     "Contrasena" => $contrasenaHash,
                     "Nombre" => $usuario["Nombre"],
-                    "Tipo_Usuario" => $usuario["Tipo_Usuario"],
+                    "Admin" => "0",
+                    "Mantenimiento" => $usuario["Mantenimiento"],
+                    "Encargado" => $usuario["Encargado"],
+                    "Normal" => $usuario["Normal"],
                     "ID_Institucion" => session("id_institucion")
                 ];
 
@@ -74,7 +77,10 @@ class CargaUsuariosController extends Controller
                     "Email" => $usuario["Email"],
                     "Contrasena" => $contrasenaHash,
                     "Nombre" => $usuario["Nombre"],
-                    "Tipo_Usuario" => $usuario["Tipo_Usuario"],
+                    "Admin" => "0",
+                    "Mantenimiento" => $usuario["Mantenimiento"],
+                    "Encargado" => $usuario["Encargado"],
+                    "Normal" => $usuario["Normal"],
                     "ID_Grupo" => $id,
                     "ID_Institucion" => session("id_institucion")
                 ];
@@ -87,6 +93,8 @@ class CargaUsuariosController extends Controller
         }
 
         return redirect()->route('admin.usuarios.index')->with("success",'Informacion agregada correctamente');
+
+        //return response()->json($datos);
     }
 
 }

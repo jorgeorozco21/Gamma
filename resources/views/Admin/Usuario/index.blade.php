@@ -92,32 +92,44 @@
                     
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre de Usuario</label>
-                        <input type="text" id="nombre-usuario-edit" name="Nombre_Usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]">
+                        <input type="text" id="nombre-usuario-edit" name="Nombre_Usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
-                        <input type="email" id="email-edit" name="Email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400">
+                        <input type="email" id="email-edit" name="Email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre Completo</label>
-                        <input type="text" id="nombre-completo-edit" name="Nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]">
+                        <input type="text" id="nombre-completo-edit" name="Nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipo Usuario</label>
-                            <select id="tipo-usuario-edit" name="Tipo_Usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]"></select>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipos Usuario</label>
+                        <div class="flex">
+                            <label class="">
+                                <input type="hidden" name="Normal" value="0">
+                                <input type="checkbox" id="tipo-normal-edit" name="Normal"> Normal
+                            </label>
+                            <label class="">
+                                <input type="hidden" name="Encargado" value="0">
+                                <input type="checkbox" id="tipo-encargado-edit" name="Encargado"> Encargado de Area
+                            </label>
+                            <label class="">
+                                <input type="hidden" name="Mantenimiento" value="0">
+                                <input type="checkbox" id="tipo-mantenimiento-edit" name="Mantenimiento"> Encargado de Mantenimiento
+                            </label>
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo</label>
-                            <select id="grupo-edit" name="ID_Grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
-                                @foreach ($grupos as $grupo)
-                                    <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1" id="label-grupo-edit">Grupo</label>
+                        <select id="grupo-edit" name="ID_Grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
+                            @foreach ($grupos as $grupo)
+                                <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <input type="hidden" name="ID_Institucion" value="{{ session('id_institucion') }}">

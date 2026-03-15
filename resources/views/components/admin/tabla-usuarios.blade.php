@@ -7,7 +7,7 @@
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Usuario</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre Completo</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipo de Usuario</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipos de Usuario</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Grupo</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
@@ -36,11 +36,10 @@
                         </td>
 
                         <!-- Tipo de Usuario -->
-                        <td class="px-6 py-4">
-                            <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg 
-                                {{ $usuario->Tipo_Usuario == 'ADMINISTRADOR' ? 'bg-purple-50 text-[#7B1FA3]' : 'bg-gray-100 text-gray-500' }}">
-                                {{ $usuario->Tipo_Usuario }}
-                            </span>
+                        <td class="flex flex-col px-6 py-4">
+                            @if ($usuario->Normal == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>@endif
+                            @if ($usuario->Encargado == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>@endif
+                            @if ($usuario->Mantenimiento == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>@endif
                         </td>
 
                         <!-- Grado / Grupo -->

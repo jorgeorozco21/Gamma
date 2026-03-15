@@ -20,7 +20,10 @@ class Usuario extends Model
         "Email",
         "Contrasena",
         "Nombre",
-        "Tipo_Usuario",
+        "Admin",
+        "Mantenimiento",
+        "Encargado",
+        "Normal",
         "ID_Grupo",
         "ID_Institucion"
     ];

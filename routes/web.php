@@ -37,7 +37,9 @@ Route::middleware('check.login')->group(function (){
                 "u.Nombre_Usuario",
                 "u.Email",
                 "u.Nombre",
-                "u.Tipo_Usuario",
+                "u.Mantenimiento",
+                "u.Encargado",
+                "u.Normal",
                 "g.Nombre as nombreGrupo",
                 "g.Grado",
                 "g.Grupo"
@@ -50,7 +52,7 @@ Route::middleware('check.login')->group(function (){
         ;
 
         if ($request->tipoUsuario != "Sin Filtro"){
-            $query->where("u.Tipo_Usuario","=",$request->tipoUsuario);
+            $query->where("u.".$request->tipoUsuario,"=","1");
         }
 
         if ($request->grupo != "Sin Filtro"){
@@ -58,7 +60,7 @@ Route::middleware('check.login')->group(function (){
         }
 
         $query->where('u.ID_Institucion',"=",session("id_institucion"));
-        $query->where("u.Tipo_Usuario","!=","Admin");
+        $query->where("u.Admin","!=","1");
 
         $query->orderBy("u.id","ASC")->orderBy("u.created_at","DESC");
 
@@ -77,7 +79,9 @@ Route::middleware('check.login')->group(function (){
                 "u.Nombre_Usuario",
                 "u.Nombre",
                 "u.Email",
-                "u.Tipo_Usuario",
+                "u.Normal",
+                "u.Encargado",
+                "u.Mantenimiento",
                 "u.ID_Grupo",
                 "g.Nombre as nombreGrupo"
             )

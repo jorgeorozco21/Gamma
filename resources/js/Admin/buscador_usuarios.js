@@ -21,7 +21,18 @@ const delay = 300;
 buscador.addEventListener("input", ()=>{
     clearTimeout(typingTimer);
     typingTimer = setTimeout(()=>{
+        document.getElementById("label-filtrar-tipo").style.display = "none";
+        filtroTipo.style.display = "none";
+        filtroGrupo.style.display = "none";
+        filtroGrupo.value = "Sin Filtro";
+        filtroTipo.value = "Sin Filtro";
         buscadorGeneral();
+
+        if (buscador.value == ""){
+            document.getElementById("label-filtrar-tipo").style.display = "flex";
+            filtroTipo.style.display = "flex";
+            filtroGrupo.style.display = "flex";
+        }
     }, delay);
 });
 
@@ -53,11 +64,10 @@ function generarRegistro(data){
                     ${usuario.Nombre}
                 </td>
 
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg 
-                        ${usuario.Tipo_Usuario === 'ADMINISTRADOR' ? 'bg-purple-50 text-[#7B1FA3]' : 'bg-gray-100 text-gray-500'}">
-                        ${usuario.Tipo_Usuario}
-                    </span>
+                <td class="flex flex-col px-6 py-4">
+                    ${ (usuario.Normal == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>':'' }
+                    ${ (usuario.Encargado == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>':'' }
+                    ${ (usuario.Mantenimiento == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>':'' }
                 </td>
 
                 <td class="px-6 py-4 text-sm text-gray-500">

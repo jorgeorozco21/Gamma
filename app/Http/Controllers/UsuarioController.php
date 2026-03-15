@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UsuarioCreadoMail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
@@ -26,13 +27,15 @@ class UsuarioController extends Controller
                 "u.Nombre_Usuario",
                 "u.Email",
                 "u.Nombre",
-                "u.Tipo_Usuario",
+                "u.Mantenimiento",
+                "u.Encargado",
+                "u.Normal",
                 "g.Nombre as nombreGrupo",
                 "g.Grado",
                 "g.Grupo"
             )
             ->where("u.ID_Institucion","=",session('id_institucion'))
-            ->where("u.Tipo_Usuario","!=","Admin")
+            ->where("u.Admin","!=","1")
             ->orderBy("u.id","ASC")
             ->orderBy("u.created_at","DESC")
             ->get()
@@ -70,7 +73,7 @@ class UsuarioController extends Controller
     {
         $datosUsuario = $request->except('_token');
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             "Nombre_Usuario" => "required|string|max:255",
             "Email" => "required|string|max:255",
             "Nombre" => "required|string|max:255",
@@ -85,14 +88,44 @@ class UsuarioController extends Controller
 
         $contrasena = Str::random(12);
         $datosUsuario['Contrasena'] = Hash::make($contrasena);
+        $datosUsuario['Admin'] = "0";
 
+        $band = false;
+
+        if ($datosUsuario['Mantenimiento'] == "on"){
+            $datosUsuario['Mantenimiento'] = "1";
+            $band = true;
+        }else $datosUsuario['Mantenimiento'] = "0";
+
+        if ($datosUsuario['Encargado'] == "on"){
+            $datosUsuario['Encargado'] = "1";
+            $band = true;
+        }else $datosUsuario['Encargado'] = "0";
+
+        if ($datosUsuario['Normal'] == "on"){
+            $datosUsuario['Normal'] = "1";
+            $band = true;
+        }else{
+            $datosUsuario['Normal'] = "0";
+            $datosUsuario['ID_Grupo'] = null;
+        }
+
+        $validator->after(function ($validator) use ($band) {
+            if (!$band) {
+                $validator->errors()->add("Tipo", "Debes seleccionar mínimo un tipo de usuario");
+            }
+        });
+
+
+        if ($validator->fails()){
+            return redirect()->route('admin.usuarios.index')->withErrors($validator);
+        }
+        
         Usuario::create($datosUsuario);
 
         Mail::to($datosUsuario['Email'])->send(new UsuarioCreadoMail($datosUsuario['Nombre_Usuario'],$contrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
 
         return redirect()->route('admin.usuarios.index')->with('success',"Usuario creado correctamente");
-
-        //return response()->json($datosUsuario);
     }
 
     /**
@@ -118,7 +151,7 @@ class UsuarioController extends Controller
     {
         $datosUsuario = $request->except("_token","_method");
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             "Nombre_Usuario" => "required|string|max:255",
             "Email" => "required|string|max:255",
             "Nombre" => "required|string|max:255",
@@ -130,9 +163,35 @@ class UsuarioController extends Controller
             "Nombre.required" => "El Nombre es obligatorio",
             "Nombre.max" => "El Nombre no puede exceder los 255 caractres"
         ]);
-        
-        if ($datosUsuario['Tipo_Usuario'] != "Normal"){
-            $datosUsuario["ID_Grupo"] = null;
+
+        $band = false;
+
+        if ($datosUsuario['Mantenimiento'] == "on"){
+            $datosUsuario['Mantenimiento'] = "1";
+            $band = true;
+        }else $datosUsuario['Mantenimiento'] = "0";
+
+        if ($datosUsuario['Encargado'] == "on"){
+            $datosUsuario['Encargado'] = "1";
+            $band = true;
+        }else $datosUsuario['Encargado'] = "0";
+
+        if ($datosUsuario['Normal'] == "on"){
+            $datosUsuario['Normal'] = "1";
+            $band = true;
+        }else{
+            $datosUsuario['Normal'] = "0";
+            $datosUsuario['ID_Grupo'] = null;
+        }
+
+        $validator->after(function ($validator) use ($band) {
+            if (!$band) {
+                $validator->errors()->add("Tipo", "Debes seleccionar mínimo un tipo de usuario");
+            }
+        });
+
+        if ($validator->fails()){
+            return redirect()->route('admin.usuarios.index')->withErrors($validator);
         }
 
         Usuario::where("id","=",$id)->update($datosUsuario);

@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string("Email");
             $table->string("Contrasena");
             $table->string("Nombre");
-            $table->string("Tipo_Usuario");
+            $table->string("Admin")->nullable();
+            $table->string("Mantenimiento");
+            $table->string("Encargado");
+            $table->string("Normal");
             $table->unsignedBigInteger("ID_Grupo")->nullable();
             $table->unsignedBigInteger("ID_Institucion");
             $table->timestamps();

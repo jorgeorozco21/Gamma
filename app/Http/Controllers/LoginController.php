@@ -23,7 +23,10 @@ class LoginController extends Controller
                 "u.Nombre_Usuario",
                 "u.Contrasena",
                 "u.Nombre",
-                "u.Tipo_Usuario",
+                "u.Admin",
+                "u.Mantenimiento",
+                "u.Encargado",
+                "u.Normal",
                 "u.ID_Institucion"
             )
             ->where("u.Nombre_Usuario","=",$request->nombre_usuario)
@@ -35,7 +38,7 @@ class LoginController extends Controller
         }
 
         if (Hash::check($request->contrasena, $usuario->Contrasena)){
-            if ($usuario->Tipo_Usuario == "Admin"){
+            if ($usuario->Admin == "1"){
 
                 session([
                     "id_usuario" => $usuario->id,
