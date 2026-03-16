@@ -6,17 +6,17 @@
         <title>Admin</title>
     </head>
     <body>
-        <form action="{{ url('/Logout') }}" method="POST">
+        <form action="{{ url('/logout') }}" method="POST">
             @csrf
             <button type="submit">Cerrar sesión</button>
         </form>
         <div>
             <ul>
-                <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url('/Admin/Grupos') }}">Grupos</a></li>
-                <li><a href="{{ url('/Admin/Laboratorios') }}">Laboratorios</a></li>
-                <li><a href="{{ url('/Admin/Materiales') }}">Materiales</a></li>
-                <li><a href="{{ url('/Admin/Inventario') }}">Inventario</a></li>
+                <li><a href="{{ url('/admin/usuarios') }}">Usuarios</a></li>
+                <li><a href="{{ url('/admin/grupos') }}">Grupos</a></li>
+                <li><a href="{{ url('/admin/laboratorios') }}">Laboratorios</a></li>
+                <li><a href="{{ url('/admin/materiales') }}">Materiales</a></li>
+                <li><a href="{{ url('/admin/inventario') }}">Inventario</a></li>
             </ul>
         </div>
         <div>

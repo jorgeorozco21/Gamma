@@ -25,18 +25,18 @@
             </div>
         @endif
 
-        <form action="{{ url('/Logout') }}" method="POST">
+        <form action="{{ url('/logout') }}" method="POST">
             @csrf
             <button type="submit">Cerrar sesión</button>
         </form>
         
         <div>
             <ul>
-                <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url('/Admin/Grupos') }}">Grupos</a></li>
-                <li><a href="{{ url('/Admin/Laboratorios') }}">Laboratorios</a></li>
-                <li><a href="{{ url('/Admin/Materiales') }}">Materiales</a></li>
-                <li><a href="{{ url('/Admin/Inventario') }}">Inventario</a></li>
+                <li><a href="{{ url('/admin/usuarios') }}">Usuarios</a></li>
+                <li><a href="{{ url('/admin/grupos') }}">Grupos</a></li>
+                <li><a href="{{ url('/admin/laboratorios') }}">Laboratorios</a></li>
+                <li><a href="{{ url('/admin/materiales') }}">Materiales</a></li>
+                <li><a href="{{ url('/admin/inventario') }}">Inventario</a></li>
             </ul>
         </div>
 
@@ -63,21 +63,21 @@
                     @csrf
                     {{ method_field('PATCH') }}
                     <label for="nombre-edit">Nombre</label>
-                    <input type="text" id="nombre-edit" name="Nombre">
+                    <input type="text" id="nombre-edit" name="nombre">
                     <label for="grado-edit">Grado</label>
-                    <input type="text" id="grado-edit" name="Grado">
+                    <input type="text" id="grado-edit" name="grado">
                     <label for="grupo-edit">Grupo</label>
-                    <input type="text" id="grupo-edit" name="Grupo">
+                    <input type="text" id="grupo-edit" name="grupo">
                     <select id="laboratorios-edit">
                         @foreach ($laboratorios as $laboratorio)
-                            <option value="{{ $laboratorio->id }}">{{ $laboratorio->Nombre }}</option>
+                            <option value="{{ $laboratorio->id }}">{{ $laboratorio->nombre }}</option>
                         @endforeach 
                     </select>
                     <button type="button" id="agregar-laboratorio-edit">Agregar</button>
                     <div id="laboratorios-agregados-edit">
                     </div>
-                    <input type="hidden" id="inf-laboratorios-edit" name="Laboratorios">
-                    <input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
+                    <input type="hidden" id="inf-laboratorios-edit" name="laboratorios">
+                    <input type="hidden" name="id_institucion" value="{{ session("id_institucion") }}">
                     <input type="submit" value="Editar Grupo">
                 </form>
             </div>
@@ -106,17 +106,17 @@
                 <tbody id="informacion-filtrada">
                     @foreach ($grupos as $grupo)
                         <tr>
-                            <td>{{ $grupo->Nombre }}</td>
-                            <td>{{ $grupo->Grado }}</td>
-                            <td>{{ $grupo->Grupo }}</td>
+                            <td>{{ $grupo->nombre }}</td>
+                            <td>{{ $grupo->grado }}</td>
+                            <td>{{ $grupo->grupo }}</td>
                             <td>
-                                <button data-laboratorios="{{ $grupo->Laboratorios }}" class="ver">Ver</button>
+                                <button data-laboratorios="{{ $grupo->laboratorios }}" class="ver">Ver</button>
                             </td>
                             <td>
                                 <button class="abrir-modal-edit" data-id="{{ $grupo->id }}">Editar</button>
                             </td>
                             <td>
-                                <form action="{{ url('/Admin/Grupos/'.$grupo->id) }}" method="post">
+                                <form action="{{ url('/admin/grupos/'.$grupo->id) }}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el grupo ??')">

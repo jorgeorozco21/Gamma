@@ -23,25 +23,25 @@ async function informacionEditar(id){
 
 function asignarInformacionFormularioEditar(informacion){
 
-    document.getElementById("formulario-editar").action = `/Admin/Inventario/${informacion.inventario.id}`;
+    document.getElementById("formulario-editar").action = `/admin/inventario/${informacion.inventario.id}`;
     
     const materiales = document.getElementById("material-edit");
 
     let opciones = '';
     for (const m of informacion.materiales){
-        opciones += `<option value="${m.id}" ${ (informacion.inventario.ID_Material == m.id)?"selected":"" }>${m.Nombre}</option>`;
+        opciones += `<option value="${m.id}" ${ (informacion.inventario.id_material == m.id)?"selected":"" }>${m.nombre}</option>`;
     }
 
     materiales.innerHTML = opciones;
 
-    document.getElementById("cantidad-disponible-edit").value = informacion.inventario.Cantidad_Disponible;
-    document.getElementById("cantidad-total-anterior-edit").value = informacion.inventario.Cantidad_Total;
+    document.getElementById("cantidad-disponible-edit").value = informacion.inventario.cantidad_disponible;
+    document.getElementById("cantidad-total-anterior-edit").value = informacion.inventario.cantidad_total;
 
-    if (informacion.inventario.Cantidad_Total == informacion.inventario.Cantidad_Disponible){
-        document.getElementById("cantidad-edit").value = informacion.inventario.Cantidad_Total;
+    if (informacion.inventario.cantidad_total == informacion.inventario.cantidad_disponible){
+        document.getElementById("cantidad-edit").value = informacion.inventario.cantidad_total;
     }else{
-        document.getElementById("cantidad-edit").value = informacion.inventario.Cantidad_Total;
-        document.getElementById("cantidad-edit").min = informacion.inventario.Cantidad_Total;
+        document.getElementById("cantidad-edit").value = informacion.inventario.cantidad_total;
+        document.getElementById("cantidad-edit").min = informacion.inventario.cantidad_total;
     }
 
     const laboratorios = document.getElementById("laboratorio-edit");
@@ -49,7 +49,7 @@ function asignarInformacionFormularioEditar(informacion){
     opciones  = '';
 
     for (const l of informacion.laboratorios){
-        opciones += `<option value="${l.id}" ${ (informacion.inventario.ID_Laboratorio == l.id)?"selected":"" }>${l.Nombre}</option>`;
+        opciones += `<option value="${l.id}" ${ (informacion.inventario.id_laboratorio == l.id)?"selected":"" }>${l.nombre}</option>`;
     }
 
     laboratorios.innerHTML = opciones;

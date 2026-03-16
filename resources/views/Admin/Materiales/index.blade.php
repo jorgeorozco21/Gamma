@@ -25,18 +25,18 @@
             </div>
         @endif
 
-        <form action="{{ url('/Logout') }}" method="POST">
+        <form action="{{ url('/logout') }}" method="POST">
             @csrf
             <button type="submit">Cerrar sesión</button>
         </form>
         
         <div>
             <ul>
-                <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url('/Admin/Grupos') }}">Grupos</a></li>
-                <li><a href="{{ url('/Admin/Laboratorios') }}">Laboratorios</a></li>
-                <li><a href="{{ url('/Admin/Materiales') }}">Materiales</a></li>
-                <li><a href="{{ url('/Admin/Inventario') }}">Inventario</a></li>
+                <li><a href="{{ url('/admin/usuarios') }}">Usuarios</a></li>
+                <li><a href="{{ url('/admin/grupos') }}">Grupos</a></li>
+                <li><a href="{{ url('/admin/laboratorios') }}">Laboratorios</a></li>
+                <li><a href="{{ url('/admin/materiales') }}">Materiales</a></li>
+                <li><a href="{{ url('/admin/inventario') }}">Inventario</a></li>
             </ul>
         </div>
 
@@ -63,15 +63,15 @@
                     @csrf
                     {{ method_field('PATCH') }}
                     <label for="nombre-edit">Nombre</label>
-                    <input type="text" id="nombre-edit" name="Nombre">
+                    <input type="text" id="nombre-edit" name="nombre">
                     <label for="descripcion-edit">Descripcion</label>
-                    <textarea id="descripcion-edit" name="Descripcion"></textarea>
+                    <textarea id="descripcion-edit" name="descripcion"></textarea>
                     <label for="tipo-edit">Tipo de Prestamos</label>
-                    <select id="tipo-edit" name="Tipo">
-                        <option value="Prestamos por Unidad">Prestamos por Unidad</option>
-                        <option value="Prestamos por Cantidad">Prestamos por Cantidad</option>
+                    <select id="tipo-edit" name="tipo">
+                        <option value="prestamos por unidad">Prestamos por Unidad</option>
+                        <option value="prestamos por cantidad">Prestamos por Cantidad</option>
                     </select>
-                    <input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
+                    <input type="hidden" name="id_institucion" value="{{ session("id_institucion") }}">
                     <input type="submit" value="Editar Material">
                 </form>
             </div>
@@ -84,8 +84,8 @@
             <label for="filtro-tipo">Filtro por Tipo</label>
             <select id="filtro-tipo">
                 <option value="Sin Filtro"></option>
-                <option value="Prestamos por Unidad">Prestamos por Unidad</option>
-                <option value="Prestamos por Cantidad">Prestamos por Cantidad</option>
+                <option value="prestamos por unidad">Prestamos por Unidad</option>
+                <option value="prestamos por cantidad">Prestamos por Cantidad</option>
             </select>
         </div>
 
@@ -104,14 +104,14 @@
                 <tbody id="informacion-filtrada">
                     @foreach ($materiales as $material)
                         <tr>
-                            <td>{{ $material->Nombre }}</td>
-                            <td>{{ $material->Descripcion }}</td>
-                            <td>{{ $material->Tipo }}</td>
+                            <td>{{ $material->nombre }}</td>
+                            <td>{{ $material->descripcion }}</td>
+                            <td>{{ $material->tipo }}</td>
                             <td>
                                 <button class="abrir-modal-edit" data-id="{{ $material->id }}">Editar</button>
                             </td>
                             <td>
-                                <form action="{{ url('/Admin/Materiales/'.$material->id) }}" method="post">
+                                <form action="{{ url('/admin/materiales/'.$material->id) }}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el material ??')">

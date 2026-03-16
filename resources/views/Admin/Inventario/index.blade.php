@@ -25,18 +25,18 @@
             </div>
         @endif
 
-        <form action="{{ url('/Logout') }}" method="POST">
+        <form action="{{ url('/logout') }}" method="POST">
             @csrf
             <button type="submit">Cerrar sesión</button>
         </form>
         
         <div>
             <ul>
-                <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url('/Admin/Grupos') }}">Grupos</a></li>
-                <li><a href="{{ url('/Admin/Laboratorios') }}">Laboratorios</a></li>
-                <li><a href="{{ url('/Admin/Materiales') }}">Materiales</a></li>
-                <li><a href="{{ url('/Admin/Inventario') }}">Inventario</a></li>
+                <li><a href="{{ url('/admin/usuarios') }}">Usuarios</a></li>
+                <li><a href="{{ url('/admin/grupos') }}">Grupos</a></li>
+                <li><a href="{{ url('/admin/laboratorios') }}">Laboratorios</a></li>
+                <li><a href="{{ url('/admin/materiales') }}">Materiales</a></li>
+                <li><a href="{{ url('/admin/inventario') }}">Inventario</a></li>
             </ul>
         </div>
 
@@ -63,17 +63,14 @@
                     @csrf
                     {{ method_field('PATCH') }}
                     <label for="material-edit">Material</label>
-                    <select id="material-edit" name="ID_Material">
-                        @foreach ($materiales as $material)
-                            <option value="{{ $material->id }}">{{ $material->Nombre }}</option>
-                        @endforeach
+                    <select id="material-edit" name="id_material">
                     </select>
-                    <input type="hidden" id="cantidad-disponible-edit" name="Cantidad_Disponible">
-                    <input type="hidden" id="cantidad-total-anterior-edit" name="Cantidad_Total_Anterior">
+                    <input type="hidden" id="cantidad-disponible-edit" name="cantidad_disponible">
+                    <input type="hidden" id="cantidad-total-anterior-edit" name="cantidad_total_anterior">
                     <label for="cantidad-edit">Cantidad</label>
-                    <input type="number" id="cantidad-edit" name="Cantidad_Total" min="1">
+                    <input type="number" id="cantidad-edit" name="cantidad_total" min="1">
                     <label for="laboratorio-edit">Laboratorio</label>
-                    <select id="laboratorio-edit" name="ID_Laboratorio">
+                    <select id="laboratorio-edit" name="id_laboratorio">
                     </select>
                     <input type="submit" value="Editar Informacion">
                 </form>
@@ -88,7 +85,7 @@
             <select id="filtro-lab">
                 <option value="Sin Filtro"></option>
                 @foreach ($laboratorios as $laboratorio)
-                    <option value="{{ $laboratorio->id }}">{{ $laboratorio->Nombre }}</option>
+                    <option value="{{ $laboratorio->id }}">{{ $laboratorio->nombre }}</option>
                 @endforeach
             </select>
         </div>
@@ -110,12 +107,12 @@
                         <tr>
                             <td>{{ $inventario->nombreMaterial }}</td>
                             <td>{{ $inventario->nombreLaboratorio }}</td>
-                            <td>{{ $inventario->Cantidad_Total }}</td>
+                            <td>{{ $inventario->cantidad_total }}</td>
                             <td>
                                 <button class="abrir-modal-edit" data-id="{{ $inventario->id }}">Editar</button>
                             </td>
                             <td>
-                                <form action="{{ url('/Admin/Inventario/'.$inventario->id) }}" method="post">
+                                <form action="{{ url('/admin/inventario/'.$inventario->id) }}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el inventario ??')">

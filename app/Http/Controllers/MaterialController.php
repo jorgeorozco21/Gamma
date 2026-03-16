@@ -17,12 +17,12 @@ class MaterialController extends Controller
             DB::table("materiales as m")
             ->select(
                 "m.id",
-                "m.Nombre",
-                "m.Descripcion",
-                "m.Tipo"
+                "m.nombre",
+                "m.descripcion",
+                "m.tipo"
             )
-            ->where("m.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("m.Nombre","ASC")
+            ->where("m.id_institucion","=",session("id_institucion"))
+            ->orderBy("m.nombre","ASC")
             ->orderBy("m.created_at","DESC")
             ->get()
         ;
@@ -46,13 +46,13 @@ class MaterialController extends Controller
         $datosMaterial = $request->except('_token');
 
         $request->validate([
-            "Nombre" => "required|string|max:255",
-            "Descripcion" => "required|string|max:500"
+            "nombre" => "required|string|max:255",
+            "descripcion" => "required|string|max:500"
         ],[
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "Descripcion.required" => "La Descripcion es obligatoria",
-            "Descripcion.max" => "La descripcion no puede exceder los 500 caracteres"
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
+            "descripcion.required" => "La Descripcion es obligatoria",
+            "descripcion.max" => "La descripcion no puede exceder los 500 caracteres"
         ]);
 
         Material::create($datosMaterial);
@@ -86,13 +86,13 @@ class MaterialController extends Controller
         $datosMaterial = $request->except("_token","_method");
 
         $request->validate([
-            "Nombre" => "required|string|max:255",
-            "Descripcion" => "required|string|max:500"
+            "nombre" => "required|string|max:255",
+            "descripcion" => "required|string|max:500"
         ],[
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "Descripcion.required" => "La Descripcion es obligatoria",
-            "Descripcion.max" => "La descripcion no puede exceder los 500 caracteres"
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
+            "descripcion.required" => "La Descripcion es obligatoria",
+            "descripcion.max" => "La descripcion no puede exceder los 500 caracteres"
         ]);
 
         Material::where("id","=",$id)->update($datosMaterial);

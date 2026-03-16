@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('inventarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("ID_Material");
-            $table->integer("Cantidad_Disponible");
-            $table->integer("Cantidad_Total");
-            $table->unsignedBigInteger("ID_Laboratorio");
+            $table->unsignedBigInteger("id_material");
+            $table->integer("cantidad_disponible");
+            $table->integer("cantidad_total");
+            $table->unsignedBigInteger("id_laboratorio");
             $table->timestamps();
 
-            $table->foreign("ID_Material")->references("id")->on("materiales")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("ID_Laboratorio")->references("id")->on("laboratorios")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_material")->references("id")->on("materiales")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_laboratorio")->references("id")->on("laboratorios")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

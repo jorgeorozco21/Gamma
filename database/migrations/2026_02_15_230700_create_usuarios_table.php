@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string("Nombre_Usuario")->unique();
-            $table->string("Email");
-            $table->string("Contrasena");
-            $table->string("Nombre");
-            $table->string("Admin")->nullable();
-            $table->string("Mantenimiento");
-            $table->string("Encargado");
-            $table->string("Normal");
-            $table->unsignedBigInteger("ID_Grupo")->nullable();
-            $table->unsignedBigInteger("ID_Institucion");
+            $table->string("nombre_usuario")->unique();
+            $table->string("email");
+            $table->string("contrasena");
+            $table->string("nombre");
+            $table->string("admin")->nullable();
+            $table->string("mantenimiento");
+            $table->string("encargado");
+            $table->string("normal");
+            $table->unsignedBigInteger("id_grupo")->nullable();
+            $table->unsignedBigInteger("id_institucion");
             $table->timestamps();
 
-            $table->foreign("ID_Grupo")->references("id")->on("grupos")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("ID_Institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_grupo")->references("id")->on("grupos")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

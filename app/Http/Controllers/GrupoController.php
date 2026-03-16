@@ -17,10 +17,10 @@ class GrupoController extends Controller
             DB::table("laboratorios as l")
             ->select(
                 "l.id",
-                "l.Nombre"
+                "l.nombre"
             )
-            ->where("l.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("l.Nombre","ASC")
+            ->where("l.id_institucion","=",session("id_institucion"))
+            ->orderBy("l.nombre","ASC")
             ->get()
         ;
 
@@ -28,13 +28,13 @@ class GrupoController extends Controller
             DB::table("grupos as g")
             ->select(
                 "g.id",
-                "g.Nombre",
-                "g.Grado",
-                "g.Grupo",
-                "g.Laboratorios"
+                "g.nombre",
+                "g.grado",
+                "g.grupo",
+                "g.laboratorios"
             )
-            ->where("g.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("g.Nombre","ASC")
+            ->where("g.id_institucion","=",session("id_institucion"))
+            ->orderBy("g.nombre","ASC")
             ->orderBy("g.created_at","DESC")
             ->get()
         ;
@@ -58,18 +58,18 @@ class GrupoController extends Controller
         $datosGrupo = $request->except("_token");
 
         $request->validate([
-            "Nombre" => "required|string|max:255",
-            "Grado" => "required|string|max:255",
-            "Grupo" => "required|string|max:255",
-            "Laboratorios" => "required"
+            "nombre" => "required|string|max:255",
+            "grado" => "required|string|max:255",
+            "grupo" => "required|string|max:255",
+            "laboratorios" => "required"
         ],[
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "Grado.required" => "El Grado es obligatorio",
-            "Grado.max" => "El Grado no puede exceder los 255 caracteres",
-            "Grupo.required" => "El Grupo es obligatorio",
-            "Grupo.max" => "El Grupo no puede exceder los 255 caracteres",
-            "Laboratorios.required" => "Debes seleccionar minimo un laboratorio"
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
+            "grado.required" => "El Grado es obligatorio",
+            "grado.max" => "El Grado no puede exceder los 255 caracteres",
+            "grupo.required" => "El Grupo es obligatorio",
+            "grupo.max" => "El Grupo no puede exceder los 255 caracteres",
+            "laboratorios.required" => "Debes seleccionar minimo un laboratorio"
         ]);
 
         Grupo::create($datosGrupo);
@@ -103,18 +103,18 @@ class GrupoController extends Controller
         $datosGrupo = $request->except("_token","_method");
 
         $request->validate([
-            "Nombre" => "required|string|max:255",
-            "Grado" => "required|string|max:255",
-            "Grupo" => "required|string|max:255",
-            "Laboratorios" => "required"
+            "nombre" => "required|string|max:255",
+            "grado" => "required|string|max:255",
+            "grupo" => "required|string|max:255",
+            "laboratorios" => "required"
         ],[
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "Grado.required" => "El Grado es obligatorio",
-            "Grado.max" => "El Grado no puede exceder los 255 caracteres",
-            "Grupo.required" => "El Grupo es obligatorio",
-            "Grupo.max" => "El Grupo no puede exceder los 255 caracteres",
-            "Laboratorios.required" => "Debes seleccionar minimo un laboratorio"
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
+            "grado.required" => "El Grado es obligatorio",
+            "grado.max" => "El Grado no puede exceder los 255 caracteres",
+            "grupo.required" => "El Grupo es obligatorio",
+            "grupo.max" => "El Grupo no puede exceder los 255 caracteres",
+            "laboratorios.required" => "Debes seleccionar minimo un laboratorio"
         ]);
 
         Grupo::where("id","=",$id)->update($datosGrupo);

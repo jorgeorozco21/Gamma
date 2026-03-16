@@ -38,12 +38,12 @@ function crearRegistro(informacion){
             <tr>
                 <td>${inventario.nombreMaterial}</td>
                 <td>${inventario.nombreLaboratorio}</td>
-                <td>${inventario.Cantidad_Total}</td>
+                <td>${inventario.cantidad_total}</td>
                 <td>
                     <button class="abrir-modal-edit" data-id="${inventario.id}">Editar</button>
                 </td>
                 <td>
-                    <form action="/Admin/Inventario/${inventario.id}" method="post">
+                    <form action="/admin/inventario/${inventario.id}" method="post">
                         <input type="hidden" name="_token" value="${csrfToken}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el inventario ??')">

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('materiales', function (Blueprint $table) {
             $table->id();
-            $table->string("Nombre");
-            $table->text("Descripcion");
-            $table->string("Tipo");
-            $table->unsignedBigInteger("ID_Institucion");
+            $table->string("nombre");
+            $table->text("descripcion");
+            $table->string("tipo");
+            $table->unsignedBigInteger("id_institucion");
             $table->timestamps();
 
-            $table->foreign("ID_Institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

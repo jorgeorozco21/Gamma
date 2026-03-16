@@ -25,12 +25,12 @@ async function informacionEditar(id){
 
 function asignarInformacionFormularioEditar(informacion){
 
-    document.getElementById("formulario-editar").action = `/Admin/Materiales/${informacion.id}`;
-    document.getElementById("nombre-edit").value = informacion.Nombre;
-    document.getElementById("descripcion-edit").value = informacion.Descripcion;
+    document.getElementById("formulario-editar").action = `/admin/materiales/${informacion.id}`;
+    document.getElementById("nombre-edit").value = informacion.nombre;
+    document.getElementById("descripcion-edit").value = informacion.descripcion;
     document.getElementById("tipo-edit").innerHTML = `
-        <option value="Prestamos por Unidad" ${ (informacion.Tipo == "Prestamos por Unidad")?"selected":"" }>Prestamos por Unidad</option>
-        <option value="Prestamos por Cantidad" ${ (informacion.Tipo == "Prestamos por Cantidad")?"selected":"" }>Prestamos por Cantidad</option>
+        <option value="prestamos por unidad" ${ (informacion.tipo == "prestamos por unidad")?"selected":"" }>Prestamos por Unidad</option>
+        <option value="prestamos por cantidad" ${ (informacion.tipo == "prestamos por cantidad")?"selected":"" }>Prestamos por Cantidad</option>
     `;
 
 }

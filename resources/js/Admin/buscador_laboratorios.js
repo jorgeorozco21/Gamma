@@ -37,14 +37,14 @@ function generarRegistro(data){
     data.forEach(laboratorio =>{
         fila += `
             <tr>
-                <td>${laboratorio.Nombre}</td>
-                <td>${laboratorio.Tipo}</td>
-                <td>${laboratorio.Cantidad_Computadoras ?? ' '}</td>
+                <td>${laboratorio.nombre}</td>
+                <td>${laboratorio.tipo}</td>
+                <td>${laboratorio.cantidad_computadoras ?? ' '}</td>
                 <td>
                     <button class="abrir-modal-edit" data-id="${laboratorio.id}">Editar</button>
                 </td>
                 <td>
-                    <form action="/Admin/Laboratorios/${laboratorio.id}" method="post">
+                    <form action="/admin/laboratorios/${laboratorio.id}" method="post">
                         <input type="hidden" name="_token" value="${csrfToken}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el laboratorio ??')">

@@ -92,47 +92,47 @@
                     
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre de Usuario</label>
-                        <input type="text" id="nombre-usuario-edit" name="Nombre_Usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
+                        <input type="text" id="nombre-usuario-edit" name="nombre_usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
-                        <input type="email" id="email-edit" name="Email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400" autocomplete="off">
+                        <input type="email" id="email-edit" name="email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre Completo</label>
-                        <input type="text" id="nombre-completo-edit" name="Nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
+                        <input type="text" id="nombre-completo-edit" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipos Usuario</label>
                         <div class="flex">
                             <label class="">
-                                <input type="hidden" name="Normal" value="0">
-                                <input type="checkbox" id="tipo-normal-edit" name="Normal"> Normal
+                                <input type="hidden" name="normal" value="0">
+                                <input type="checkbox" id="tipo-normal-edit" name="normal"> Normal
                             </label>
                             <label class="">
-                                <input type="hidden" name="Encargado" value="0">
-                                <input type="checkbox" id="tipo-encargado-edit" name="Encargado"> Encargado de Area
+                                <input type="hidden" name="encargado" value="0">
+                                <input type="checkbox" id="tipo-encargado-edit" name="encargado"> Encargado de Area
                             </label>
                             <label class="">
-                                <input type="hidden" name="Mantenimiento" value="0">
-                                <input type="checkbox" id="tipo-mantenimiento-edit" name="Mantenimiento"> Encargado de Mantenimiento
+                                <input type="hidden" name="mantenimiento" value="0">
+                                <input type="checkbox" id="tipo-mantenimiento-edit" name="mantenimiento"> Encargado de Mantenimiento
                             </label>
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1" id="label-grupo-edit">Grupo</label>
-                        <select id="grupo-edit" name="ID_Grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
+                        <select id="grupo-edit" name="id_grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
                             @foreach ($grupos as $grupo)
-                                <option value="{{ $grupo->id }}">{{ $grupo->Grado }} {{ $grupo->Grupo }} {{ $grupo->Nombre }}</option>
+                                <option value="{{ $grupo->id }}">{{ $grupo->grado }} {{ $grupo->grupo }} {{ $grupo->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <input type="hidden" name="ID_Institucion" value="{{ session('id_institucion') }}">
+                    <input type="hidden" name="id_institucion" value="{{ session('id_institucion') }}">
                     <button type="submit" class="w-full bg-[#7B1FA3] text-white font-bold py-3 rounded-2xl mt-4 hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">Actualizar Usuario</button>
                 </form>
             </div>

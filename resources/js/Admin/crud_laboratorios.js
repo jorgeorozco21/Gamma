@@ -3,7 +3,7 @@
 const tipoLaboratorio = document.getElementById('tipo');
 
 tipoLaboratorio.addEventListener("change", ()=>{
-    if (tipoLaboratorio.value == "Prestamos"){
+    if (tipoLaboratorio.value == "prestamos"){
         document.getElementById("label-cantidad").style.display = "none";
         document.getElementById("cantidad").style.display = "none";
         document.getElementById('cantidad').value = null;
@@ -17,7 +17,7 @@ tipoLaboratorio.addEventListener("change", ()=>{
 const tipoLaboratorioEdit = document.getElementById('tipo-edit');
 
 tipoLaboratorioEdit.addEventListener("change", ()=>{
-    if (tipoLaboratorioEdit.value == "Prestamos"){
+    if (tipoLaboratorioEdit.value == "prestamos"){
         document.getElementById("label-cantidad-edit").style.display = "none";
         document.getElementById("cantidad-edit").style.display = "none";
         document.getElementById('cantidad-edit').value = null;
@@ -37,15 +37,15 @@ async function informacionEditar(id){
 
 function asignarInformacionFormularioEditar(informacion){
 
-    document.getElementById("formulario-editar").action = `/Admin/Laboratorios/${informacion.id}`;
-    document.getElementById("nombre-edit").value = informacion.Nombre;
+    document.getElementById("formulario-editar").action = `/admin/laboratorios/${informacion.id}`;
+    document.getElementById("nombre-edit").value = informacion.nombre;
     document.getElementById("tipo-edit").innerHTML = `
-        <option value="Prestamos" ${ (informacion.Tipo == "Prestamos")?"selected":"" }>Laboratorio de Prestamos</option>
-        <option value="Computo" ${ (informacion.Tipo == "Computo")?"selected":"" }>Laboratorio de Computo</option>`
+        <option value="prestamos" ${ (informacion.tipo == "prestamos")?"selected":"" }>Laboratorio de Prestamos</option>
+        <option value="computo" ${ (informacion.tipo == "computo")?"selected":"" }>Laboratorio de Computo</option>`
     ;
-    document.getElementById("cantidad-edit").value= informacion.Cantidad_Computadoras;
+    document.getElementById("cantidad-edit").value = informacion.cantidad_computadoras;
 
-    if (document.getElementById("tipo-edit").value != "Computo"){
+    if (document.getElementById("tipo-edit").value != "computo"){
         document.getElementById("label-cantidad-edit").style.display = "none";
         document.getElementById("cantidad-edit").style.display = "none";
         document.getElementById("cantidad-edit").value = null;

@@ -34,17 +34,17 @@ function generarRegistro(data){
     data.forEach(grupo =>{
         fila += `
             <tr>
-                <td>${grupo.Nombre}</td>
-                <td>${grupo.Grado}</td>
-                <td>${grupo.Grupo}</td>
+                <td>${grupo.nombre}</td>
+                <td>${grupo.grado}</td>
+                <td>${grupo.grupo}</td>
                 <td>
-                    <button data-laboratorios="${grupo.Laboratorios}" class="ver">Ver</button>
+                    <button data-laboratorios="${grupo.laboratorios}" class="ver">Ver</button>
                 </td>
                 <td>
                     <button class="abrir-modal-edit" data-id="${grupo.id}">Editar</button>
                 </td>
                 <td>
-                    <form action="/Admin/Grupos/${grupo.id}" method="post">
+                    <form action="/admin/grupos/${grupo.id}" method="post">
                         <input type="hidden" name="_token" value="${csrfToken}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el grupo ??')">

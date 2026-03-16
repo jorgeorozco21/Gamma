@@ -87,7 +87,7 @@ async function mostrarLaboratorios(informacion){
         const inf = await obtenerInformacionLaboratorio(id);
 
         lista += `
-            <li>${inf.Nombre}</li>
+            <li>${inf.nombre}</li>
         `;
     };
 
@@ -141,18 +141,18 @@ async function informacionEditar(id){
 }
 
 async function asignarInformacionFormularioEditar(informacion){
-    document.getElementById("formulario-editar").action = `/Admin/Grupos/${informacion.id}`;
-    document.getElementById("nombre-edit").value = informacion.Nombre;
-    document.getElementById("grado-edit").value = informacion.Grado;
-    document.getElementById("grupo-edit").value = informacion.Grupo;
-    document.getElementById("inf-laboratorios-edit").value = informacion.Laboratorios;
+    document.getElementById("formulario-editar").action = `/admin/grupos/${informacion.id}`;
+    document.getElementById("nombre-edit").value = informacion.nombre;
+    document.getElementById("grado-edit").value = informacion.grado;
+    document.getElementById("grupo-edit").value = informacion.grupo;
+    document.getElementById("inf-laboratorios-edit").value = informacion.laboratorios;
 
-    const idLaboratorios = informacion.Laboratorios.split(",");
+    const idLaboratorios = informacion.laboratorios.split(",");
 
     for (const id of idLaboratorios){
         const clave = await obtenerInformacionLaboratorio(id);
 
-        laboratorios[clave.Nombre] = id;
+        laboratorios[clave.nombre] = id;
     }
 
     crearTarjetas(document.getElementById("laboratorios-agregados-edit"), document.getElementById("inf-laboratorios-edit"), laboratorios);

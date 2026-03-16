@@ -16,23 +16,23 @@ class Solicitud extends Model
     protected $table = "solicitudes";
 
     protected $fillable = [
-        "ID_Usuario",
-        "ID_Inventario",
-        "Cantidad",
-        "Descripcion",
-        "Fecha"
+        "id_usuario",
+        "id_inventario",
+        "cantidad",
+        "descripcion",
+        "fecha"
     ];
 
     public function usuario(){
-        return $this->belongsTo(Usuario::class, "ID_Usuario");
+        return $this->belongsTo(Usuario::class, "id_usuario");
     }
 
     public function inventario(){
-        return $this->belongsTo(Inventario::class, "ID_Inventario");
+        return $this->belongsTo(Inventario::class, "id_inventario");
     }
 
     public function aditorias(){
-        return $this->hasMany(Auditoria::class, "ID_Solicitud");
+        return $this->hasMany(Auditoria::class, "id_solicitud");
     }
 
 }

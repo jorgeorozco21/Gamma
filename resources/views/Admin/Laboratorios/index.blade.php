@@ -25,18 +25,18 @@
             </div>
         @endif
 
-        <form action="{{ url('/Logout') }}" method="POST">
+        <form action="{{ url('/logout') }}" method="POST">
             @csrf
             <button type="submit">Cerrar sesión</button>
         </form>
 
         <div>
             <ul>
-                <li><a href="{{ url('/Admin/Usuarios') }}">Usuarios</a></li>
-                <li><a href="{{ url('/Admin/Grupos') }}">Grupos</a></li>
-                <li><a href="{{ url('/Admin/Laboratorios') }}">Laboratorios</a></li>
-                <li><a href="{{ url('/Admin/Materiales') }}">Materiales</a></li>
-                <li><a href="{{ url('/Admin/Inventario') }}">Inventario</a></li>
+                <li><a href="{{ url('/admin/usuarios') }}">Usuarios</a></li>
+                <li><a href="{{ url('/admin/grupos') }}">Grupos</a></li>
+                <li><a href="{{ url('/admin/laboratorios') }}">Laboratorios</a></li>
+                <li><a href="{{ url('/admin/materiales') }}">Materiales</a></li>
+                <li><a href="{{ url('/admin/inventario') }}">Inventario</a></li>
             </ul>
         </div>
 
@@ -63,13 +63,13 @@
                     @csrf
                     {{ method_field('PATCH') }}
                     <label for="nombre-edit">Nombre</label>
-                    <input type="text" id="nombre-edit" name="Nombre">
+                    <input type="text" id="nombre-edit" name="nombre">
                     <label for="tipo-edit">Tipo de Laboratorio</label>
-                    <select id="tipo-edit" name="Tipo">
+                    <select id="tipo-edit" name="tipo">
                     </select>
                     <label for="cantidad-edit" id="label-cantidad-edit">Cantidad de Computadoras</label>
-                    <input type="number" min="1" id="cantidad-edit" name="Cantidad_Computadoras">
-                    <input type="hidden" name="ID_Institucion" value="{{ session("id_institucion") }}">
+                    <input type="number" min="1" id="cantidad-edit" name="cantidad_computadoras">
+                    <input type="hidden" name="id_institucion" value="{{ session("id_institucion") }}">
                     <input type="submit" value="Editar Laboratorio">
             </form>
             </div>
@@ -82,8 +82,8 @@
             <label for="filtrar-tipo">Filtrar por tipo</label>
             <select id="filtrar-tipo">
                 <option value="Sin Filtro"></option>
-                <option value="Prestamos">Laboratorio de Prestamos</option>
-                <option value="Computo">Laboratorio de Computo</option>`
+                <option value="prestamos">Laboratorio de Prestamos</option>
+                <option value="computo">Laboratorio de Computo</option>`
             </select>
         </div>
 
@@ -102,14 +102,14 @@
                 <tbody id="informacion-filtrada">
                     @foreach ($laboratorios as $laboratorio)
                         <tr>
-                            <td>{{ $laboratorio->Nombre }}</td>
-                            <td>{{ $laboratorio->Tipo }}</td>
-                            <td>{{ $laboratorio->Cantidad_Computadoras }}</td>
+                            <td>{{ $laboratorio->nombre }}</td>
+                            <td>{{ $laboratorio->tipo }}</td>
+                            <td>{{ $laboratorio->cantidad_computadoras }}</td>
                             <td>
                                 <button class="abrir-modal-edit" data-id="{{ $laboratorio->id }}">Editar</button>
                             </td>
                             <td>
-                                <form action="{{ url('/Admin/Laboratorios/'.$laboratorio->id) }}" method="post">
+                                <form action="{{ url('/admin/laboratorios/'.$laboratorio->id) }}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el laboratorio ??')">
@@ -122,7 +122,7 @@
         </div>
 
         <div>
-            <form  action="{{ url('/cargaLaboratorio') }}" method="post" enctype="multipart/form-data">
+            <form  action="{{ url('/carga-laboratorio') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="file" name="archivo">
                 <button type="submit">

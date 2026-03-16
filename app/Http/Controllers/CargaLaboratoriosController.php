@@ -20,7 +20,7 @@ class CargaLaboratoriosController extends Controller
 
         $archivo = $request->file('archivo');
         $extension = $archivo->getClientOriginalExtension();
-        $columnasEsperadas = ['Nombre','Tipo','Cantidad_Computadoras'];
+        $columnasEsperadas = ['nombre','tipo','cantidad_computadoras'];
 
         if ($extension == "csv" || $extension == "xlsx" || $extension == "xls"){
 
@@ -63,13 +63,15 @@ class CargaLaboratoriosController extends Controller
         }
 
         foreach ($datos as $laboratorio){
-            if ($laboratorio['Tipo'] == "Prestamos") $laboratorio['Cantidad_Computadoras'] = null;
+            $laboratorio['tipo'] = strtolower($laboratorio['tipo']);
+
+            if ($laboratorio['tipo'] == "prestamos") $laboratorio['cantidad_computadoras'] = null;
 
             $registro = [
-                "Nombre" => $laboratorio['Nombre'],
-                "Tipo" => $laboratorio['Tipo'],
-                "Cantidad_Computadoras" => $laboratorio['Cantidad_Computadoras'],
-                "ID_Institucion" => session('id_institucion')
+                "nombre" => $laboratorio['nombre'],
+                "tipo" => $laboratorio['tipo'],
+                "cantidad_computadoras" => $laboratorio['cantidad_computadoras'],
+                "id_institucion" => session('id_institucion')
             ];
 
             Laboratorio::create($registro);

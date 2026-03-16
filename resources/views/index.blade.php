@@ -6,6 +6,6 @@
         <title>Bienvenido</title>
     </head>
     <body>
-        <a href="{{ url('/Login') }}">Inicia Sesion</a>
+        <a href="{{ url('/login') }}">Inicia Sesion</a>
     </body>
 </html>

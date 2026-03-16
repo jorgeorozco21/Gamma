@@ -40,14 +40,14 @@ function generarRegistro(informacion){
     for (const material of informacion){
         filas += `
             <tr>
-                <td>${material.Nombre}</td>
-                <td>${material.Descripcion}</td>
-                <td>${material.Tipo}</td>
+                <td>${material.nombre}</td>
+                <td>${material.descripcion}</td>
+                <td>${material.tipo}</td>
                 <td>
                     <button class="abrir-modal-edit" data-id="${material.id}">Editar</button>
                 </td>
                 <td>
-                    <form action="/Admin/Materiales/${material.id}" method="post">
+                    <form action="/admin/materiales/${material.id}" method="post">
                         <input type="hidden" name="_token" value="${csrfToken}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="submit" value="Borrar" onclick="return confirm('Deseas borra el material ??')">

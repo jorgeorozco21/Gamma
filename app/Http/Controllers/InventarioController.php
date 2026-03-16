@@ -17,10 +17,10 @@ class InventarioController extends Controller
             DB::table("materiales as m")
             ->select(
                 "m.id",
-                "m.Nombre"
+                "m.nombre"
             )
-            ->where("m.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("m.Nombre","ASC")
+            ->where("m.id_institucion","=",session("id_institucion"))
+            ->orderBy("m.nombre","ASC")
             ->orderBy("m.created_at","DESC")
             ->get()
         ;
@@ -29,28 +29,28 @@ class InventarioController extends Controller
             DB::table("laboratorios as l")
             ->select(
                 "l.id",
-                "l.Nombre"
+                "l.nombre"
             )
-            ->where("l.Tipo","=","Prestamos")
-            ->where("l.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("l.Nombre","ASC")
+            ->where("l.tipo","=","prestamos")
+            ->where("l.id_institucion","=",session("id_institucion"))
+            ->orderBy("l.nombre","ASC")
             ->orderBy("l.created_at","DESC")
             ->get()
         ;
 
         $inventarios = 
             DB::table("inventarios as i")
-            ->join("materiales as m","m.id","=","i.ID_Material")
-            ->join("laboratorios as l","l.id","=","i.ID_Laboratorio")
+            ->join("materiales as m","m.id","=","i.id_material")
+            ->join("laboratorios as l","l.id","=","i.id_laboratorio")
             ->select(
                 "i.id",
-                "m.Nombre as nombreMaterial",
-                "i.Cantidad_Total",
-                "l.Nombre as nombreLaboratorio"
+                "m.nombre as nombreMaterial",
+                "i.cantidad_total",
+                "l.nombre as nombreLaboratorio"
             )
-            ->where("l.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("l.Nombre","ASC")
-            ->orderBy("m.Nombre","ASC")
+            ->where("l.id_institucion","=",session("id_institucion"))
+            ->orderBy("l.nombre","ASC")
+            ->orderBy("m.nombre","ASC")
             ->orderBy("i.created_at","DESC")
             ->get()
         ;
@@ -74,12 +74,12 @@ class InventarioController extends Controller
         $datosInventario = $request->except("_token");
 
         $request->validate([
-            "Cantidad_Total" => "required|integer|min:1"
+            "cantidad_total" => "required|integer|min:1"
         ],[
-            "Cantidad_Total.required" => "La Cantidad es obligatoria",
+            "cantidad_total.required" => "La Cantidad es obligatoria",
         ]);
 
-        $datosInventario['Cantidad_Disponible'] = $datosInventario['Cantidad_Total'];
+        $datosInventario['cantidad_disponible'] = $datosInventario['cantidad_total'];
 
         Inventario::create($datosInventario);
 
@@ -108,14 +108,14 @@ class InventarioController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            "Cantidad_Total" => "required|integer|min:1"
+            "cantidad_total" => "required|integer|min:1"
         ],[
-            "Cantidad_Total.required" => "La Cantidad es obligatoria",
+            "cantidad_total.required" => "La Cantidad es obligatoria",
         ]);
 
-        $request["Cantidad_Disponible"] =  $request["Cantidad_Disponible"] + ($request["Cantidad_Total"] - $request["Cantidad_Total_Anterior"]);
+        $request["cantidad_disponible"] =  $request["cantidad_disponible"] + ($request["cantidad_total"] - $request["cantidad_total_anterior"]);
 
-        $datosInventario = $request->except("_token","_method","Cantidad_Total_Anterior");
+        $datosInventario = $request->except("_token","_method","cantidad_total_anterior");
 
         Inventario::where("id","=",$id)->update($datosInventario);
 

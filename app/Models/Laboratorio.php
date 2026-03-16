@@ -14,17 +14,17 @@ class Laboratorio extends Model
     protected $table = "laboratorios";
 
     protected $fillable = [
-        "Nombre",
-        "Tipo",
-        "Cantidad_Computadoras",
-        "ID_Institucion"
+        "nombre",
+        "tipo",
+        "cantidad_computadoras",
+        "id_institucion"
     ];
 
     public function institucion(){
-        return $this->belongsTo(Institucion::class, "ID_Institucion");
+        return $this->belongsTo(Institucion::class, "id_institucion");
     }
 
     public function inventarios(){
-        return $this->belongsTo(Inventario::class, "ID_Laboratorio");
+        return $this->belongsTo(Inventario::class, "id_laboratorio");
     }
 }

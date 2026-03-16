@@ -16,31 +16,31 @@ class Usuario extends Model
     protected $table = "usuarios";
 
     protected $fillable = [
-        "Nombre_Usuario",
-        "Email",
-        "Contrasena",
-        "Nombre",
-        "Admin",
-        "Mantenimiento",
-        "Encargado",
-        "Normal",
-        "ID_Grupo",
-        "ID_Institucion"
+        "nombre_usuario",
+        "email",
+        "contrasena",
+        "nombre",
+        "admin",
+        "mantenimiento",
+        "encargado",
+        "normal",
+        "id_grupo",
+        "id_institucion"
     ];
 
     public function grupo(){
-        return $this->belongsTo(Grupo::class, 'ID_Grupo');
+        return $this->belongsTo(Grupo::class, 'id_grupo');
     }
 
     public function institucion(){
-        return $this->belongsTo(Institucion::class, 'ID_Institucion');
+        return $this->belongsTo(Institucion::class, 'iD_institucion');
     }
 
     public function solicitudes(){
-        return $this->hasMany(Solicitud::class, 'ID_Usuario');
+        return $this->hasMany(Solicitud::class, 'id_usuario');
     }
 
     public function auditorias(){
-        return $this->hasMany(Auditoria::class, "ID_Usuario");
+        return $this->hasMany(Auditoria::class, "id_usuario");
     }
 }

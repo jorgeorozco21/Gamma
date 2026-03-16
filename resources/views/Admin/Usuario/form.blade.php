@@ -1,21 +1,21 @@
 <div class="space-y-4">
     <div>
         <label for="nombre-usuario" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre de Usuario</label>
-        <input type="text" id="nombre-usuario" name="Nombre_Usuario" 
+        <input type="text" id="nombre-usuario" name="nombre_usuario" 
                 class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all"
                 placeholder="Jonathan Orozco" autocomplete="off">
     </div>
 
     <div>
         <label for="email" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
-        <input type="email" id="email" name="Email" 
+        <input type="email" id="email" name="email" 
                 class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all"
                 placeholder="correo@ejemplo.com" autocomplete="off">
     </div>
 
     <div>
         <label for="nombre-completo" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre Completo</label>
-        <input type="text" id="nombre-completo" name="Nombre" 
+        <input type="text" id="nombre-completo" name="nombre" 
                 class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all"
                 placeholder="Nombre y Apellidos" autocomplete="off">
     </div>
@@ -24,31 +24,31 @@
         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipos Usuario</label>
         <div class="flex">
             <label class="">
-                <input type="hidden" name="Normal" value="0">
-                <input type="checkbox" id="tipo-normal" name="Normal"> Normal
+                <input type="hidden" name="normal" value="0">
+                <input type="checkbox" id="tipo-normal" name="normal"> Normal
             </label>
             <label class="">
-                <input type="hidden" name="Encargado" value="0">
-                <input type="checkbox" id="tipo-encargado" name="Encargado"> Encargado de Area
+                <input type="hidden" name="encargado" value="0">
+                <input type="checkbox" id="tipo-encargado" name="encargado"> Encargado de Area
             </label>
             <label class="">
-                <input type="hidden" name="Mantenimiento" value="0">
-                <input type="checkbox" id="tipo-mantenimiento" name="Mantenimiento"> Encargado de Mantenimiento
+                <input type="hidden" name="mantenimiento" value="0">
+                <input type="checkbox" id="tipo-mantenimiento" name="mantenimiento"> Encargado de Mantenimiento
             </label>
         </div>
     </div>
 
     <div id="contenedor-grupo">
         <label for="grupo" id="label-grupo" class="hidden text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo</label>
-        <select id="grupo" name="ID_Grupo" 
+        <select id="grupo" name="id_grupo" 
                 class="hidden w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all">
             @foreach ($grupos as $grupo)
-                <option value="{{ $grupo->id }}">{{ $grupo->Grado }}°{{ $grupo->Grupo }} - {{ $grupo->Nombre }}</option>
+                <option value="{{ $grupo->id }}">{{ $grupo->grado }}°{{ $grupo->grupo }} - {{ $grupo->nombre }}</option>
             @endforeach
         </select>
     </div>
 
-    <input type="hidden" name="ID_Institucion" value="{{ session('id_institucion') }}">
+    <input type="hidden" name="id_institucion" value="{{ session('id_institucion') }}">
     
     <div class="pt-2">
         <button type="submit" 

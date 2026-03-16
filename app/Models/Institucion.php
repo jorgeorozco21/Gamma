@@ -16,23 +16,24 @@ class Institucion extends Model
     protected $table = "instituciones";
 
     protected $fillable = [
-        "Nombre",
-        "Clave"
+        "nombre",
+        "clave",
+        "tag"
     ];
 
     public function usuarios(){
-        return $this->hasMany(Usuario::class, 'ID_Institucion');
+        return $this->hasMany(Usuario::class, 'id_institucion');
     }
 
     public function grupos(){
-        return $this->hasMany(Grupo::class, 'ID_Institucion');
+        return $this->hasMany(Grupo::class, 'id_institucion');
     }
 
     public function laboratorios(){
-        return $this->hasMany(Laboratorio::class, "ID_Institucion");
+        return $this->hasMany(Laboratorio::class, "id_institucion");
     }
 
     public function materiales(){
-        return $this->hasMany(Material::class, "ID_Institucion");
+        return $this->hasMany(Material::class, "id_institucion");
     }
 }

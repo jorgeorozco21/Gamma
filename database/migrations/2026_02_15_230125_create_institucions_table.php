@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('instituciones', function (Blueprint $table) {
             $table->id();
-            $table->string("Nombre");
-            $table->string("Clave");
+            $table->string("nombre");
+            $table->string("clave");
+            $table->string("tag");
             $table->timestamps();
         });
     }

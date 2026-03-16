@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 class LoginController extends Controller
 {
@@ -20,16 +19,16 @@ class LoginController extends Controller
             DB::table("usuarios as u")
             ->select(
                 "u.id",
-                "u.Nombre_Usuario",
-                "u.Contrasena",
-                "u.Nombre",
-                "u.Admin",
-                "u.Mantenimiento",
-                "u.Encargado",
-                "u.Normal",
-                "u.ID_Institucion"
+                "u.nombre_usuario",
+                "u.contrasena",
+                "u.nombre",
+                "u.admin",
+                "u.mantenimiento",
+                "u.encargado",
+                "u.normal",
+                "u.id_institucion"
             )
-            ->where("u.Nombre_Usuario","=",$request->nombre_usuario)
+            ->where("u.nombre_usuario","=",$request->nombre_usuario)
             ->first()
         ;
 
@@ -37,15 +36,15 @@ class LoginController extends Controller
             return redirect()->route('login.index')->with("error",'Usuario y/o Contraseña incorrecta')->withInput();
         }
 
-        if (Hash::check($request->contrasena, $usuario->Contrasena)){
-            if ($usuario->Admin == "1"){
+        if (Hash::check($request->contrasena, $usuario->contrasena)){
+            if ($usuario->admin == "1"){
 
                 session([
                     "id_usuario" => $usuario->id,
-                    "id_institucion" => $usuario->ID_Institucion
+                    "id_institucion" => $usuario->id_institucion
                 ]);
 
-                return redirect('/Admin');
+                return redirect('/admin');
             }
             return view('Login.index');
         }

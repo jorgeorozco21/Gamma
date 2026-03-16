@@ -15,17 +15,17 @@ class Auditoria extends Model
     protected $table = "auditoria";
 
     protected $fillable = [
-        "ID_Solicitud",
-        "Estado",
-        "ID_Usuario",
-        "Fecha"
+        "id_solicitud",
+        "estado",
+        "id_usuario",
+        "fecha"
     ];
 
     public function solicitud(){
-        return $this->belongsTo(Solicitud::class, "ID_Solicitud");
+        return $this->belongsTo(Solicitud::class, "id_solicitud");
     }
 
     public function usuario(){
-        return $this->belongsTo(Usuario::class, "ID_Usuario");
+        return $this->belongsTo(Usuario::class, "id_usuario");
     }
 }

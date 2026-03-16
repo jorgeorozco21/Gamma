@@ -45,18 +45,18 @@ class CargaUsuariosController extends Controller
             $contrasenaHash = Hash::make($contrasena);
 
             $registro = [];
-            if ($usuario["Grado"] == null || $usuario["Grupo"] == null || $usuario["Nombre_Especialidad"] == null){
+            if ($usuario["grado"] == null || $usuario["grupo"] == null || $usuario["nombre_especialidad"] == null){
 
                 $registro = [
-                    "Nombre_Usuario" => $usuario["Nombre_Usuario"],
-                    "Email" => $usuario["Email"],
-                    "Contrasena" => $contrasenaHash,
-                    "Nombre" => $usuario["Nombre"],
-                    "Admin" => "0",
-                    "Mantenimiento" => $usuario["Mantenimiento"],
-                    "Encargado" => $usuario["Encargado"],
-                    "Normal" => $usuario["Normal"],
-                    "ID_Institucion" => session("id_institucion")
+                    "nombre_usuario" => $usuario["nombre_usuario"],
+                    "email" => $usuario["email"],
+                    "contrasena" => $contrasenaHash,
+                    "nombre" => $usuario["nombre"],
+                    "admin" => "0",
+                    "mantenimiento" => $usuario["mantenimiento"],
+                    "encargado" => $usuario["encargado"],
+                    "normal" => $usuario["normal"],
+                    "id_institucion" => session("id_institucion")
                 ];
 
             }else{
@@ -66,29 +66,29 @@ class CargaUsuariosController extends Controller
                     ->select(
                         "g.id"
                     )
-                    ->where("g.Nombre","=",$usuario["Nombre_Especialidad"])->where("g.Grado","=",$usuario["Grado"])->where("g.Grupo","=",$usuario["Grupo"])
+                    ->where("g.nombre","=",$usuario["nombre_especialidad"])->where("g.grado","=",$usuario["grado"])->where("g.grupo","=",$usuario["grupo"])
                     ->first()
                 ;
 
                 $id = $id->id;
 
                 $registro = [
-                    "Nombre_Usuario" => $usuario["Nombre_Usuario"],
-                    "Email" => $usuario["Email"],
-                    "Contrasena" => $contrasenaHash,
-                    "Nombre" => $usuario["Nombre"],
-                    "Admin" => "0",
-                    "Mantenimiento" => $usuario["Mantenimiento"],
-                    "Encargado" => $usuario["Encargado"],
-                    "Normal" => $usuario["Normal"],
-                    "ID_Grupo" => $id,
-                    "ID_Institucion" => session("id_institucion")
+                    "nombre_usuario" => $usuario["nombre_usuario"],
+                    "email" => $usuario["email"],
+                    "contrasena" => $contrasenaHash,
+                    "nombre" => $usuario["nombre"],
+                    "admin" => "0",
+                    "mantenimiento" => $usuario["mantenimiento"],
+                    "encargado" => $usuario["encargado"],
+                    "normal" => $usuario["normal"],
+                    "id_grupo" => $id,
+                    "id_institucion" => session("id_institucion")
                 ];
             }
 
             Usuario::create($registro);
 
-            Mail::to($registro["Email"])->send(new UsuarioCreadoMail($registro["Nombre_Usuario"],$contrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
+            Mail::to($registro["email"])->send(new UsuarioCreadoMail($registro["nombre_usuario"],$contrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
 
         }
 

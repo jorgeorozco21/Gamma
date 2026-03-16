@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("ID_Usuario");
-            $table->unsignedBigInteger("ID_Inventario")->nullable();
-            $table->integer("Cantidad")->nullable();
-            $table->text("Descripcion")->nullable();
-            $table->string("Fecha");
+            $table->unsignedBigInteger("id_usuario");
+            $table->unsignedBigInteger("id_inventario")->nullable();
+            $table->integer("cantidad")->nullable();
+            $table->text("descripcion")->nullable();
+            $table->string("fecha");
             $table->timestamps();
 
-            $table->foreign("ID_Usuario")->references("id")->on("usuarios")->onUpdate("cascade");
-            $table->foreign("ID_Inventario")->references("id")->on("inventarios")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_usuario")->references("id")->on("usuarios")->onUpdate("cascade");
+            $table->foreign("id_inventario")->references("id")->on("inventarios")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

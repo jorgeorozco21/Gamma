@@ -17,12 +17,12 @@ class LaboratorioController extends Controller
             DB::table("laboratorios as l")
             ->select(
                 "l.id",
-                "l.Nombre",
-                "l.Tipo",
-                "l.Cantidad_Computadoras"
+                "l.nombre",
+                "l.tipo",
+                "l.cantidad_computadoras"
             )
-            ->where("l.ID_Institucion","=",session("id_institucion"))
-            ->orderBy("l.Nombre","ASC")
+            ->where("l.id_institucion","=",session("id_institucion"))
+            ->orderBy("l.nombre","ASC")
             ->orderBy("l.created_at","DESC")
             ->get()
         ;
@@ -46,16 +46,16 @@ class LaboratorioController extends Controller
         $datosLaboratorio = $request->except("_token");
 
         $request->validate([
-            "Nombre" => "required|string|max:255",
-            "Cantidad" => "integer|min:1"
+            "nombre" => "required|string|max:255",
+            "cantidad" => "integer|min:1"
         ],[
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "Cantidad.min" => "La Cantidad minima permitida es de 1"
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
+            "cantidad.min" => "La Cantidad minima permitida es de 1"
         ]);
 
-        if ($datosLaboratorio['Tipo'] == "Prestamos"){
-            $datosLaboratorio['Cantidad_Computadoras'] = null;
+        if ($datosLaboratorio['tipo'] == "prestamos"){
+            $datosLaboratorio['cantidad_computadoras'] = null;
         }
 
         Laboratorio::create($datosLaboratorio);
@@ -89,18 +89,18 @@ class LaboratorioController extends Controller
         $datosLaboratorio = $request->except("_token","_method");
 
         $request->validate([
-            "Nombre" => "required|string|max:255",
-            "Cantidad" => "integer|min:1"
+            "nombre" => "required|string|max:255",
+            "cantidad" => "integer|min:1"
         ],[
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "Nombre.min" => "La Cantidad minima permitida es de 1"
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
+            "cantidad.min" => "La Cantidad minima permitida es de 1"
         ]);
 
-        $datosLaboratorio['Cantidad_Computadoras']  = (int)$datosLaboratorio['Cantidad_Computadoras'];
+        $datosLaboratorio['cantidad_computadoras']  = (int)$datosLaboratorio['cantidad_computadoras'];
 
-        if ($datosLaboratorio['Tipo'] == "Prestamos"){
-            $datosLaboratorio['Cantidad_Computadoras'] = null;
+        if ($datosLaboratorio['tipo'] == "prestamos"){
+            $datosLaboratorio['cantidad_computadoras'] = null;
         }
 
         Laboratorio::where("id","=",$id)->update($datosLaboratorio);

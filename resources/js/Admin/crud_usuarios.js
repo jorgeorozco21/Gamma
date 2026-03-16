@@ -55,13 +55,13 @@ async function informacionEditar(id){
 // funcion para asignar infromacion al formualrio de editar
 function asignarInformacionFormularioEditar(informacion){
 
-    document.getElementById('formulario-editar').action = `/Admin/Usuarios/${informacion.usuario.id}`;
-    document.getElementById('nombre-usuario-edit').value = informacion.usuario.Nombre_Usuario;
-    document.getElementById('email-edit').value = informacion.usuario.Email;
-    document.getElementById('nombre-completo-edit').value = informacion.usuario.Nombre;
+    document.getElementById('formulario-editar').action = `/admin/usuarios/${informacion.usuario.id}`;
+    document.getElementById('nombre-usuario-edit').value = informacion.usuario.nombre_usuario;
+    document.getElementById('email-edit').value = informacion.usuario.email;
+    document.getElementById('nombre-completo-edit').value = informacion.usuario.nombre;
 
     // Aqui si el Tipo de usuario es normal muestra el select para indicar el nuevo o el viejo grupo y si no es normal no lo muestra
-    if (informacion.usuario.Normal == "0"){
+    if (informacion.usuario.normal == "0"){
         document.getElementById("label-grupo-edit").style.display = "none";
         document.getElementById("grupo-edit").style.display = "none";
         document.getElementById("tipo-normal-edit").checked = false;
@@ -76,17 +76,17 @@ function asignarInformacionFormularioEditar(informacion){
         // Creacion de opciones para el formulario de editar el grupo
         for (const grupo of informacion.grupos){
             opciones += `
-                <option value="${grupo.id}" ${ (informacion.usuario.ID_Grupo == grupo.id)?"selected":"" }>${grupo.Grado} ${grupo.Grupo} ${grupo.Nombre}</option>
+                <option value="${grupo.id}" ${ (informacion.usuario.id_grupo == grupo.id)?"selected":"" }>${grupo.grado} ${grupo.grupo} ${grupo.nombre}</option>
             `;
         }
 
         gruposEditar.innerHTML = opciones;
     }
 
-    if (informacion.usuario.Encargado == "0") document.getElementById("tipo-encargado-edit").checked = false;
+    if (informacion.usuario.encargado == "0") document.getElementById("tipo-encargado-edit").checked = false;
     else document.getElementById("tipo-encargado-edit").checked = true;
 
-    if (informacion.usuario.Mantenimiento == "0") document.getElementById("tipo-mantenimiento-edit").checked = false;
+    if (informacion.usuario.mantenimiento == "0") document.getElementById("tipo-mantenimiento-edit").checked = false;
     else document.getElementById("tipo-mantenimiento-edit").checked = true;
 }
 
@@ -158,7 +158,7 @@ const filtroTipo = document.getElementById("filtrar-tipo");
 
 // Funcion para desaparecer y desaparecer el filtro de grupo
 filtroTipo.addEventListener("change", ()=>{
-    if (filtroTipo.value != "Normal" && filtroTipo.value != "Sin Filtro"){
+    if (filtroTipo.value != "normal" && filtroTipo.value != "Sin Filtro"){
         document.getElementById("filtrar-grupo-label").style.display = "none";
         document.getElementById("filtrar-grupo").style.display = "none";
         document.getElementById("filtrar-grupo").value = "Sin Filtro";
@@ -174,6 +174,6 @@ const filtroGrupo = document.getElementById("filtrar-grupo");
 // Funcion para cambiar el valor del filtro tipo usuario cuando filtro grupo tenga cierto valor
 filtroGrupo.addEventListener("change", ()=>{
     if (filtroGrupo.value != "Sin Filtro"){
-        filtroTipo.value = "Normal";
+        filtroTipo.value = "normal";
     }
 });

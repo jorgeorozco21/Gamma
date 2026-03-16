@@ -13,14 +13,14 @@ class Grupo extends Model
     protected $table = "grupos";
 
     protected $fillable = [
-        "Nombre",
-        "Grado",
-        "Grupo",
-        "Laboratorios",
-        "ID_Institucion"
+        "nombre",
+        "grado",
+        "grupo",
+        "laboratorios",
+        "id_institucion"
     ];
 
     public function institucion(){
-        return $this->belongsTo(Institucion::class, 'ID_Institucion');
+        return $this->belongsTo(Institucion::class, 'id_institucion');
     }
 }

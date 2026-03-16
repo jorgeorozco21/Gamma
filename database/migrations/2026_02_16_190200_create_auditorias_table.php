@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('auditoria', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("ID_Solicitud");
-            $table->string("Estado");
-            $table->unsignedBigInteger("ID_Usuario");
-            $table->string("Fecha");
+            $table->unsignedBigInteger("id_solicitud");
+            $table->string("estado");
+            $table->unsignedBigInteger("id_usuario");
+            $table->string("fecha");
             $table->timestamps();
 
-            $table->foreign("ID_Solicitud")->references("id")->on("solicitudes")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("ID_Usuario")->references("id")->on("usuarios")->onUpdate("cascade");
+            $table->foreign("id_solicitud")->references("id")->on("solicitudes")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_usuario")->references("id")->on("usuarios")->onUpdate("cascade");
         });
     }
 

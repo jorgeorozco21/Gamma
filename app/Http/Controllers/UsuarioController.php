@@ -21,21 +21,21 @@ class UsuarioController extends Controller
     {
         $usuarios = 
             DB::table("usuarios as u")
-            ->leftJoin("grupos as g","g.id","=","u.ID_Grupo")
+            ->leftJoin("grupos as g","g.id","=","u.id_grupo")
             ->select(
                 "u.id",
-                "u.Nombre_Usuario",
-                "u.Email",
-                "u.Nombre",
-                "u.Mantenimiento",
-                "u.Encargado",
-                "u.Normal",
-                "g.Nombre as nombreGrupo",
-                "g.Grado",
-                "g.Grupo"
+                "u.nombre_usuario",
+                "u.email",
+                "u.nombre",
+                "u.mantenimiento",
+                "u.encargado",
+                "u.normal",
+                "g.nombre as nombreGrupo",
+                "g.grado",
+                "g.grupo"
             )
-            ->where("u.ID_Institucion","=",session('id_institucion'))
-            ->where("u.Admin","!=","1")
+            ->where("u.id_institucion","=",session('id_institucion'))
+            ->where("u.admin","!=","1")
             ->orderBy("u.id","ASC")
             ->orderBy("u.created_at","DESC")
             ->get()
@@ -45,12 +45,12 @@ class UsuarioController extends Controller
             DB::table("grupos as g")
             ->select(
                 "g.id",
-                "g.Nombre",
-                "g.Grado",
-                "g.Grupo"
+                "g.nombre",
+                "g.grado",
+                "g.grupo"
             )
-            ->orderBy("g.Nombre","ASC")
-            ->where("g.ID_Institucion","=",session('id_institucion'))
+            ->orderBy("g.nombre","ASC")
+            ->where("g.id_institucion","=",session('id_institucion'))
             ->orderBy("g.created_at","DESC")
             ->get()
         ;
@@ -74,40 +74,40 @@ class UsuarioController extends Controller
         $datosUsuario = $request->except('_token');
 
         $validator = Validator::make($request->all(), [
-            "Nombre_Usuario" => "required|string|max:255",
-            "Email" => "required|string|max:255",
-            "Nombre" => "required|string|max:255",
+            "nombre_usuario" => "required|string|max:255",
+            "email" => "required|string|max:255",
+            "nombre" => "required|string|max:255",
         ],[
-            "Nombre_Usuario.required" => "El Nombre de usuario es Obligatorio",
-            "Nombre_Usuario.max" => "El Nombre de Usuario no puede exceder los 255 caracteres",
-            "Email.required" => "El Email es obligatorio",
-            "Email.max" => "El Email no puede exceder los 255 caracteres",
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caractres"
+            "nombre_usuario.required" => "El Nombre de usuario es Obligatorio",
+            "nombre_usuario.max" => "El Nombre de Usuario no puede exceder los 255 caracteres",
+            "email.required" => "El Email es obligatorio",
+            "email.max" => "El Email no puede exceder los 255 caracteres",
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caractres"
         ]);
 
         $contrasena = Str::random(12);
-        $datosUsuario['Contrasena'] = Hash::make($contrasena);
-        $datosUsuario['Admin'] = "0";
+        $datosUsuario['contrasena'] = Hash::make($contrasena);
+        $datosUsuario['admin'] = "0";
 
         $band = false;
 
-        if ($datosUsuario['Mantenimiento'] == "on"){
-            $datosUsuario['Mantenimiento'] = "1";
+        if ($datosUsuario['mantenimiento'] == "on"){
+            $datosUsuario['mantenimiento'] = "1";
             $band = true;
-        }else $datosUsuario['Mantenimiento'] = "0";
+        }else $datosUsuario['mantenimiento'] = "0";
 
-        if ($datosUsuario['Encargado'] == "on"){
-            $datosUsuario['Encargado'] = "1";
+        if ($datosUsuario['encargado'] == "on"){
+            $datosUsuario['encargado'] = "1";
             $band = true;
-        }else $datosUsuario['Encargado'] = "0";
+        }else $datosUsuario['encargado'] = "0";
 
-        if ($datosUsuario['Normal'] == "on"){
-            $datosUsuario['Normal'] = "1";
+        if ($datosUsuario['normal'] == "on"){
+            $datosUsuario['normal'] = "1";
             $band = true;
         }else{
-            $datosUsuario['Normal'] = "0";
-            $datosUsuario['ID_Grupo'] = null;
+            $datosUsuario['normal'] = "0";
+            $datosUsuario['id_grupo'] = null;
         }
 
         $validator->after(function ($validator) use ($band) {
@@ -123,7 +123,7 @@ class UsuarioController extends Controller
         
         Usuario::create($datosUsuario);
 
-        Mail::to($datosUsuario['Email'])->send(new UsuarioCreadoMail($datosUsuario['Nombre_Usuario'],$contrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
+        Mail::to($datosUsuario['email'])->send(new UsuarioCreadoMail($datosUsuario['nombre_usuario'],$contrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
 
         return redirect()->route('admin.usuarios.index')->with('success',"Usuario creado correctamente");
     }
@@ -152,36 +152,36 @@ class UsuarioController extends Controller
         $datosUsuario = $request->except("_token","_method");
 
         $validator = Validator::make($request->all(), [
-            "Nombre_Usuario" => "required|string|max:255",
-            "Email" => "required|string|max:255",
-            "Nombre" => "required|string|max:255",
+            "nombre_usuario" => "required|string|max:255",
+            "email" => "required|string|max:255",
+            "nombre" => "required|string|max:255",
         ],[
-            "Nombre_Usuario.required" => "El Nombre de usuario es Obligatorio",
-            "Nombre_Usuario.max" => "El Nombre de Usuario no puede exceder los 255 caracteres",
-            "Email.required" => "El Email es obligatorio",
-            "Email.max" => "El Email no puede exceder los 255 caracteres",
-            "Nombre.required" => "El Nombre es obligatorio",
-            "Nombre.max" => "El Nombre no puede exceder los 255 caractres"
+            "nombre_usuario.required" => "El Nombre de usuario es Obligatorio",
+            "nombre_usuario.max" => "El Nombre de Usuario no puede exceder los 255 caracteres",
+            "email.required" => "El Email es obligatorio",
+            "email.max" => "El Email no puede exceder los 255 caracteres",
+            "nombre.required" => "El Nombre es obligatorio",
+            "nombre.max" => "El Nombre no puede exceder los 255 caractres"
         ]);
 
         $band = false;
 
-        if ($datosUsuario['Mantenimiento'] == "on"){
-            $datosUsuario['Mantenimiento'] = "1";
+        if ($datosUsuario['mantenimiento'] == "on"){
+            $datosUsuario['mantenimiento'] = "1";
             $band = true;
-        }else $datosUsuario['Mantenimiento'] = "0";
+        }else $datosUsuario['mantenimiento'] = "0";
 
-        if ($datosUsuario['Encargado'] == "on"){
-            $datosUsuario['Encargado'] = "1";
+        if ($datosUsuario['encargado'] == "on"){
+            $datosUsuario['encargado'] = "1";
             $band = true;
-        }else $datosUsuario['Encargado'] = "0";
+        }else $datosUsuario['encargado'] = "0";
 
-        if ($datosUsuario['Normal'] == "on"){
-            $datosUsuario['Normal'] = "1";
+        if ($datosUsuario['normal'] == "on"){
+            $datosUsuario['normal'] = "1";
             $band = true;
         }else{
-            $datosUsuario['Normal'] = "0";
-            $datosUsuario['ID_Grupo'] = null;
+            $datosUsuario['normal'] = "0";
+            $datosUsuario['id_grupo'] = null;
         }
 
         $validator->after(function ($validator) use ($band) {
@@ -222,9 +222,9 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::findOrFail($id);
 
-        Usuario::where("id","=",$id)->update(['Contrasena' => Hash::make($nuevaContrasena)]);
+        Usuario::where("id","=",$id)->update(['contrasena' => Hash::make($nuevaContrasena)]);
 
-        Mail::to($usuario['Email'])->send(new ContrasenaNuevaMail($usuario['Nombre_Usuario'],$nuevaContrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
+        Mail::to($usuario['email'])->send(new ContrasenaNuevaMail($usuario['nombre_usuario'],$nuevaContrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
 
         return response()->json([
             'message' => 'Contraseña cambiada correctamente'

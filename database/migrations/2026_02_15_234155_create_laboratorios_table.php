@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('laboratorios', function (Blueprint $table) {
             $table->id();
-            $table->string("Nombre");
-            $table->string("Tipo");
-            $table->integer("Cantidad_Computadoras")->nullable();
-            $table->unsignedBigInteger("ID_Institucion");
+            $table->string("nombre");
+            $table->string("tipo");
+            $table->integer("cantidad_computadoras")->nullable();
+            $table->unsignedBigInteger("id_institucion");
             $table->timestamps();
 
-            $table->foreign("ID_Institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("id_institucion")->references("id")->on("instituciones")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

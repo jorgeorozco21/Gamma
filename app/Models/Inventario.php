@@ -16,21 +16,21 @@ class Inventario extends Model
     protected $table = "inventarios";
 
     protected $fillable = [
-        "ID_Material",
-        "Cantidad_Disponible",
-        "Cantidad_Total",
-        "ID_Laboratorio"
+        "id_material",
+        "cantidad_disponible",
+        "cantidad_total",
+        "id_laboratorio"
     ];
 
     public function material(){
-        return $this->belongsTo(Material::class, "ID_Material");
+        return $this->belongsTo(Material::class, "id_material");
     }
 
     public function laboratorio(){
-        return $this->belongsTo(Laboratorio::class, "ID_Laboratorio");
+        return $this->belongsTo(Laboratorio::class, "id_laboratorio");
     }
 
     public function solicitudes(){
-        return $this->hasMany(Solicitud::class, "ID_Inventario");
+        return $this->hasMany(Solicitud::class, "id_inventario");
     }
 }

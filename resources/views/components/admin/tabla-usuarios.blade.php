@@ -20,32 +20,32 @@
                             <div class="flex items-center gap-3">
                                 <!-- Nombre Abreviado -->
                                 <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-[#7B1FA3] font-bold text-xs uppercase shrink-0">
-                                    {{ strtoupper(substr($usuario->Nombre_Usuario, 0, 2)) }}
+                                    {{ strtoupper(substr($usuario->nombre_usuario, 0, 2)) }}
                                 </div>
                                 <!-- Nombre de Usuario y Correo -->
                                 <div class="min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 truncate">{{ $usuario->Nombre_Usuario }}</p>
-                                    <p class="text-xs text-gray-400 truncate">{{ $usuario->Email }}</p>
+                                    <p class="text-sm font-bold text-gray-800 truncate">{{ $usuario->nombre_usuario }}</p>
+                                    <p class="text-xs text-gray-400 truncate">{{ $usuario->email }}</p>
                                 </div>
                             </div>
                         </td>
 
                         <!-- Nombre -->
                         <td class="px-6 py-4 text-sm text-gray-600 font-medium">
-                            {{ $usuario->Nombre }}
+                            {{ $usuario->nombre }}
                         </td>
 
                         <!-- Tipo de Usuario -->
                         <td class="flex flex-col px-6 py-4">
-                            @if ($usuario->Normal == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>@endif
-                            @if ($usuario->Encargado == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>@endif
-                            @if ($usuario->Mantenimiento == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>@endif
+                            @if ($usuario->normal == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>@endif
+                            @if ($usuario->encargado == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>@endif
+                            @if ($usuario->mantenimiento == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>@endif
                         </td>
 
                         <!-- Grado / Grupo -->
                         <td class="px-6 py-4 text-sm text-gray-500">
                             @if($usuario->nombreGrupo)
-                                {{ $usuario->Grado }}°{{ $usuario->Grupo }} - {{ $usuario->nombreGrupo }}
+                                {{ $usuario->grado }}°{{ $usuario->grupo }} - {{ $usuario->nombreGrupo }}
                             @else
                                 <span class="text-gray-300">Sin Grupo</span>
                             @endif
@@ -66,7 +66,7 @@
                                 </button>
 
                                 <!-- Eliminar -->
-                                <form action="{{ url('/Admin/Usuarios/'.$usuario->id) }}" method="post" class="inline">
+                                <form action="{{ url('/admin/usuarios/'.$usuario->id) }}" method="post" class="inline">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <button type="submit" title="Eliminar" class="p-2 text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('¿Deseas borrar el usuario?')">

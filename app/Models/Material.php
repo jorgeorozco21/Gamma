@@ -15,18 +15,18 @@ class Material extends Model
     protected $table = "materiales";
 
     protected $fillable = [
-        "Nombre",
-        "Descripcion",
-        "Tipo",
-        "ID_Institucion"
+        "nombre",
+        "descripcion",
+        "tipo",
+        "id_institucion"
     ];
 
     public function institucion(){
-        return $this->belongsTo(Institucion::class, "ID_Institucion");
+        return $this->belongsTo(Institucion::class, "id_institucion");
     }
 
     public function inventarios(){
-        return $this->hasMany(Inventario::class, "ID_Material");
+        return $this->hasMany(Inventario::class, "id_material");
     }
 
 }

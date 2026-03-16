@@ -17,9 +17,9 @@
         <label id="label-filtrar-tipo" for="filtrar-tipo" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Tipos de Usuario</label>
         <select id="filtrar-tipo" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] appearance-none cursor-pointer">
             <option value="Sin Filtro">Todos los tipos</option>
-            <option value="Normal">Normal</option>
-            <option value="Encargado">Encargado de Área</option>
-            <option value="Mantenimiento">Encargado de Mantenimiento</option>
+            <option value="normal">Normal</option>
+            <option value="encargado">Encargado de Área</option>
+            <option value="mantenimiento">Encargado de Mantenimiento</option>
         </select>
     </div>
 
@@ -29,7 +29,7 @@
         <select id="filtrar-grupo" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] appearance-none cursor-pointer">
             <option value="Sin Filtro">Todos los grupos</option>
             @foreach ($grupos as $grupo)
-                <option value="{{ $grupo->id }}">{{ $grupo->Grado }}°{{ $grupo->Grupo }} - {{ $grupo->Nombre }}</option>
+                <option value="{{ $grupo->id }}">{{ $grupo->grado }}°{{ $grupo->grupo }} - {{ $grupo->nombre }}</option>
             @endforeach
         </select>
     </div>
