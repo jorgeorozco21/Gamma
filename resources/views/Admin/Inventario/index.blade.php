@@ -124,6 +124,16 @@
             </table>
         </div>
 
+        <a href="{{ url('/archivo-inventario') }}">Archivo para carga masiva</a>
+
+        <form  action="{{ url('/carga-inventario') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="archivo">
+            <button type="submit">
+                Cargar
+            </button>
+        </form>
+
         @vite('resources/js/Admin/modal.js')
         @vite('resources/js/Admin/alertas.js')
         @vite('resources/js/Admin/crud_inventario.js')

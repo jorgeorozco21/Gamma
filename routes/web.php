@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CargaInventarioController;
 use App\Http\Controllers\CargaLaboratoriosController;
+use App\Http\Controllers\CargaMaterialesController;
 use App\Http\Controllers\CargaUsuariosController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\InventarioController;
@@ -322,6 +324,12 @@ Route::middleware('check.login')->group(function (){
     Route::post('/carga-usuario', [CargaUsuariosController::class, 'cargaMasivaUsuarios']);
 
     Route::post('/carga-laboratorio', [CargaLaboratoriosController::class, 'cargaMasivaLaboratorios']);
+
+    Route::post('/carga-materiales', [CargaMaterialesController::class, 'cargaMasivaMateriales']);
+
+    Route::post('/carga-inventario', [CargaInventarioController::class, 'cargaMasivaInventario']);
+
+    Route::get('/archivo-inventario', [InventarioController::class, 'archivoCarga']);
 });
 
 Route::get('/Generar/Hash/Contrasenas/Administradores', function(){

@@ -123,6 +123,16 @@
             </table>
         </div>
 
+        <div>
+            <form  action="{{ url('/carga-materiales') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="archivo">
+                <button type="submit">
+                    Cargar
+                </button>
+            </form>
+        </div>
+
         @vite('resources/js/Admin/modal.js')
         @vite('resources/js/Admin/alertas.js')
         @vite('resources/js/Admin/crud_materiales.js')

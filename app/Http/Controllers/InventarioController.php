@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ArchivoInventarioExport;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InventarioController extends Controller
 {
@@ -132,5 +134,10 @@ class InventarioController extends Controller
         $inventario->delete();
 
         return redirect()->route('admin.inventario.index')->with("success",'Informacion borrada correctamente');
+    }
+
+    public function archivoCarga()
+    {
+        return Excel::download(new ArchivoInventarioExport(), 'inventario.xlsx');
     }
 }

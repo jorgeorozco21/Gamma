@@ -24,21 +24,10 @@ class CargaUsuariosController extends Controller
         ]);
 
         $archivo = $request->file('archivo');
-        $extension = $archivo->getClientOriginalExtension();
 
-        if ($extension == "csv" || $extension == "xlsx" || $extension == "xls"){
+        $contenido = Excel::toCollection(new FilasImport, $archivo);
 
-            $contenido = Excel::toCollection(new FilasImport, $archivo);
-
-            $datos = json_decode($contenido[0], true);
-
-        }else if ($extension == "json"){
-
-            $contenido = file_get_contents($archivo->getRealPath());
-
-            $datos = json_decode($contenido, true);
-
-        }
+        $datos = json_decode($contenido[0], true);
 
         foreach ($datos as $usuario){
             $contrasena = Str::random(12);
