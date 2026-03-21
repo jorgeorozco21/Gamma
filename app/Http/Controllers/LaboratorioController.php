@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ArchivoLaboratoriosExport;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaboratorioController extends Controller
 {
@@ -120,5 +122,9 @@ class LaboratorioController extends Controller
         $laboratorio->delete();
 
         return redirect()->route('admin.laboratorios.index')->with('success',"Laboratorio borrado correctamente");
+    }
+
+    public function archivoCarga(){
+        return Excel::download(new ArchivoLaboratoriosExport, 'laboratorios.xlsx');
     }
 }

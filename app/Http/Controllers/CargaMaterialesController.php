@@ -22,12 +22,16 @@ class CargaMaterialesController extends Controller
 
         $contenido = Excel::toCollection(new FilasImport, $archivo);
 
-        $datos = json_decode($contenido[0], true);
+        $datos = $contenido[0]->filter(function ($fila){
+            return count(array_filter($fila->toArray())) == 3;
+        });
 
         foreach ($datos as $material){
             $material['tipo'] = strtolower($material['tipo']);
             $material['id_institucion'] = session('id_institucion');
-            Material::create($material);
+
+            //return response()->json($material);
+            Material::create($material->toArray());
         }
 
         return redirect()->route('admin.materiales.index')->with('success',"Informacion agregada correctamente");

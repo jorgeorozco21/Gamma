@@ -13,6 +13,8 @@
             </div>
         </div>
 
+        <a href="{{ url('/archivo-usuarios') }}">Archivo para carga masiva</a>
+
         <form action="{{ url('/carga-usuario') }}" method="post" enctype="multipart/form-data" 
                 class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
             @csrf

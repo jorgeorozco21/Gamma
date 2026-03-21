@@ -43,14 +43,14 @@ class DatosInventarioExport implements FromCollection, WithEvents, WithTitle
                     $valMat->setType(DataValidation::TYPE_LIST)
                             ->setAllowBlank(false)
                             ->setShowDropDown(true)
-                            ->setFormula1("='Materiales'!\$B\$2:\$B\${$cantMateriales}");
+                            ->setFormula1("='Materiales'!\$B\$1:\$B\${$cantMateriales}");
                     $hoja->getCell("A{$fila}")->setDataValidation($valMat);
 
                     $valLab = new DataValidation();
                     $valLab->setType(DataValidation::TYPE_LIST)
                             ->setAllowBlank(false)
                             ->setShowDropDown(true)
-                            ->setFormula1("='Laboratorios'!\$B\$2:\$B\${$cantLabs}");
+                            ->setFormula1("='Laboratorios'!\$B\$1:\$B\${$cantLabs}");
                     $hoja->getCell("C{$fila}")->setDataValidation($valLab);
                 }
 

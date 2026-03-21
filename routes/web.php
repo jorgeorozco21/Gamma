@@ -330,6 +330,12 @@ Route::middleware('check.login')->group(function (){
     Route::post('/carga-inventario', [CargaInventarioController::class, 'cargaMasivaInventario']);
 
     Route::get('/archivo-inventario', [InventarioController::class, 'archivoCarga']);
+
+    Route::get('/archivo-materiales', [MaterialController::class, 'archivoCarga']);
+
+    Route::get('/archivo-laboratorios', [LaboratorioController::class, 'archivoCarga']);
+
+    Route::get('/archivo-usuarios', [UsuarioController::class, 'archivoCarga']);
 });
 
 Route::get('/Generar/Hash/Contrasenas/Administradores', function(){

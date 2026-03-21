@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ArchivoMaterialesExport;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MaterialController extends Controller
 {
@@ -111,4 +113,9 @@ class MaterialController extends Controller
 
         return redirect()->route('admin.materiales.index')->with("success",'Material borrado correctamente');
     }
+
+    public function archivoCarga(){
+
+        return Excel::download(new ArchivoMaterialesExport, 'materiales.xlsx');
+    } 
 }

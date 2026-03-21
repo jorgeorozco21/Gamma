@@ -17,24 +17,26 @@ class CargaUsuariosController extends Controller
     public function cargaMasivaUsuarios(Request $request)
     {
         $request->validate([
-            'archivo' => 'required|file|mimes:csv,xlsx,xls,json'
+            'archivo' => 'required|file|mimes:xlsx,xls'
         ],[
             "archivo.required" => "Tienes que subir un archivo",
-            "archivo.mimes" => "Solo se permiten archivos .csv, .xlsx, .xls, .json"
+            "archivo.mimes" => "Solo se permiten archivos .xlsx, .xls"
         ]);
 
         $archivo = $request->file('archivo');
 
         $contenido = Excel::toCollection(new FilasImport, $archivo);
 
-        $datos = json_decode($contenido[0], true);
+        $datos = $contenido[0]->filter(function ($fila){
+            return count(array_filter($fila->toArray())) >= 6;
+        });
 
         foreach ($datos as $usuario){
             $contrasena = Str::random(12);
             $contrasenaHash = Hash::make($contrasena);
 
             $registro = [];
-            if ($usuario["grado"] == null || $usuario["grupo"] == null || $usuario["nombre_especialidad"] == null){
+            if ($usuario['id_grupo'] == null){
 
                 $registro = [
                     "nombre_usuario" => $usuario["nombre_usuario"],
@@ -42,9 +44,9 @@ class CargaUsuariosController extends Controller
                     "contrasena" => $contrasenaHash,
                     "nombre" => $usuario["nombre"],
                     "admin" => "0",
-                    "mantenimiento" => $usuario["mantenimiento"],
-                    "encargado" => $usuario["encargado"],
-                    "normal" => $usuario["normal"],
+                    "mantenimiento" => ($usuario["mantenimiento"] == "Si")?'1':'0',
+                    "encargado" => ($usuario["encargado"] == "Si")?'1':'0',
+                    "normal" => ($usuario["normal"] == "Si")?'1':'0',
                     "id_institucion" => session("id_institucion")
                 ];
 
@@ -55,7 +57,7 @@ class CargaUsuariosController extends Controller
                     ->select(
                         "g.id"
                     )
-                    ->where("g.nombre","=",$usuario["nombre_especialidad"])->where("g.grado","=",$usuario["grado"])->where("g.grupo","=",$usuario["grupo"])
+                    ->whereRaw("CONCAT(g.grado,'-',g.grupo,'-',g.nombre) = ?", [$usuario['id_grupo']])
                     ->first()
                 ;
 
@@ -67,9 +69,9 @@ class CargaUsuariosController extends Controller
                     "contrasena" => $contrasenaHash,
                     "nombre" => $usuario["nombre"],
                     "admin" => "0",
-                    "mantenimiento" => $usuario["mantenimiento"],
-                    "encargado" => $usuario["encargado"],
-                    "normal" => $usuario["normal"],
+                    "mantenimiento" => ($usuario["mantenimiento"] == "Si")?'1':'0',
+                    "encargado" => ($usuario["encargado"] == "Si")?'1':'0',
+                    "normal" => ($usuario["normal"] == "Si")?'1':'0',
                     "id_grupo" => $id,
                     "id_institucion" => session("id_institucion")
                 ];

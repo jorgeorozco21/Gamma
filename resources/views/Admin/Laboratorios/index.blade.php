@@ -121,6 +121,8 @@
             </table>
         </div>
 
+        <a href="{{ url('/archivo-laboratorios') }}">Archivo para carga masiva</a>
+
         <div>
             <form  action="{{ url('/carga-laboratorio') }}" method="post" enctype="multipart/form-data">
                 @csrf

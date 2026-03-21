@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ArchivoUsuariosExport;
 use App\Mail\ContrasenaNuevaMail;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\UsuarioCreadoMail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsuarioController extends Controller
 {
@@ -230,4 +232,9 @@ class UsuarioController extends Controller
             'message' => 'Contraseña cambiada correctamente'
         ]);
     }
+
+    public function archivoCarga(){
+
+        return Excel::download(new ArchivoUsuariosExport, 'usuarios.xlsx');
+    } 
 }

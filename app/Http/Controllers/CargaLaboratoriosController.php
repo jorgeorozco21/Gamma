@@ -19,23 +19,12 @@ class CargaLaboratoriosController extends Controller
         ]);
 
         $archivo = $request->file('archivo');
-        $columnasEsperadas = ['nombre','tipo','cantidad_computadoras'];
-
 
         $contenido = Excel::toCollection(new FilasImport, $archivo);
 
-        // Tomamos la primera fila como referencia de cabeceras
-        $headers = $contenido[0][0]->keys()->toArray();
-
-        // Validamos que todas las columnas esperadas estén presentes
-        $missing = array_diff($columnasEsperadas, $headers);
-        if (!empty($missing)) {
-            return back()->withErrors([
-                'archivo' => 'Formato de archivo invalido.'
-            ]);
-        }
-
-        $datos = json_decode($contenido[0], true);
+        $datos = $contenido[0]->filter(function ($fila){
+            return count(array_filter($fila->toArray())) >= 2;
+        });
 
         foreach ($datos as $laboratorio){
             $laboratorio['tipo'] = strtolower($laboratorio['tipo']);
