@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-});
-
 Route::middleware('check.login')->group(function (){
 
     Route::get('/admin', function(){
@@ -342,6 +338,12 @@ Route::get('/Generar/Hash/Contrasenas/Administradores', function(){
     $contrasena = Hash::make('hola');
     
     return response()->json($contrasena);
+});
+
+Route::get('/', function () {
+    session()->forget(['id_usuario', 'id_institucion']);
+    
+    return view('index');
 });
 
 Route::get('/materiales', function(){

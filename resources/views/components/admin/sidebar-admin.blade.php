@@ -1,3 +1,4 @@
+@props(['admin'])
 <button id="abrir-sidebar" class="md:hidden fixed top-4 left-4 z-[60] bg-white p-2.5 rounded-xl border border-gray-100 shadow-lg text-[#7B1FA3] transition-all duration-300">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -78,8 +79,8 @@
             <div class="flex items-center gap-3">
                 <img src="https://ui-avatars.com/api/?name=Admin+User&background=6B7280&color=fff" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" alt="User">
                 <div class="leading-tight">
-                    <p class="text-xs font-bold text-gray-800">Admin User</p>
-                    <p class="text-[10px] text-gray-400">admin@system.com</p>
+                    <p class="text-xs font-bold text-gray-800">{{ $admin->nombre_usuario }}</p>
+                    <p class="text-[10px] text-gray-400">{{ $admin->email }}</p>
                 </div>
             </div>
             <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">

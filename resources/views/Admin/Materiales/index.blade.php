@@ -7,6 +7,16 @@
         <title>Admin</title>
     </head>
     <body>
+        @if ($errors->errores_excel->any())
+            <div>
+                <h2>Errores Carga Masiva</h2>
+                <ul>
+                    @foreach ($errors->errores_excel->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @if ($errors->any())
             <div class="alerta errores">
                 <h2>Errores</h2>

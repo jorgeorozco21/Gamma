@@ -41,21 +41,21 @@ class DatosUsuarioExport implements FromCollection, WithTitle, WithEvents
                     $matenimiento->setType(DataValidation::TYPE_LIST)
                             ->setAllowBlank(false)
                             ->setShowDropDown(true)
-                            ->setFormula1('"Si,No"');
+                            ->setFormula1('"si,no"');
                     $hoja->getCell("D{$fila}")->setDataValidation($matenimiento);
 
                     $encargado = new DataValidation();
                     $encargado->setType(DataValidation::TYPE_LIST)
                             ->setAllowBlank(false)
                             ->setShowDropDown(true)
-                            ->setFormula1('"Si,No"');
+                            ->setFormula1('"si,no"');
                     $hoja->getCell("E{$fila}")->setDataValidation($encargado);
 
                     $normal = new DataValidation();
                     $normal->setType(DataValidation::TYPE_LIST)
                             ->setAllowBlank(false)
                             ->setShowDropDown(true)
-                            ->setFormula1('"Si,No"');
+                            ->setFormula1('"si,no"');
                     $hoja->getCell("F{$fila}")->setDataValidation($normal);
 
                     $valGrupo = new DataValidation();

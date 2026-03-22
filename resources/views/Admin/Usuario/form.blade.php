@@ -8,7 +8,7 @@
 
     <div>
         <label for="email" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
-        <input type="email" id="email" name="email" 
+        <input type="text" id="email" name="email" 
                 class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all"
                 placeholder="correo@ejemplo.com" autocomplete="off">
     </div>

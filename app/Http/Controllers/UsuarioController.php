@@ -21,6 +21,16 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $admin = 
+            DB::table('usuarios as u')
+            ->select(
+                'u.nombre_usuario',
+                'u.email'
+            )
+            ->where('u.id','=',session('id_usuario'))
+            ->first()
+        ;
+
         $usuarios = 
             DB::table("usuarios as u")
             ->leftJoin("grupos as g","g.id","=","u.id_grupo")
@@ -57,7 +67,7 @@ class UsuarioController extends Controller
             ->get()
         ;
 
-        return view('Admin.Usuario.index',compact('usuarios','grupos'));
+        return view('Admin.Usuario.index',compact('usuarios','grupos','admin'));
     }
 
     /**
@@ -76,17 +86,43 @@ class UsuarioController extends Controller
         $datosUsuario = $request->except('_token');
 
         $validator = Validator::make($request->all(), [
-            "nombre_usuario" => "required|string|max:255",
-            "email" => "required|string|max:255",
-            "nombre" => "required|string|max:255",
+            'nombre_usuario' => "required|string|max:255|unique:usuarios,nombre_usuario",
+            'email' => "required|email|max:255|unique:usuarios,email",
+            'nombre' => "required|string|max:255",
         ],[
-            "nombre_usuario.required" => "El Nombre de usuario es Obligatorio",
-            "nombre_usuario.max" => "El Nombre de Usuario no puede exceder los 255 caracteres",
-            "email.required" => "El Email es obligatorio",
-            "email.max" => "El Email no puede exceder los 255 caracteres",
-            "nombre.required" => "El Nombre es obligatorio",
-            "nombre.max" => "El Nombre no puede exceder los 255 caractres"
+            'nombre_usuario.required' => "El Nombre de Usuario es obligatorio",
+            'nombre_usuario.max' => "El Nombre de Usuario de debe de exceder los 255 caracteres",
+            'nombre_usuario.unique' => "Nombre de Usuario ya existente",
+            'email.required' => "El Email es obligatorio",
+            'email.email' => "Email invalido",
+            'email.max' => "El email no debe exceder los 255 caracteres",
+            'email.unique' => "Email ya registrado",
+            'nombre.required' => "El Nombre es obligatorio",
+            'nombre.max' => "El Nombre no debe de exceder los 255 caracteres",
         ]);
+
+        $institucion = 
+            DB::table("instituciones as i")
+            ->select(
+                "i.tag"
+            )
+            ->where("i.id","=",session('id_institucion'))
+            ->first()
+        ;
+
+        $tag = $institucion->tag;
+
+        if (!str_starts_with($datosUsuario['nombre_usuario'], $tag) && $datosUsuario['nombre_usuario'] != null){
+            $validator->after(function ($validator) use ($tag){
+                $validator->errors()->add('nombre_usuario', "El Nombre de Usuario debe iniciar con el prefijo '{$tag}'.");
+            });
+        }
+
+        if (str_contains($datosUsuario['nombre_usuario'], ' ') && $datosUsuario['nombre_usuario'] != null) {
+            $validator->after(function ($validator){
+                $validator->errors()->add('nombre_usuario', "El Nombre de Usuario no puede contener espacios.");
+            });
+        }
 
         $contrasena = Str::random(12);
         $datosUsuario['contrasena'] = Hash::make($contrasena);
@@ -154,17 +190,53 @@ class UsuarioController extends Controller
         $datosUsuario = $request->except("_token","_method");
 
         $validator = Validator::make($request->all(), [
-            "nombre_usuario" => "required|string|max:255",
-            "email" => "required|string|max:255",
-            "nombre" => "required|string|max:255",
+            'nombre_usuario' => "required|string|max:255",
+            'nombre' => "required|string|max:255",
         ],[
-            "nombre_usuario.required" => "El Nombre de usuario es Obligatorio",
-            "nombre_usuario.max" => "El Nombre de Usuario no puede exceder los 255 caracteres",
-            "email.required" => "El Email es obligatorio",
-            "email.max" => "El Email no puede exceder los 255 caracteres",
-            "nombre.required" => "El Nombre es obligatorio",
-            "nombre.max" => "El Nombre no puede exceder los 255 caractres"
+            'nombre_usuario.required' => "El Nombre de Usuario es obligatorio",
+            'nombre_usuario.max' => "El Nombre de Usuario de debe de exceder los 255 caracteres",
+            'nombre.required' => "El Nombre es obligatorio",
+            'nombre.max' => "El Nombre no debe de exceder los 255 caracteres",
         ]);
+
+        $institucion = 
+            DB::table("instituciones as i")
+            ->select(
+                "i.tag"
+            )
+            ->where("i.id","=",session('id_institucion'))
+            ->first()
+        ;
+
+        $tag = $institucion->tag;
+
+        if (!str_starts_with($datosUsuario['nombre_usuario'], $tag) && $datosUsuario['nombre_usuario'] != null){
+            $validator->after(function ($validator) use ($tag){
+                $validator->errors()->add('nombre_usuario', "El Nombre de Usuario debe iniciar con el prefijo '{$tag}'.");
+            });
+        }
+
+        $infoAnterior = Usuario::where('id','=',$id)->first();
+
+        $existe = 
+            Usuario::where('nombre_usuario',"=",$datosUsuario['nombre_usuario'])->where('nombre_usuario','!=',$infoAnterior['nombre_usuario'])->first();
+        ;
+
+        if ($existe){
+            $validator->after(function ($validator){
+                $validator->errors()->add('nombre_usuario', "Nombre de Usuario ya existete.");
+            });
+        }
+
+        if (str_contains($datosUsuario['nombre_usuario'], ' ') && $datosUsuario['nombre_usuario'] != null) {
+            $validator->after(function ($validator){
+                $validator->errors()->add('nombre_usuario', "El Nombre de Usuario no puede contener espacios.");
+            });
+        }
+
+        $contrasena = Str::random(12);
+        $datosUsuario['contrasena'] = Hash::make($contrasena);
+        $datosUsuario['admin'] = "0";
 
         $band = false;
 

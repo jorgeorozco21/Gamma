@@ -10,6 +10,10 @@ class LoginController extends Controller
 {
     public function index()
     {
+        if (session()->has('id_institucion')) {
+            session()->forget(['id_usuario', 'id_institucion']);
+        }
+
         return view('Login.index');
     }
 

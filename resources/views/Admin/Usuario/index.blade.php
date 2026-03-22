@@ -15,7 +15,7 @@
 
     <div class="flex h-full">
         <!-- Sidebar -->
-        <x-admin.sidebar-admin />
+        <x-admin.sidebar-admin :admin="$admin" />
 
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
             
@@ -47,6 +47,16 @@
             </header>
 
             <div class="flex-1 overflow-y-auto p-8 pt-0 no-scrollbar space-y-8">
+                @if ($errors->errores_excel->any())
+                    <div>
+                        <h2>Errores Carga Masiva</h2>
+                        <ul>
+                            @foreach ($errors->errores_excel->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             
                 <!-- Alertas -->
                 <x-admin.alertas-usuarios />
@@ -97,7 +107,7 @@
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
-                        <input type="email" id="email-edit" name="email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400" autocomplete="off">
+                        <input type="text" id="email-edit" name="email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400" autocomplete="off">
                     </div>
 
                     <div>
