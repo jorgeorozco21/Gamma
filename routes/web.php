@@ -358,6 +358,18 @@ Route::get('/laboratorios', function(){
     return view('Normal.laboratorios');
 })->name('laboratorios');
 
+Route::get('/reportes', function(){
+    return view('Encargado_Mantenimiento.index');
+})->name('reportes');
+
+Route::get('/solicitudes-pendientes', function(){
+    return view('Encargado_Area.solicitudes-pendientes');
+})->name('solicitudes-pendientes');
+
+Route::get('/solicitudes-aceptadas', function(){
+    return view('Encargado_Area.solicitudes-aceptadas');
+})->name('solicitudes-aceptadas');
+
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');
