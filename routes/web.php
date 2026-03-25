@@ -370,6 +370,14 @@ Route::get('/solicitudes-aceptadas', function(){
     return view('Encargado_Area.solicitudes-aceptadas');
 })->name('solicitudes-aceptadas');
 
+Route::get('/solicitudes-pendientes-computo', function(){
+    return view('Encargado_Area.solicitudes-pendientes-computo');
+})->name('solicitudes-pendientes-computo');
+
+Route::get('/solicitudes-aceptadas-computo', function(){
+    return view('Encargado_Area.solicitudes-aceptadas-computo');
+})->name('solicitudes-aceptadas-computo');
+
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');

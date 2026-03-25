@@ -12,8 +12,8 @@
     </head>
     <body class="h-full overflow-hidden">
         <div class="flex h-full">
-        <!-- Sidebar Encargado de Area -->
-        <x-encargado-area.sidebar-encargado-area />
+        <!-- Sidebar -->
+        <x-sidebar-general />
 
         <!-- Contenedor -->
         <main class="flex-1 flex flex-col overflow-hidden bg-[#F9FAFB]">
@@ -46,7 +46,11 @@
             </header>
 
             <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
-
+                <!-- Filtro de Solicitudes -->
+                <x-encargado-area.filtro-solicitudes />
+                
+                <!-- Tabla de Solicitudes Aceptadas -->
+                <x-encargado-area.tabla-solicitudes-aceptadas />
             </div>
         </main>
         </div>

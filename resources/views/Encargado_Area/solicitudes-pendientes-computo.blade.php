@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Solicitudes Pendientes</title>
+        <title>Solicitudes Pendientes de Computo</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -50,7 +50,7 @@
                 <x-encargado-area.filtro-solicitudes />
 
                 <!-- Tabla de Solicitudes -->
-                <x-encargado-area.tabla-solicitudes />
+                <x-encargado-area.tabla-solicitudes-computo />
             </div>
         </main>
         </div>

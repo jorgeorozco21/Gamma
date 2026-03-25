@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Solicitudes Pendientes</title>
+        <title>Solicitudes Aceptadas</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -48,9 +48,9 @@
             <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
                 <!-- Filtro de Solicitudes -->
                 <x-encargado-area.filtro-solicitudes />
-
-                <!-- Tabla de Solicitudes -->
-                <x-encargado-area.tabla-solicitudes />
+                
+                <!-- Tabla de Solicitudes Aceptadas -->
+                <x-encargado-area.tabla-solicitudes-computo-aceptadas />
             </div>
         </main>
         </div>

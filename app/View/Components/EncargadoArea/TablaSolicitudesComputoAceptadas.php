@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class SidebarEncargadoArea extends Component
+class TablaSolicitudesComputoAceptadas extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class SidebarEncargadoArea extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.sidebar-general');
+        return view('components.encargado-area.tabla-solicitudes-computo-aceptadas');
     }
 }

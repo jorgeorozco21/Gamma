@@ -1,7 +1,7 @@
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
     <div class="overflow-x-auto no-scrollbar">
-        <table class="w-full text-left border-collapse min-w-[900px]">
-            <!-- Encabezados de la Tabla -->
+        <table class="w-full text-left border-collapse min-w-[1000px]">
+            <!-- Encabezado de la Tabla -->
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Alumno</th>
@@ -9,14 +9,14 @@
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Materiales</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado de la Solicitud</th>
                 </tr>
             </thead>
             
             <tbody class="divide-y divide-gray-50">
                 <tr class="hover:bg-gray-50/50 transition-colors group">
-                    <!-- Nombre y Correo -->
                     <td class="px-6 py-4">
+                        <!-- Nombre y Correo -->
                         <div class="flex items-center gap-3">
                             <div class="min-w-0">
                                 <p class="text-sm font-bold text-gray-800 truncate">Jorge Alexander Orozco Mora</p>
@@ -26,22 +26,22 @@
                         </div>
                     </td>
 
-                    <!-- ID de Solicitud -->
+                    <!-- ID de la Solicitud -->
                     <td class="px-6 py-4 text-sm font-mono text-gray-500">
                         123456
                     </td>
 
                     <!-- Laboratorio -->
                     <td class="px-6 py-4">
-                        <span class="py-1 rounded-lg bg-black-50 text-black text-xs font-bold">
+                        <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
                             Laboratorio C
                         </span>
                     </td>
 
-                    <!-- Lista de Materiales -->
-                    <td class="px-6 py-4 justify-center">
+                    <!-- Lista de Materiales-->
+                    <td class="px-6 py-4">
                         <button type="button" onclick="openMaterialModal('123456', [{nombre: 'Arduino Uno', cantidad: 2}, {nombre: 'Cable USB', cantidad: 2},{nombre: 'Protoboard', cantidad: 1}])" 
-                            class="flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
+                            class="flex items-center gap-2 text-[#7B1FA3] group/btn">
                             <div class="p-1.5 bg-purple-100 rounded-lg">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -55,25 +55,26 @@
                         21/03/2026
                     </td>
 
-                    <!-- Acciones -->
-                    <td class="px-6 py-4">
-                        <div class="flex items-center justify-center gap-3">
-                            <!-- Aprobar Solicitud -->
-                            <form action="">
-                                <button type="submit" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all text-xs font-bold">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                    Aprobar
-                                </button>
-                            </form>
-
-                            <!-- Rechazar Solicitud -->
-                            <form action="">
-                                <button type="submit" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                                    Rechazar
-                                </button>
-                            </form>
-                        </div>
+                    <!-- Estado de la Solicitud -->
+                    <td class="px-6 py-4 text-center">
+                        <form class="flex items-center justify-center gap-2">
+                            <!-- Select de Estados -->
+                            <select class="text-[11px] font-bold uppercase tracking-wide bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-[#7B1FA3] cursor-pointer transition-all">
+                                <option value="prestamo">En Préstamo</option>
+                                <option value="recibido">Recibido</option>
+                            </select>
+                            
+                            <!-- Boton de Guardar -->
+                            <button type="submit" 
+                                class="p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
+                                title="Guardar cambio">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 21v-8H7v8"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3v4h8"/>
+                                </svg>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </tbody>
