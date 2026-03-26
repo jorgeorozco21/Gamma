@@ -378,6 +378,10 @@ Route::get('/solicitudes-aceptadas-computo', function(){
     return view('Encargado_Area.solicitudes-aceptadas-computo');
 })->name('solicitudes-aceptadas-computo');
 
+Route::get('/reportes', function(){
+    return view('Encargado_Mantenimiento.reportes');
+})->name('reportes');
+
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');

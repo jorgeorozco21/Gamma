@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Encargado_Mantenimiento;
+namespace App\View\Components\EncargadoMantenimiento;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -21,6 +21,6 @@ class TablaReportes extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.encargado_-mantenimiento.tabla-reportes');
+        return view('components.encargado-mantenimiento.tabla-reportes');
     }
 }
