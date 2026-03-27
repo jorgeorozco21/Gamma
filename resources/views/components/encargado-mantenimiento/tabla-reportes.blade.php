@@ -115,7 +115,7 @@
         const modal = document.getElementById('descripcion-modal');
         const descField = document.getElementById('descripcion-solicitud');
 
-        descField.value = description || "El alumno no proporcionó una descripción adicional para esta solicitud.";
+        descField.value = description;
 
         // Mostrar modal
         modal.classList.remove('hidden');
