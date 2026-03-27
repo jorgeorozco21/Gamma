@@ -8,6 +8,7 @@
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado del Mantenimiento</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
             
@@ -59,6 +60,14 @@
                                 </svg>
                             </button>
                         </form>
+                    </td>
+
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex justify-center">
+                            <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                Reportar
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
