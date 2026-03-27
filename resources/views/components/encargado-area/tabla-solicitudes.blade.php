@@ -15,7 +15,7 @@
             
             <tbody class="divide-y divide-gray-50">
                 <tr class="hover:bg-gray-50/50 transition-colors group">
-                    <!-- Nombre y Correo -->
+                    <!-- Nombre, Correo y Grado/Grupo -->
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
                             <div class="min-w-0">

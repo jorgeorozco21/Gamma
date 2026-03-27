@@ -16,7 +16,7 @@
             <tbody class="divide-y divide-gray-50">
                 <tr class="hover:bg-gray-50/50 transition-colors group">
                     <td class="px-6 py-4">
-                        <!-- Nombre y Correo -->
+                        <!-- Nombre, Correo y Grado/Grupo -->
                         <div class="flex items-center gap-3">
                             <div class="min-w-0">
                                 <p class="text-sm font-bold text-gray-800 truncate">Jorge Alexander Orozco Mora</p>

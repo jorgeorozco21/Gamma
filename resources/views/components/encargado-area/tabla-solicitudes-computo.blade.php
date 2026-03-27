@@ -15,7 +15,7 @@
             
             <tbody class="divide-y divide-gray-50">
                 <tr class="hover:bg-gray-50/50 transition-colors group">
-                    <!-- Nombre y Correo -->
+                    <!-- Nombre, Correo Grado/Grupo -->
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
                             <div class="min-w-0">
@@ -86,6 +86,7 @@
 <!-- Modal de Descripcion -->
 <div id="descripcion-Modal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
+    
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
             <!-- Encabezado -->
@@ -125,7 +126,7 @@
         const descField = document.getElementById('descripcion-solicitud');
 
         idLabel.innerText = '#' + requestId;
-        descField.value = description || "El alumno no proporcionó una descripción adicional para esta solicitud.";
+        descField.value = description;
 
         // Mostrar modal
         modal.classList.remove('hidden');
