@@ -85,7 +85,7 @@
 </div>
 
 <!-- Modal de Descripcion -->
-<div id="descripcion-Modal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
+<div id="descripcion-modal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
@@ -122,7 +122,7 @@
 
 <script>
     function openMaterialModal(requestId, description) {
-        const modal = document.getElementById('descripcion-Modal');
+        const modal = document.getElementById('descripcion-modal');
         const idLabel = document.getElementById('id-solicitud');
         const descField = document.getElementById('descripcion-solicitud');
 
@@ -135,7 +135,7 @@
     }
 
     function closeMaterialModal() {
-        const modal = document.getElementById('descripcion-Modal');
+        const modal = document.getElementById('descripcion-modal');
         modal.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
     }
