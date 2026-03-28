@@ -1,3 +1,4 @@
+@props(['laboratorio'])
 <nav class="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center relative z-40">
     <!-- Logo -->
     <div class="text-[#7B1FA3] font-extrabold text-xl tracking-tight">
@@ -7,11 +8,11 @@
     <!-- Header Menu (Computadora) -->
     @if(!request()->routeIs('laboratorios'))
         <div class="hidden md:flex justify-center gap-8 text-sm font-semibold">
-            <a href="{{ route('materiales') }}" class="transition-all {{ request()->routeIs('materiales') 
+            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-all {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
                     ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
                 Materiales
             </a>
-            <a href="{{ route('solicitudes') }}" class="transition-all {{ request()->routeIs('solicitudes') 
+            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-all {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') 
                     ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
                 Solicitudes
             </a>
@@ -22,20 +23,23 @@
     <div class="hidden md:flex items-center gap-4">
         <div class="flex flex-col leading-tight text-right">
             <span class="font-extrabold text-black text-sm">
-                Jonathan Orozco
+                {{ session('nombre_usuario') }}
             </span>
             <span class="text-xs text-gray-400">
-                Alumno
+                {{ session('nombre') }}
             </span>
         </div>
 
         <!-- Boton Cerrar Sesion -->
-        <button class="text-gray-400 hover:text-red-500 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-            </svg>
-        </button>
+        <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">
+            @csrf
+            <button class="text-gray-400 hover:text-red-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+            </button>
+        </form>
     </div>
 
     <!-- Menu de Hamburguesa (Movil) -->
@@ -60,37 +64,42 @@
     </button>
 
     <!-- Links (Movil) -->
-    <div class="flex flex-col gap-6 text-sm font-semibold">
-        <a href="{{ route('materiales') }}" class="transition-colors {{ request()->routeIs('materiales') 
-                ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
-            Materiales
-        </a>
+    @if(!request()->routeIs('laboratorios'))
+        <div class="flex flex-col gap-6 text-sm font-semibold">
+            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
+                    ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
+                Materiales
+            </a>
 
-        <a href="{{ route('solicitudes') }}" class="transition-colors {{ request()->routeIs('solicitudes') 
-                ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
-            Solicitudes
-        </a>
-    </div>
+            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') 
+                    ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
+                Solicitudes
+            </a>
+        </div>
+    @endif
 
     <!-- Usuario (Movil) -->
     <div class="mt-auto border-t pt-6">
         <div class="flex flex-col leading-tight mb-4">
             <span class="font-extrabold text-black text-sm">
-                Jonathan Orozco
+                {{ session('nombre_usuario') }}
             </span>
             <span class="text-xs text-gray-400">
-                Alumno
+                {{ session('nombre') }}
             </span>
         </div>
 
         <!-- Boton Cerrar Sesion (Movil)-->
-        <button class="flex items-center gap-2 text-gray-500 hover:text-red-500 transition font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-            </svg>
-            Cerrar sesión
-        </button>
+        <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">
+            @csrf
+            <button class="flex items-center gap-2 text-gray-500 hover:text-red-500 transition font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                Cerrar sesión
+            </button>
+        </form>
     </div>
 </div>
 

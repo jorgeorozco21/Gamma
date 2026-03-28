@@ -36,11 +36,7 @@ class Usuario extends Model
         return $this->belongsTo(Institucion::class, 'iD_institucion');
     }
 
-    public function solicitudes(){
-        return $this->hasMany(Solicitud::class, 'id_usuario');
-    }
-
-    public function auditorias(){
-        return $this->hasMany(Auditoria::class, "id_usuario");
+    public function solicitudEliminada(){
+        return $this->hasMany(SolicitudEliminada::class, "id_usuario");
     }
 }

@@ -27,35 +27,38 @@
     </div>
 
     <!-- Cards de Items -->
-    <div class="flex-1 overflow-y-auto space-y-4 pr-2">
-        <x-normal.items-solicitud />
+    <div id="contenedor-materiales-solicitar" class="flex-1 overflow-y-auto space-y-4 pr-2">
+        <!-- Aqui se llama al componente items-solicitud -->
     </div>
 
     <!-- Footer -->
     <div class="mt-6 pt-6 border-t border-gray-100">
-        <!-- Total de Items Seleccionados -->
-        <div class="flex justify-between items-center">
-            <span class="text-xs text-gray-500 font-medium">Total Items</span>
-            <span class="text-xl font-black text-gray-900">4</span>
-        </div>
-
         <!-- Boton de Enviar Solicitud -->
-        <button class="w-full mt-4 bg-purple-700 hover:bg-[#7B1FA3] text-white py-4 rounded-2xl font-bold transition-all">
-            Enviar Solicitud
-        </button>
+        @if (request()->routeIs('materiales'))
+            <button id="enviar" class="w-full mt-4 bg-purple-700 hover:bg-[#7B1FA3] text-white py-4 rounded-2xl font-bold transition-all">
+                Enviar Solicitud
+            </button>
+        @endif
+        @if (request()->routeIs('solicitudes'))
+            <button disabled id="eliminar-solicitud" class="w-full mt-4 bg-gray-400 text-white py-4 rounded-2xl font-bold transition-all">
+                Cancelar Solicitud
+            </button>
+        @endif
     </div>
 
 </aside>
 
-<!-- Boton de Ver Solicitud (Movil) -->
-<button id="openCart" class="fixed bottom-6 right-6 md:hidden bg-purple-700 text-white p-4 rounded-full shadow-xl transition-opacity duration-300">
-    <span class="text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                d="M5 8h14l-1 12H6L5 8zm3 0V6a4 4 0 118 0v2"/>
-        </svg>
-    </span>
-</button>
+@if (request()->routeIs('materiales'))
+    <!-- Boton de Ver Solicitud (Movil) -->
+    <button id="openCart" class="fixed bottom-6 right-6 md:hidden bg-purple-700 text-white p-4 rounded-full shadow-xl transition-opacity duration-300">
+        <span class="text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M5 8h14l-1 12H6L5 8zm3 0V6a4 4 0 118 0v2"/>
+            </svg>
+        </span>
+    </button>
+@endif
 
 <script>
     const cart = document.getElementById('cart');

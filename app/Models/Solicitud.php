@@ -16,11 +16,17 @@ class Solicitud extends Model
     protected $table = "solicitudes";
 
     protected $fillable = [
-        "id_usuario",
-        "id_inventario",
-        "cantidad",
+        "info_usuario",
+        "info_material",
+        "numero_computadora",
         "descripcion",
         "fecha"
+    ];
+
+    protected $casts = [
+        "info_usuario" => "array",
+        "info_material" => "array",
+        "fecha" => "datetime",
     ];
 
     public function usuario(){

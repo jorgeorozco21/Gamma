@@ -19,7 +19,7 @@
                     </div>
                     <!-- Buscador -->
                     <div class="relative w-80">
-                        <input type="text" placeholder="Buscar" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7B1FA3] outline-none transition">
+                        <input id="buscador" type="text" placeholder="Buscar" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7B1FA3] outline-none transition" autocomplete="off">
                             <span class="absolute left-3 top-2.5 text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -29,8 +29,12 @@
                     </div>
                 </div>
                 <!-- Componente Card Laboratorio-->
-                <x-normal.card-laboratorio />
+                <x-normal.card-laboratorio :laboratorios="$laboratorios" />
             </div>
         </main>
     </body>
+
+    <input type="hidden" id="info-buscador" value='@json($laboratorios)'>
+
+    @vite(['resources/js/Normal/laboratorios_normal.js'])
 </html>

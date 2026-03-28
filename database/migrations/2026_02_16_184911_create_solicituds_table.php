@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("id_usuario");
-            $table->unsignedBigInteger("id_inventario")->nullable();
-            $table->integer("cantidad")->nullable();
+            $table->jsonb('info_usuario')->nullable();
+            $table->jsonb('info_material')->nullable();
+            $table->integer('numero_computadora')->nullable();
             $table->text("descripcion")->nullable();
             $table->string("fecha");
             $table->timestamps();
-
-            $table->foreign("id_usuario")->references("id")->on("usuarios")->onUpdate("cascade");
-            $table->foreign("id_inventario")->references("id")->on("inventarios")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

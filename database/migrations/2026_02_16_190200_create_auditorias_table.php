@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("id_solicitud");
             $table->string("estado");
-            $table->unsignedBigInteger("id_usuario");
+            $table->jsonb("info_usuario");
             $table->string("fecha");
             $table->timestamps();
 
             $table->foreign("id_solicitud")->references("id")->on("solicitudes")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("id_usuario")->references("id")->on("usuarios")->onUpdate("cascade");
         });
     }
 

@@ -29,8 +29,4 @@ class Inventario extends Model
     public function laboratorio(){
         return $this->belongsTo(Laboratorio::class, "id_laboratorio");
     }
-
-    public function solicitudes(){
-        return $this->hasMany(Solicitud::class, "id_inventario");
-    }
 }

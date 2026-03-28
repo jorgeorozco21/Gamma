@@ -10,6 +10,8 @@ use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SolicitudEliminadaController;
+use App\Http\Controllers\SolicitudesController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -346,17 +348,221 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/materiales', function(){
-    return view('Normal.materiales');
+Route::get('/usuario/normal/laboratorios', function(){
+
+    $labAcceso = 
+        DB::table('usuarios as u')
+        ->join('grupos as g','g.id','=','u.id_grupo')
+        ->select(
+            'g.laboratorios'
+        )
+        ->where('u.id','=',session('id_usuario'))
+        ->first()
+    ;
+
+    $idLaboratorios = explode(',',$labAcceso->laboratorios);
+
+    $laboratorios = [];
+    foreach ($idLaboratorios as $id){
+        $infoLab = 
+            DB::table('laboratorios as l')
+            ->select(
+                'l.id',
+                'l.nombre',
+                'l.tipo'
+            )
+            ->where('l.id','=',$id)
+            ->first()
+        ;
+
+        $laboratorios[] = $infoLab;
+    }
+
+    return view('Normal.laboratorios', compact('laboratorios'));
+})->name('laboratorios');
+
+Route::get('/usuario/normal/laboratorios/{id}-laboratorio-normal', function($id){
+
+    $laboratorio =
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre'
+        )
+        ->where('l.id','=',$id)
+        ->first()
+    ;
+
+    $materiales = 
+        DB::table('inventarios as i')
+        ->join('materiales as m','m.id','=','i.id_material')
+        ->select(
+            'i.id',
+            'i.cantidad_disponible',
+            'i.cantidad_total',
+            'm.nombre',
+            'm.descripcion',
+            'm.tipo'
+        )
+        ->where('i.id_laboratorio','=',$id)
+        ->get()
+    ;
+
+    $usuario = 
+        DB::table('usuarios as u')
+        ->join('grupos as g','g.id','=','u.id_grupo')
+        ->select(
+            "u.id",
+            "u.nombre",
+            "u.email",
+            "g.grado",
+            "g.grupo",
+            "g.nombre as nombreGrupo"
+        )
+        ->where('u.id','=',session("id_usuario"))
+        ->first()
+    ;
+
+    return view('Normal.materiales',compact('laboratorio','materiales','usuario'));
 })->name('materiales');
 
-Route::get('/solicitudes', function(){
-    return view('Normal.solicitudes');
+Route::get('/usuario/normal/materiales', function (Illuminate\Http\Request $request){
+
+    $materiales = 
+        DB::table('inventarios as i')
+        ->join('materiales as m','m.id','=','i.id_material')
+        ->select(
+            'i.id',
+            'i.cantidad_disponible',
+            'i.cantidad_total',
+            'm.nombre',
+            'm.descripcion',
+            'm.tipo'
+        )
+        ->where('m.nombre','ilike','%'.$request->texto.'%')
+        ->where('i.id_laboratorio','=',$request->idLab)
+        ->get()
+    ;
+
+    return response()->json($materiales);
+});
+
+Route::get('/usuario/normal/actualizar-materiales', function (Illuminate\Http\Request $request){
+
+    $materiales = 
+        DB::table('inventarios as i')
+        ->join('materiales as m','m.id','=','i.id_material')
+        ->select(
+            'i.id',
+            'i.cantidad_disponible',
+            'i.cantidad_total',
+            'm.nombre',
+            'm.descripcion',
+            'm.tipo'
+        )
+        ->where('i.id_laboratorio','=',$request->idLab)
+        ->get()
+    ;
+
+    return response()->json($materiales);
+});
+
+Route::get('/usuario/normal/laboratorios/{id}-solicitudes', function($id){
+
+    $laboratorio =
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre'
+        )
+        ->where('l.id','=',$id)
+        ->first()
+    ;
+
+    $solicitudes_eliminadas = 
+        DB::table('solicitudes_eliminadas as s')
+        ->select(
+            's.id',
+            's.id_solicitud',
+            's.fecha'
+        )
+        ->where('s.id_usuario','=',session('id_usuario'))
+        ->where('s.id_laboratorio','=',$id)
+        ->get()
+    ;
+
+    $solicitudes = 
+        DB::table('solicitudes as s')
+        ->leftJoin('auditoria as a', function($join) {
+            $join->on('s.id', '=', 'a.id_solicitud')
+                ->whereRaw('a.id = (SELECT MAX(id) FROM auditoria WHERE id_solicitud = s.id)');
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            'a.estado'
+        )
+        ->where('s.info_usuario->idLaboratorio','=',$id)
+        ->where('s.info_usuario->id','=',session('id_usuario'))
+        ->get()
+    ;
+
+    return view('Normal.solicitudes',compact('laboratorio','solicitudes','solicitudes_eliminadas'));
 })->name('solicitudes');
 
-Route::get('/laboratorios', function(){
-    return view('Normal.laboratorios');
-})->name('laboratorios');
+Route::get('/usuario/normal/laboratorio/informacion-solicitud', function (Illuminate\Http\Request $request){
+
+    $materiales = 
+        DB::table('solicitudes as s')
+        ->select(
+            's.info_material'
+        )
+        ->where('s.id','=',$request->id)
+        ->first()
+    ;
+
+    return response()->json($materiales);
+
+});
+
+Route::get('/usuario/normal/actualizar-solicitudes', function (Illuminate\Http\Request $request){
+
+    $datos['solicitudes'] = 
+        DB::table('solicitudes as s')
+        ->leftJoin('auditoria as a', function($join) {
+            $join->on('s.id', '=', 'a.id_solicitud')
+                ->whereRaw('a.id = (SELECT MAX(id) FROM auditoria WHERE id_solicitud = s.id)');
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            'a.estado'
+        )
+        ->where('s.info_usuario->idLaboratorio','=',$request->id)
+        ->where('s.info_usuario->id','=',session('id_usuario'))
+        ->get()
+    ;
+
+    $datos['solicitudes_eliminadas'] = 
+        DB::table('solicitudes_eliminadas as s')
+        ->select(
+            's.id',
+            's.id_solicitud',
+            's.fecha'
+        )
+        ->where('s.id_usuario','=',session('id_usuario'))
+        ->where('s.id_laboratorio','=',$request->id)
+        ->get()
+    ;
+
+    return response()->json($datos);
+});
+
+Route::post('/usuario/normal/crear-solicitud', [SolicitudesController::class, 'store']);
+
+Route::delete('/usuario/normal/eliminar-solicitud/{id}', [SolicitudesController::class, 'destroy']);
+
+Route::delete('/usuario/normal/eliminar-solicitud-eliminada/{id}', [SolicitudEliminadaController::class, 'destroy']);
 
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 
