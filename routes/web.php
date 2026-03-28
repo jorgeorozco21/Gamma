@@ -564,6 +564,30 @@ Route::delete('/usuario/normal/eliminar-solicitud/{id}', [SolicitudesController:
 
 Route::delete('/usuario/normal/eliminar-solicitud-eliminada/{id}', [SolicitudEliminadaController::class, 'destroy']);
 
+Route::get('/reportes', function(){
+    return view('Encargado_Mantenimiento.index');
+})->name('reportes');
+
+Route::get('/solicitudes-pendientes', function(){
+    return view('Encargado_Area.solicitudes-pendientes');
+})->name('solicitudes-pendientes');
+
+Route::get('/solicitudes-aceptadas', function(){
+    return view('Encargado_Area.solicitudes-aceptadas');
+})->name('solicitudes-aceptadas');
+
+Route::get('/solicitudes-pendientes-computo', function(){
+    return view('Encargado_Area.solicitudes-pendientes-computo');
+})->name('solicitudes-pendientes-computo');
+
+Route::get('/solicitudes-aceptadas-computo', function(){
+    return view('Encargado_Area.solicitudes-aceptadas-computo');
+})->name('solicitudes-aceptadas-computo');
+
+Route::get('/reportes', function(){
+    return view('Encargado_Mantenimiento.reportes');
+})->name('reportes');
+
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');

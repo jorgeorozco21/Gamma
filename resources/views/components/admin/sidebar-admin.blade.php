@@ -11,7 +11,7 @@
     <div class="p-6 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-[#7B1FA3] rounded-xl flex items-center justify-center shadow-lg shadow-purple-100">
-                </div>
+            </div>
             <div>
                 <h1 class="text-sm font-extrabold text-[#7B1FA3] leading-none">GAMMA</h1>
             </div>
