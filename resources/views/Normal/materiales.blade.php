@@ -42,7 +42,7 @@
     <input type="hidden" id="id_usuario" value="{{ $usuario->id }}">
     <input type="hidden" id="nombre_usuario" value="{{ $usuario->nombre }}">
     <input type="hidden" id="email" value="{{ $usuario->email }}">
-    <input tyoe="hidden" id="grado" value="{{ $usuario->grado }}">
+    <input type="hidden" id="grado" value="{{ $usuario->grado }}">
     <input type="hidden" id="grupo" value="{{ $usuario->grupo }}">
     <input type="hidden" id="nombreGrupo" value="{{ $usuario->nombreGrupo }}">
 

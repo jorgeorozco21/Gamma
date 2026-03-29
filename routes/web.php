@@ -588,6 +588,11 @@ Route::get('/reportes', function(){
     return view('Encargado_Mantenimiento.reportes');
 })->name('reportes');
 
+Route::get('/solicitudes-computo', function(){
+    return view('Normal.solicitudes-computo');
+})->name('solicitudes-computo');
+
+
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');
