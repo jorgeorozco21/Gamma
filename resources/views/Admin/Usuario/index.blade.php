@@ -12,13 +12,10 @@
     </style>
 </head>
 <body class="h-full overflow-hidden">
-
     <div class="flex h-full">
         <!-- Sidebar -->
         <x-admin.sidebar-admin :admin="$admin" />
-
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
-            
             <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
                 <div class="flex items-center gap-4">
                     <button id="abrir-sidebar" class="md:hidden p-2 rounded-xl bg-gray-50 text-[#7B1FA3] hover:bg-purple-50 transition-colors">
@@ -35,14 +32,44 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3">
-                    <button id="abrir-modal" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                <!-- Boton con Opciones (Nuevo Usuario y Carga Masiva) -->
+                <div class="relative inline-block text-left" id="dropdown-container">
+                    <button id="btn-dropdown" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">
+                        <span>Nuevo</span>
+                        <svg class="w-3 h-3 ml-1 opacity-60 transition-transform duration-200" id="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span class="hidden xs:block">Nuevo Usuario</span>
-                        <span class="xs:hidden">Nuevo</span>
                     </button>
+                    <div id="dropdown-menu" class="absolute right-0 mt-2 w-56 origin-top-right bg-white border border-gray-100 rounded-2xl shadow-2xl opacity-0 scale-95 pointer-events-none transition-all duration-200 z-50 overflow-hidden">
+                        <div class="py-2">
+                            <!-- Nuevo Usuario -->
+                            <button id="abrir-modal" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-[#7B1FA3] transition-colors group">
+                                <div class="p-2 bg-purple-50 rounded-lg">
+                                    <svg class="w-4 h-4 text-[#7B1FA3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-bold block">Nuevo Usuario</p>
+                                </div>
+                            </button>
+
+                            <div class="h-px bg-gray-50 mx-4 my-1"></div>
+
+                            <!-- Carga Masiva -->
+                            <button id="abrir-carga-masiva" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-[#7B1FA3] transition-colors group">
+                                <div class="p-2 bg-purple-50 rounded-lg">
+                                    <svg class="w-4 h-4 text-[#7B1FA3]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-bold block">Carga Masiva</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -67,19 +94,17 @@
                 <!-- Tabla de Usuarios -->
                 <x-admin.tabla-usuarios :usuarios="$usuarios" />
 
-                <!-- Boton de Carga Masiva -->
-                <x-admin.carga-masiva-usuarios />
-
             </div>
         </main>
-    </div>
 
-    <div id="modal" style="display: none;" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <!-- Modal de Agregar Usuario -->
+    <div id="modal" style="display: none;" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
             <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                 <h3 class="font-extrabold text-gray-800">Registrar Usuario</h3>
                 <button id="cerrar-modal" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
             </div>
+            <!-- Form de Agregar Usuario -->
             <div class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
                 <form action="{{ route('admin.usuarios.store') }}" method="post" class="space-y-4">
                     @csrf
@@ -89,66 +114,56 @@
         </div>
     </div>
 
+    <!-- Modal de Editar Usuario -->
     <div id="modal-edit" style="display: none;" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
             <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                 <h3 class="font-extrabold text-gray-800">Editar Usuario</h3>
                 <button id="cerrar-modal-edit" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
             </div>
+            <!-- Formulario Editar Usuario -->
             <div class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
                 <form method="post" id="formulario-editar" class="space-y-4">
                     @csrf
                     {{ method_field('PATCH') }}
-                    
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre de Usuario</label>
-                        <input type="text" id="nombre-usuario-edit" name="nombre_usuario" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</label>
-                        <input type="text" id="email-edit" name="email" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400" autocomplete="off">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre Completo</label>
-                        <input type="text" id="nombre-completo-edit" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipos Usuario</label>
-                        <div class="flex">
-                            <label class="">
-                                <input type="hidden" name="normal" value="0">
-                                <input type="checkbox" id="tipo-normal-edit" name="normal"> Normal
-                            </label>
-                            <label class="">
-                                <input type="hidden" name="encargado" value="0">
-                                <input type="checkbox" id="tipo-encargado-edit" name="encargado"> Encargado de Area
-                            </label>
-                            <label class="">
-                                <input type="hidden" name="mantenimiento" value="0">
-                                <input type="checkbox" id="tipo-mantenimiento-edit" name="mantenimiento"> Encargado de Mantenimiento
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1" id="label-grupo-edit">Grupo</label>
-                        <select id="grupo-edit" name="id_grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
-                            @foreach ($grupos as $grupo)
-                                <option value="{{ $grupo->id }}">{{ $grupo->grado }} {{ $grupo->grupo }} {{ $grupo->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <input type="hidden" name="id_institucion" value="{{ session('id_institucion') }}">
-                    <button type="submit" class="w-full bg-[#7B1FA3] text-white font-bold py-3 rounded-2xl mt-4 hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">Actualizar Usuario</button>
+                    @include('Admin.Usuario.form_editar')
                 </form>
             </div>
         </div>
     </div>
 
-    @vite(['resources/js/Admin/crud_usuarios.js', 'resources/js/Admin/buscador_usuarios.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/modal.js'])
+    <!-- Modal de Carga Masiva -->
+    <div id="modal-carga" style="display: none;" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div id="content-carga" class="relative bg-white w-full max-w-md p-8 rounded-[30px] shadow-2xl transform transition-all duration-300 overflow-hidden">
+            <button id="cerrar-modal-carga" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-colors font-bold text-xl">✕</button>
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-[#7B1FA3] shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-gray-800">Carga Masiva</h2>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-widest">Importar Usuarios</p>
+                </div>
+            </div>
+            <!-- Descripcion Carga Masiva -->
+            <div class="mb-2 bg-gray-50 border border-gray-100 p-4 rounded-2xl">
+                <p class="text-[11px] text-gray-500 leading-relaxed">
+                    La <strong class="text-gray-700">Carga Masiva</strong> es una herramienta diseñada para importar grandes volúmenes de datos mediante un solo archivo. 
+                    En lugar de registrar cada cuenta manualmente, puedes subir una plantilla en formato <strong class="text-gray-700">.xlsx</strong> o <strong class="text-gray-700">.csv</strong> con toda la información y el sistema la procesará automáticamente.
+                </p>
+            </div>
+            <!-- Form Carga Masiva -->
+            <div class="max-h-[80vh] overflow-y-auto">
+                <form action="{{ url('/carga-usuario') }}" method="post" enctype="multipart/form-data" class="space-y-4">
+                    @csrf
+                    @include('Admin.Usuario.carga_masiva_usuarios')
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @vite(['resources/js/Admin/crud_usuarios.js', 'resources/js/Admin/buscador_usuarios.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/modal.js', 'resources/js/Admin/boton_modales.js'])
 </body>
 </html>
