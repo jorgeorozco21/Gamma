@@ -61,6 +61,18 @@ class LoginController extends Controller
 
                     return redirect('/usuario/normal/laboratorios');
                 }
+
+                if ($usuario->encargado == "1"){
+
+                    session([
+                        "id_usuario" => $usuario->id,
+                        "nombre_usuario" => $usuario->nombre_usuario,
+                        "nombre" => $usuario->nombre,
+                        "id_institucion" => $usuario->id_institucion
+                    ]);
+
+                    return redirect('/usuario/encargado/solicitudes-pendientes');
+                }
             }
             return view('Login.index');
         }

@@ -17,7 +17,7 @@ class Auditoria extends Model
     protected $fillable = [
         "id_solicitud",
         "estado",
-        "info'usuario",
+        "info_usuario",
         "fecha"
     ];
 

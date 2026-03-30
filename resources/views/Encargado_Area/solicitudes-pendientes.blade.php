@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Solicitudes Pendientes</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
@@ -47,12 +48,18 @@
 
                 <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
                     <!-- Filtro de Solicitudes -->
-                    <x-encargado-area.filtro-solicitudes />
+                    <x-encargado-area.filtro-solicitudes :laboratorios="$laboratorios" />
 
                     <!-- Tabla de Solicitudes -->
-                    <x-encargado-area.tabla-solicitudes />
+                    <x-encargado-area.tabla-solicitudes :solicitudes="$solicitudes" />
                 </div>
             </main>
         </div>
     </body>
+
+    <input type="hidden" id="id_usuario" value="{{ $usuario->id }}">
+    <input type="hidden" id="nombre" value="{{ $usuario->nombre }}">
+    <input type="hidden" id="email" value="{{ $usuario->email }}">
+
+    @vite(['resources/js/Encargado/solicitudes_pendientes.js'])
 </html>

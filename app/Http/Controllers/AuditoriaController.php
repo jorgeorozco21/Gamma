@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Solicitud;
-use App\Models\SolicitudEliminada;
+use App\Models\Auditoria;
 use Illuminate\Http\Request;
 
-class SolicitudEliminadaController extends Controller
+class AuditoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,11 +28,11 @@ class SolicitudEliminadaController extends Controller
      */
     public function store(Request $request)
     {
-        $infoSolicitud = $request->except('_token','_method');
+        $info = $request->except('_token','_method');
 
-        SolicitudEliminada::create($infoSolicitud);
+        $info['fecha'] = now();
 
-        Solicitud::findOrFail($infoSolicitud['id_solicitud'])->delete();
+        Auditoria::create($info);
 
         return response()->json('Todo bien');
     }
@@ -67,10 +66,6 @@ class SolicitudEliminadaController extends Controller
      */
     public function destroy(string $id)
     {
-        $solicitud = SolicitudEliminada::findOrFail($id);
-
-        $solicitud->delete();
-
-        return response()->json(['success' => true, 'message' => 'Eliminado correctamente']);
+        //
     }
 }
