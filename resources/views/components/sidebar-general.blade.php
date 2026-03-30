@@ -28,19 +28,19 @@
     <nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
         <!-- Encargado de Area (Solicitudes) -->
         <p class="font-bold text-sm"> Prestamos </p>
-        <a href="{{ url('solicitudes-pendientes') }}" 
-            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('solicitudes-pendientes') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
+        <a href="{{ url('/usuario/encargado/solicitudes-pendientes') }}" 
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('/usuario/encargado/solicitudes-pendientes') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
             <div class="relative">
-                <svg class="w-5 h-5 {{ request()->is('solicitudes-pendientes') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 {{ request()->is('/usuario/encargado/solicitudes-pendientes') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
             <span class="text-sm font-semibold">Solicitudes Pendientes</span>
         </a>
 
-        <a href="{{ url('solicitudes-aceptadas') }}" 
-            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('solicitudes-aceptadas') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
-            <svg class="w-5 h-5 {{ request()->is('solicitudes-aceptadas') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="{{ url('/usuario/encargado/solicitudes-aceptadas') }}" 
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('/usuario/encargado/solicitudes-aceptadas') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
+            <svg class="w-5 h-5 {{ request()->is('/usuario/encargado/solicitudes-aceptadas') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="text-sm font-semibold">Solicitudes Aceptadas</span>

@@ -23,7 +23,14 @@ class CheckLogin
         // 2. Ejecutar la petición
         $response = $next($request);
 
-        // 3. AGREGAR ESTO: Cabeceras para evitar el caché
-        return $response->header('Cache-Control','no-cache, no-store, max-age=0, must-revalidate')->header('Pragma','no-cache')->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT');
+        // 3. SOLUCIÓN: Solo aplicar cabeceras si el método existe
+        if (method_exists($response, 'header')) {
+            return $response->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+                            ->header('Pragma', 'no-cache')
+                            ->header('Expires', 'Sun, 02 Jan 1990 00:00:00 GMT');
+        }
+
+        // Si es un BinaryFileResponse (Excel), retornamos la respuesta tal cual
+        return $response;
     }
 }

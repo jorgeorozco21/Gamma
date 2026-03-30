@@ -1,3 +1,4 @@
+@props(['solicitudes'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
     <div class="overflow-x-auto no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[900px]">
@@ -13,69 +14,75 @@
                 </tr>
             </thead>
             
-            <tbody class="divide-y divide-gray-50">
-                <tr class="hover:bg-gray-50/50 transition-colors group">
-                    <!-- Nombre, Correo y Grado/Grupo -->
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="min-w-0">
-                                <p class="text-sm font-bold text-gray-800 truncate">Jorge Alexander Orozco Mora</p>
-                                <p class="text-[10px] text-gray-400 font-medium">jo296019@gmail.com</p>
-                                <p class="text-[10px] text-gray-400 font-medium">6° A Programacion</p>
+            <tbody id="contenedor-solicitudes" class="divide-y divide-gray-50">
+                @foreach ($solicitudes as $solicitud)
+
+                    @php
+                        
+                        $info = json_decode($solicitud->info_usuario)
+
+                    @endphp
+
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <!-- Nombre, Correo y Grado/Grupo -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 truncate">{{ $info->nombre }}</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">{{ $info->email }}</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">{{ $info->grado }} {{ $info->grupo }} {{ $info->nombreGrupo }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
 
-                    <!-- ID de Solicitud -->
-                    <td class="px-6 py-4 text-sm font-mono text-gray-500">
-                        123456
-                    </td>
+                        <!-- ID de Solicitud -->
+                        <td class="px-6 py-4 text-sm font-mono text-gray-500">
+                            {{ $solicitud->id }}
+                        </td>
 
-                    <!-- Laboratorio -->
-                    <td class="px-6 py-4">
-                        <span class="py-1 rounded-lg bg-black-50 text-black text-xs font-bold">
-                            Laboratorio C
-                        </span>
-                    </td>
+                        <!-- Laboratorio -->
+                        <td class="px-6 py-4">
+                            <span class="py-1 rounded-lg bg-black-50 text-black text-xs font-bold">
+                                {{ $info->nombreLaboratorio }}
+                            </span>
+                        </td>
 
-                    <!-- Lista de Materiales -->
-                    <td class="px-6 py-4 justify-center">
-                        <button type="button" onclick="openMaterialModal('123456', [{nombre: 'Arduino Uno', cantidad: 2}, {nombre: 'Cable USB', cantidad: 2},{nombre: 'Protoboard', cantidad: 1}])" 
-                            class="flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
-                            <div class="p-1.5 bg-purple-100 rounded-lg">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                </svg>
-                            </div>
-                        </button>
-                    </td>
+                        <!-- Lista de Materiales -->
+                        <td class="px-6 py-4 justify-center">
+                            <button type="button" onclick="openMaterialModal({{ $solicitud->id }}, {{ $solicitud->info_material }})" 
+                                class="flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
+                                <div class="p-1.5 bg-purple-100 rounded-lg">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </td>
 
-                    <!-- Fecha -->
-                    <td class="px-6 py-4 text-sm text-gray-500">
-                        21/03/2026
-                    </td>
+                        <!-- Fecha -->
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            {{ \Carbon\Carbon::parse($solicitud->fecha)->format('d/m/Y') }}
+                        </td>
 
-                    <!-- Acciones -->
-                    <td class="px-6 py-4">
-                        <div class="flex items-center justify-center gap-3">
-                            <!-- Aprobar Solicitud -->
-                            <form action="">
-                                <button type="submit" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all text-xs font-bold">
+                        <!-- Acciones -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-center gap-3">
+                                <!-- Aprobar Solicitud -->
+                                <button data-id="{{ $solicitud->id }}" class="aceptada flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all text-xs font-bold">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                     Aprobar
                                 </button>
-                            </form>
 
-                            <!-- Rechazar Solicitud -->
-                            <form action="">
-                                <button type="submit" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                <!-- Rechazar Solicitud -->
+                                <button data-id="{{ $solicitud->id }}" data-idlaboratorio="{{ $info->idLaboratorio }}" data-fecha="{{ $solicitud->fecha }}" class="rechazada flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                     Rechazar
                                 </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
+                            </div>
+                        </td>
+                    </tr>
+
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -110,7 +117,7 @@
 </div>
 
 <script>
-    function openMaterialModal(requestId, materials) {
+    function openMaterialModal(requestId, materiales) {
         const modal = document.getElementById('material-Modal');
         const listContainer = document.getElementById('material-Lista');
         const idLabel = document.getElementById('id-solicitud');
@@ -118,8 +125,7 @@
         listContainer.innerHTML = '';
         idLabel.innerText = '#' + requestId;
 
-        // Lista
-        materials.forEach(item => {
+        materiales.forEach(item => {
             const li = document.createElement('li');
             li.className = "flex items-center justify-between p-3 bg-gray-50/50 border-l-4 border-[#7B1FA3] rounded-r-xl shadow-sm";
             li.innerHTML = `

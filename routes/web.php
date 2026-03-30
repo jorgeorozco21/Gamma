@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\CargaInventarioController;
 use App\Http\Controllers\CargaLaboratoriosController;
 use App\Http\Controllers\CargaMaterialesController;
@@ -564,17 +565,251 @@ Route::delete('/usuario/normal/eliminar-solicitud/{id}', [SolicitudesController:
 
 Route::delete('/usuario/normal/eliminar-solicitud-eliminada/{id}', [SolicitudEliminadaController::class, 'destroy']);
 
-Route::get('/reportes', function(){
-    return view('Encargado_Mantenimiento.index');
-})->name('reportes');
+Route::get('/usuario/encargado/solicitudes-pendientes', function(){
 
-Route::get('/solicitudes-pendientes', function(){
-    return view('Encargado_Area.solicitudes-pendientes');
+    $laboratorios = 
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre'
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->get()
+    ;
+
+    $usuario = 
+        DB::table('usuarios as u')
+        ->select(
+            'u.id',
+            'u.nombre',
+            'u.email'
+        )   
+        ->where("u.id","=",session('id_usuario'))
+        ->first()
+    ;
+
+    $solicitudes = 
+        DB::table('solicitudes as s')
+        ->join('laboratorios as l', function($join) {
+            $join->on(
+                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                '=', 
+                'l.id'
+            );
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            's.info_usuario',
+            's.info_material'
+        )
+        ->where('l.id_institucion', '=', session('id_institucion'))
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+        ->get()
+    ;
+
+    return view('Encargado_Area.solicitudes-pendientes', compact('solicitudes','usuario','laboratorios'));
 })->name('solicitudes-pendientes');
 
-Route::get('/solicitudes-aceptadas', function(){
-    return view('Encargado_Area.solicitudes-aceptadas');
+Route::get('/usuario/encargado/actualizar-solicitudes-prestamos', function(Illuminate\Http\Request $request){
+
+    $solicitudes = 
+        DB::table('solicitudes as s')
+        ->join('laboratorios as l', function($join) {
+            $join->on(
+                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                '=', 
+                'l.id'
+            );
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            's.info_usuario',
+            's.info_material'
+        )
+        ->where('l.id_institucion', '=', session('id_institucion'))
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+        ->get()
+    ;
+
+    return response()->json($solicitudes);
+});
+
+Route::get('/api/usuario/encargado/solicitudes-pendientes', function(Illuminate\Http\Request $request){
+    $consulta = 
+        DB::table('solicitudes as s')
+        ->join('laboratorios as l', function($join) {
+            $join->on(
+                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                '=', 
+                'l.id'
+            );
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            's.info_usuario',
+            's.info_material'
+        )
+        ->where('l.id_institucion', '=', session('id_institucion'))
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+    ;
+
+    if ($request->filtro != "Sin Filtro"){
+        $consulta->where(DB::raw("s.info_usuario->>'idLaboratorio'"), '=', $request->filtro);
+    }
+
+    if ($request->texto) {
+        $consulta->where(function($q) use ($request) {
+            $term = '%' . $request->texto . '%';
+            $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
+            ->orWhere(DB::raw("s.info_usuario->>'nombre'"), 'ilike', $term);
+        });
+    }
+
+    $solicitudes = $consulta->get();
+
+    return response()->json($solicitudes);
+});
+
+Route::post('/usuario/encargado/actualizar-solicitudes', [AuditoriaController::class, 'store']);
+
+Route::post('/usuario/encargado/rechazar-solicitud-prestamos/{id}', [SolicitudEliminadaController::class, 'store']);
+
+Route::get('/usuario/encargado/solicitudes-aceptadas', function(){
+
+    $laboratorios = 
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre'
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->get()
+    ;
+
+    $usuario = 
+        DB::table('usuarios as u')
+        ->select(
+            'u.id',
+            'u.nombre',
+            'u.email'
+        )   
+        ->where("u.id","=",session('id_usuario'))
+        ->first()
+    ;
+
+    $solicitudes = 
+        DB::table('solicitudes as s')
+        ->join('auditoria as a', function($join) {
+            $join->on('s.id', '=', 'a.id_solicitud')
+                ->whereRaw('a.id = (SELECT MAX(id) FROM auditoria WHERE id_solicitud = s.id)');
+        })
+        ->join('laboratorios as l', function($join) {
+            $join->on(
+                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                '=', 
+                'l.id'
+            );
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            's.info_usuario',
+            's.info_material',
+            'a.estado'
+        )
+        ->where('a.estado','!=','recibido')
+        ->where('l.id_institucion', '=', session('id_institucion'))
+        ->get()
+    ;
+
+    return view('Encargado_Area.solicitudes-aceptadas', compact('laboratorios','solicitudes','usuario'));
 })->name('solicitudes-aceptadas');
+
+Route::get('/usuario/encargado/actualizar-solicitudes-aceptadas', function(Illuminate\Http\Request $request){
+    $solicitudes = 
+        DB::table('solicitudes as s')
+        ->join('auditoria as a', function($join) {
+            $join->on('s.id', '=', 'a.id_solicitud')
+                ->whereRaw('a.id = (SELECT MAX(id) FROM auditoria WHERE id_solicitud = s.id)');
+        })
+        ->join('laboratorios as l', function($join) {
+            $join->on(
+                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                '=', 
+                'l.id'
+            );
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            's.info_usuario',
+            's.info_material',
+            'a.estado'
+        )
+        ->where('a.estado','!=','recibido')
+        ->where('l.id_institucion', '=', session('id_institucion'))
+        ->get()
+    ;
+
+    return response()->json($solicitudes);
+});
+
+Route::get('/api/usuario/encargado/solicitudes-aceptadas', function(Illuminate\Http\Request $request){
+    $consulta = 
+        DB::table('solicitudes as s')
+        ->join('auditoria as a', function($join) {
+            $join->on('s.id', '=', 'a.id_solicitud')
+                ->whereRaw('a.id = (SELECT MAX(id) FROM auditoria WHERE id_solicitud = s.id)');
+        })
+        ->join('laboratorios as l', function($join) {
+            $join->on(
+                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                '=', 
+                'l.id'
+            );
+        })
+        ->select(
+            's.id',
+            's.fecha',
+            's.info_usuario',
+            's.info_material',
+            'a.estado'
+        )
+        ->where('a.estado','!=','recibido')
+        ->where('l.id_institucion', '=', session('id_institucion'))
+    ;
+
+    if ($request->filtro != "Sin Filtro"){
+        $consulta->where(DB::raw("s.info_usuario->>'idLaboratorio'"), '=', $request->filtro);
+    }
+
+    if ($request->texto) {
+        $consulta->where(function($q) use ($request) {
+            $term = '%' . $request->texto . '%';
+            $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
+            ->orWhere(DB::raw("s.info_usuario->>'nombre'"), 'ilike', $term);
+        });
+    }
+
+    $solicitudes = $consulta->get();
+
+    return response()->json($solicitudes);
+});
 
 Route::get('/solicitudes-pendientes-computo', function(){
     return view('Encargado_Area.solicitudes-pendientes-computo');
