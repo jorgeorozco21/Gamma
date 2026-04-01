@@ -111,21 +111,6 @@
         </main>
     </div>
 
-    <form action="{{ url('/logout') }}" method="POST">
-        @csrf
-        <button type="submit">Cerrar sesión</button>
-    </form>
-    
-    <div>
-        <ul>
-            <li><a href="{{ url('/admin/usuarios') }}">Usuarios</a></li>
-            <li><a href="{{ url('/admin/grupos') }}">Grupos</a></li>
-            <li><a href="{{ url('/admin/laboratorios') }}">Laboratorios</a></li>
-            <li><a href="{{ url('/admin/materiales') }}">Materiales</a></li>
-            <li><a href="{{ url('/admin/inventario') }}">Inventario</a></li>
-        </ul>
-    </div>
-
     <!-- Modal para crear  -->
     <div id="modal" style="display: none;" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">

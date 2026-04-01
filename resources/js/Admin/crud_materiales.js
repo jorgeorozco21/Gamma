@@ -2,11 +2,12 @@ const contendorModalEdit = document.getElementById("modal-edit");
 const cerrarModalEdit = document.getElementById("cerrar-modal-edit"); 
 
 document.addEventListener("click", function(e){ 
-    if(e.target.closest(".abrir-modal-edit")){ 
+    const boton = e.target.closest(".abrir-modal-edit");
 
+    if(boton){ 
         contendorModalEdit.style.display = "flex"; 
 
-        let id = e.target.dataset.id;
+        let id = boton.dataset.id;
         
         informacionEditar(id);
     } 
