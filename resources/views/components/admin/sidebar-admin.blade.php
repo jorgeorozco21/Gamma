@@ -76,14 +76,14 @@
     
     <div class="p-4 border-t border-gray-100">
         <div class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 pr-1">
                 <img src="https://ui-avatars.com/api/?name=Admin+User&background=6B7280&color=fff" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" alt="User">
-                <div class="leading-tight">
-                    <p class="text-xs font-bold text-gray-800">{{ $admin->nombre_usuario }}</p>
-                    <p class="text-[10px] text-gray-400">{{ $admin->email }}</p>
+                <div class="leading-tight min-w-0">
+                    <p class="text-xs font-bold text-gray-800 break-words">{{ $admin->nombre_usuario }}</p>
+                    <p class="text-[10px] text-gray-400 truncate" title="{{ $admin->email }}">{{ $admin->email }}</p>
                 </div>
             </div>
-            <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">
+            <form action="{{ url('/logout') }}" method="POST" class="border-l pl-2 border-gray-100">
                 @csrf
                 <button type="submit" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>

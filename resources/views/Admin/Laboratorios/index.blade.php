@@ -12,6 +12,8 @@
     </style>
 </head>
     <body class="h-full overflow-hidden">
+        <!-- Alertas -->
+        <x-admin.alertas-usuarios />
         <div class="flex h-full">
             <!-- Sidebar -->
 

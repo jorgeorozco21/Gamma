@@ -12,6 +12,8 @@
     </style>
 </head>
 <body class="h-full overflow-hidden">
+    <!-- Alertas -->
+    <x-admin.alertas-usuarios />
     <div class="flex h-full">
         <!-- Sidebar -->
         <x-admin.sidebar-admin :admin="$admin" />
@@ -73,7 +75,7 @@
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 pt-0 no-scrollbar space-y-8">
+            <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
                 @if ($errors->errores_excel->any())
                     <div>
                         <h2>Errores Carga Masiva</h2>
@@ -84,9 +86,6 @@
                         </ul>
                     </div>
                 @endif
-            
-                <!-- Alertas -->
-                <x-admin.alertas-usuarios />
 
                 <!-- Filtros -->
                 <x-admin.filtro-usuarios :grupos="$grupos" />

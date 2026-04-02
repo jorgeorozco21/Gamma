@@ -90,13 +90,13 @@ class UsuarioController extends Controller
             'email' => "required|email|max:255|unique:usuarios,email",
             'nombre' => "required|string|max:255",
         ],[
-            'nombre_usuario.required' => "El Nombre de Usuario es obligatorio",
-            'nombre_usuario.max' => "El Nombre de Usuario de debe de exceder los 255 caracteres",
+            'nombre_usuario.required' => "Nombre de Usuario es obligatorio",
+            'nombre_usuario.max' => "Nombre de Usuario no debe de exceder los 255 caracteres",
             'nombre_usuario.unique' => "Nombre de Usuario ya existente",
-            'email.required' => "El Email es obligatorio",
-            'email.email' => "Email invalido",
-            'email.max' => "El email no debe exceder los 255 caracteres",
-            'email.unique' => "Email ya registrado",
+            'email.required' => "Correo Electronico Obligatorio",
+            'email.email' => "Correo Electronico Invalido",
+            'email.max' => "El correo electronico no debe exceder los 255 caracteres",
+            'email.unique' => "Correo Electronico ya registrado",
             'nombre.required' => "El Nombre es obligatorio",
             'nombre.max' => "El Nombre no debe de exceder los 255 caracteres",
         ]);
@@ -194,7 +194,7 @@ class UsuarioController extends Controller
             'nombre' => "required|string|max:255",
         ],[
             'nombre_usuario.required' => "El Nombre de Usuario es obligatorio",
-            'nombre_usuario.max' => "El Nombre de Usuario de debe de exceder los 255 caracteres",
+            'nombre_usuario.max' => "El Nombre de Usuario no debe de exceder los 255 caracteres",
             'nombre.required' => "El Nombre es obligatorio",
             'nombre.max' => "El Nombre no debe de exceder los 255 caracteres",
         ]);
@@ -224,7 +224,7 @@ class UsuarioController extends Controller
 
         if ($existe){
             $validator->after(function ($validator){
-                $validator->errors()->add('nombre_usuario', "Nombre de Usuario ya existete.");
+                $validator->errors()->add('nombre_usuario', "Nombre de Usuario ya existente.");
             });
         }
 

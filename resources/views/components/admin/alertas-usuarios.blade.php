@@ -1,4 +1,4 @@
-<div class="max-w-5xl mx-auto space-y-3">
+<div class="fixed top-1 left-1/2 -translate-x-1/2 md:left-[57%] md:-translate-x-1/2 z-[100] w-full max-w-5xl px-4 space-y-3">
     
     @if ($errors->any())
         <div class="alerta-temporal bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl text-sm shadow-sm transition-all duration-500 transform" role="alert">
@@ -29,6 +29,6 @@
             alerta.style.opacity = '0';
             alerta.style.transform = 'translateY(-10px)';
             setTimeout(() => alerta.remove(), 500);
-        }, 5000);
+        }, 10000);
     });
 </script>
