@@ -1,15 +1,15 @@
 <div class="space-y-4">
     <div>
         <label for="nombre" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre</label>
-        <input type="text" id="nombre" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all">
+        <input type="text" id="nombre" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all" autocomplete="off">
     </div>
     <div>
         <label for="grado" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grado</label>
-        <input type="text" id="grado" name="grado" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all">
+        <input type="text" id="grado" name="grado" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all" autocomplete="off">
     </div>
     <div>
         <label for="grupo" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo</label>
-        <input type="text" id="grupo" name="grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all">
+        <input type="text" id="grupo" name="grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all" autocomplete="off">
     </div>
 
     <div>

@@ -18,8 +18,14 @@
                         <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $grupo->nombre }}</td>
                         <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $grupo->grado }}</td>
                         <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $grupo->grupo }}</td>
-                        <td>
-                            <button data-laboratorios="{{ $grupo->laboratorios }}" class="ver">Ver</button>
+                        <td class="px-6 py-4 justify-center">
+                            <button data-laboratorios="{{ $grupo->laboratorios }}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
+                                <div class="p-1.5 bg-purple-100 rounded-lg">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
+                                    </svg>
+                                </div>
+                            </button>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
@@ -39,5 +45,30 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Modal Laboratorios -->
+<div id="modal-laboratorios" class="fixed inset-0 z-[100] hidden overflow-y-auto">
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+            <!-- Encabezado -->
+            <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">
+                    Laboratorios
+                </h3>
+                <button id="cerrar-modal-laboratorios" 
+                    class="text-gray-400 hover:text-red-500 text-lg font-bold">
+                    ✕
+                </button>
+            </div>
+            <!-- Lista -->
+            <div class="px-6 py-6 h-[252px] overflow-y-auto">
+                <ul id="contenido-modal-laboratorios" class="space-y-3 text-sm text-gray-600">
+                    <!-- Aquí se insertan los laboratorios -->
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

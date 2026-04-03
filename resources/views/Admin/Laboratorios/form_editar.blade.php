@@ -1,6 +1,6 @@
 <div>
     <label for="nombre-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre</label>
-    <input type="text" id="nombre-edit" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]">
+    <input type="text" id="nombre-edit" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
 </div>
 <div>
     <label for="tipo-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipo de Laboratorio</label>
@@ -9,7 +9,7 @@
 </div>
 <div>
     <label for="cantidad-edit" id="label-cantidad-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Cantidad de Computadoras</label>
-    <input type="number" min="1" id="cantidad-edit" name="cantidad_computadoras" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]">
+    <input type="number" min="1" id="cantidad-edit" name="cantidad_computadoras" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
 </div>
 
 <input type="hidden" name="id_institucion" value="{{ session("id_institucion") }}">

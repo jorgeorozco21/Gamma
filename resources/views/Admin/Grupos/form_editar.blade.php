@@ -1,14 +1,14 @@
 <div>
     <label for="nombre-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nombre</label>
-    <input type="text" id="nombre-edit" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
+    <input type="text" id="nombre-edit" name="nombre" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
 </div>
 <div>
     <label for="grado-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grado</label>
-    <input type="text" id="grado-edit" name="grado" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
+    <input type="text" id="grado-edit" name="grado" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
 </div>
 <div>
     <label for="grupo-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo</label>
-    <input type="text" id="grupo-edit" name="grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]">
+    <input type="text" id="grupo-edit" name="grupo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3]" autocomplete="off">
 </div>
 <div>
     <label for="laboratorios" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Laboratorios</label>

@@ -126,6 +126,6 @@
             </div>
         </div>
 
-        @vite(['resources/js/Admin/modal.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/crud_inventario.js', 'resources/js/Admin/buscador_inventario.js', 'resources/js/Admin/boton_modales.js'])
+        @vite(['resources/js/Admin/modal.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/crud_inventario.js','resources/js/Admin/crud_grupos.js', 'resources/js/Admin/buscador_inventario.js', 'resources/js/Admin/boton_modales.js'])
     </body>
 </html>

@@ -59,14 +59,15 @@ const cerrarModalLaboratorios = document.getElementById("cerrar-modal-laboratori
 const contenidoModalLaboratorios = document.getElementById("contenido-modal-laboratorios");
 
 document.addEventListener("click", function(e){ 
-    if(e.target.closest(".ver")){ 
+    const boton = e.target.closest(".ver");
 
-        contendorModal.style.display = "flex"; 
+    if(boton){ 
+        contendorModal.classList.remove("hidden");
 
-        let informacion = e.target.dataset.laboratorios;
+        let informacion = boton.dataset.laboratorios;
         
         mostrarLaboratorios(informacion);
-    } 
+    }
 });
 
 async function obtenerInformacionLaboratorio(id){
@@ -78,18 +79,27 @@ async function obtenerInformacionLaboratorio(id){
 
 async function mostrarLaboratorios(informacion){
     contenidoModalLaboratorios.innerHTML = '';
-    const idLaboratorios = informacion.split(',');
-    let lista = '';
 
-    lista += '<ul>';
+    if(!informacion){
+        contenidoModalLaboratorios.innerHTML = 'Sin laboratorios';
+        return;
+    }
+
+    const idLaboratorios = informacion.split(',');
+    let lista = '<ul>';
 
     for (const id of idLaboratorios){
-        const inf = await obtenerInformacionLaboratorio(id);
+        const inf = await obtenerInformacionLaboratorio(id.trim());
 
-        lista += `
-            <li>${inf.nombre}</li>
+        lista += `<li class="flex items-center justify-between p-3 bg-gray-50/50 border-l-4 border-[#7B1FA3] rounded-r-xl shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-700 font-medium">
+                        ${inf.nombre}
+                    </span>
+                </div>
+            </li>
         `;
-    };
+    }
 
     lista += '</ul>';
 
@@ -97,7 +107,7 @@ async function mostrarLaboratorios(informacion){
 }
 
 cerrarModalLaboratorios.addEventListener("click",()=>{
-    contendorModal.style.display = "none";
+    contendorModal.classList.add("hidden");
 });
 
 const contendorModalEdit = document.getElementById("modal-edit");

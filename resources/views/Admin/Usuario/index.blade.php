@@ -9,11 +9,18 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Scroll personalizado */
+        .scroll-rojo::-webkit-scrollbar { width: 8px; }
+        .scroll-rojo::-webkit-scrollbar-track { background: #fee2e2; border-radius: 10px;}
+        .scroll-rojo::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 10px;}
+        .scroll-rojo::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
     </style>
 </head>
 <body class="h-full overflow-hidden">
     <!-- Alertas -->
     <x-admin.alertas-usuarios />
+    <x-admin.alertas-carga-masiva />
+    
     <div class="flex h-full">
         <!-- Sidebar -->
         <x-admin.sidebar-admin :admin="$admin" />
@@ -76,16 +83,6 @@
             </header>
 
             <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
-                @if ($errors->errores_excel->any())
-                    <div>
-                        <h2>Errores Carga Masiva</h2>
-                        <ul>
-                            @foreach ($errors->errores_excel->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
 
                 <!-- Filtros -->
                 <x-admin.filtro-usuarios :grupos="$grupos" />

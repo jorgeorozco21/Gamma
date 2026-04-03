@@ -9,11 +9,18 @@
         <style>
             .no-scrollbar::-webkit-scrollbar { display: none; }
             .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            /* Scroll personalizado */
+            .scroll-rojo::-webkit-scrollbar { width: 8px; }
+            .scroll-rojo::-webkit-scrollbar-track { background: #fee2e2; border-radius: 10px;}
+            .scroll-rojo::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 10px;}
+            .scroll-rojo::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
         </style>
     </head>
     <body class="h-full overflow-hidden">
         <!-- Alertas -->
         <x-admin.alertas-usuarios />
+        <x-admin.alertas-carga-masiva />
+        
         <div class="flex h-full">
             <!-- Sidebar -->
             
