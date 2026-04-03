@@ -28,7 +28,7 @@
         <a href="{{ url('/Admin/Dashboard') }}" 
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('Admin/Dashboard') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
             <svg class="w-5 h-5 {{ request()->is('Admin/Dashboard') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 12 2-2m0 0 7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11 2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1m-6 0v-7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10" />
             </svg>
             <span class="text-sm font-semibold">Dashboard</span>
         </a>
@@ -36,7 +36,7 @@
         <a href="{{ url('/admin/usuarios') }}" 
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('admin/usuarios') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
             <svg class="w-5 h-5 {{ request()->is('admin/usuarios') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span class="text-sm font-semibold">Usuarios</span>
         </a>
@@ -44,7 +44,7 @@
         <a href="{{ url('/admin/grupos') }}" 
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('admin/grupos') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
             <svg class="w-5 h-5 {{ request()->is('admin/grupos') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             <span class="text-sm font-semibold">Grupos</span>
         </a>
@@ -60,7 +60,7 @@
         <a href="{{ url('/admin/materiales') }}" 
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('admin/materiales') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
             <svg class="w-5 h-5 {{ request()->is('admin/materiales') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
             </svg>
             <span class="text-sm font-semibold">Materiales</span>
         </a>
@@ -76,14 +76,14 @@
     
     <div class="p-4 border-t border-gray-100">
         <div class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 pr-1">
                 <img src="https://ui-avatars.com/api/?name=Admin+User&background=6B7280&color=fff" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" alt="User">
-                <div class="leading-tight">
-                    <p class="text-xs font-bold text-gray-800">{{ $admin->nombre_usuario }}</p>
-                    <p class="text-[10px] text-gray-400">{{ $admin->email }}</p>
+                <div class="leading-tight min-w-0">
+                    <p class="text-xs font-bold text-gray-800 break-words">{{ $admin->nombre_usuario }}</p>
+                    <p class="text-[10px] text-gray-400 truncate" title="{{ $admin->email }}">{{ $admin->email }}</p>
                 </div>
             </div>
-            <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">
+            <form action="{{ url('/logout') }}" method="POST" class="border-l pl-2 border-gray-100">
                 @csrf
                 <button type="submit" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>

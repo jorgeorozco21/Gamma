@@ -1,0 +1,41 @@
+@props(['laboratorios'])
+<div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+                <tr class="border-b border-gray-100 bg-gray-50/50">
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipo de Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cantidad de Computadoras</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
+                </tr>
+            </thead>
+            <!-- En todos los archivos que se va a mostar la informacion la parte del tbody tiene que tener ese id para que funcione el filtro de informacion -->
+            <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
+                @foreach ($laboratorios as $laboratorio)
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->nombre }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->tipo }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->cantidad_computadoras }}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <!-- Editar -->
+                                <button class="abrir-modal-edit p-2 text-gray-400 hover:text-blue-500 transition-colors" data-id="{{ $laboratorio->id }}">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                </button>
+                                <!-- Eliminar -->
+                                <form action="{{ url('/admin/laboratorios/'.$laboratorio->id) }}" method="post" class="inline">
+                                    @csrf
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" value="Borrar" class="p-2 text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('Deseas borra el laboratorio ??')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -52,9 +52,6 @@ function generarRegistro(data){
             <tr class="hover:bg-gray-50/50 transition-colors group">
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-[#7B1FA3] font-bold text-xs">
-                            ${usuario.nombre_usuario ? usuario.nombre_usuario.substring(0, 2).toUpperCase() : '??'}
-                        </div>
                         <div>
                             <p class="text-sm font-bold text-gray-800">${usuario.nombre_usuario}</p>
                             <p class="text-xs text-gray-400">${usuario.email}</p>

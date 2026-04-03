@@ -1,7 +1,7 @@
 @props(['usuarios'])
 
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto no-scrollbar">
+    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
@@ -18,10 +18,6 @@
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <!-- Nombre Abreviado -->
-                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-[#7B1FA3] font-bold text-xs uppercase shrink-0">
-                                    {{ strtoupper(substr($usuario->nombre_usuario, 0, 2)) }}
-                                </div>
                                 <!-- Nombre de Usuario y Correo -->
                                 <div class="min-w-0">
                                     <p class="text-sm font-bold text-gray-800 truncate">{{ $usuario->nombre_usuario }}</p>
@@ -36,10 +32,12 @@
                         </td>
 
                         <!-- Tipo de Usuario -->
-                        <td class="flex flex-col px-6 py-4">
-                            @if ($usuario->normal == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>@endif
-                            @if ($usuario->encargado == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>@endif
-                            @if ($usuario->mantenimiento == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>@endif
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col h-full justify-center">
+                                @if ($usuario->normal == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>@endif
+                                @if ($usuario->encargado == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>@endif
+                                @if ($usuario->mantenimiento == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>@endif
+                            </div>
                         </td>
 
                         <!-- Grado / Grupo -->
