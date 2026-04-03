@@ -1,75 +1,88 @@
+@props(['reportes'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
     <div class="overflow-x-auto no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[1000px]">
             <!-- Encabezado de la Tabla -->
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Materiales Dañados</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">No. Computadora</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado del Mantenimiento</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado actual</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Proximo estado</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
             
-            <tbody class="divide-y divide-gray-50">
-                <tr class="hover:bg-gray-50/50 transition-colors group">
-                    <!-- Material Dañado -->
-                    <td class="px-6 py-4">
-                        <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
-                            Laboratorio C
-                        </span>
-                    </td>
+            <tbody id="contenedor-reportes" class="divide-y divide-gray-50">
+                @foreach ($reportes as $reporte)
+                    <tr class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="px-6 py-4">
+                            {{ $reporte->numero_computadora }}
+                        </td>
 
-                    <!-- Descripcion -->
-                    <td class="px-6 py-4 justify-center">
-                        <button type="button" 
-                            onclick="openMaterialModal('123456', 'Necesito la computadora para realizar la práctica de C++.')" 
-                            class="flex items-center gap-2 text-[#7B1FA3]"
-                            title="Ver Reporte">
-                            <div class="p-1.5 bg-purple-100 rounded-lg">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                </svg>
-                            </div>
-                        </button>
-                    </td>
+                        <!-- Material Dañado -->
+                        <td class="px-6 py-4">
+                            <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
+                                {{ $reporte->nombre }}
+                            </span>
+                        </td>
 
-                    <!-- Fecha -->
-                    <td class="px-6 py-4 text-sm text-gray-500">
-                        21/03/2026
-                    </td>
+                        <!-- Descripcion -->
+                        <td class="px-6 py-4 justify-center">
+                            <button type="button" 
+                                onclick="openMaterialModal('{{ $reporte->id }}', '{{ $reporte->descripcion }}')" 
+                                class="flex items-center gap-2 text-[#7B1FA3]"
+                                title="Ver Reporte">
+                                <div class="p-1.5 bg-purple-100 rounded-lg">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </td>
 
-                    <!-- Estado del Reporte -->
-                    <td class="px-6 py-4 text-center">
-                        <form class="flex items-center justify-center gap-2">
-                            <!-- Select de Estados -->
-                            <select class="text-[11px] font-bold uppercase tracking-wide bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-[#7B1FA3] cursor-pointer transition-all">
-                                <option value="proceso">En Proceso</option>
-                                <option value="recibido">Terminado</option>
-                            </select>
-                            
-                            <!-- Boton de Guardar -->
-                            <button type="submit" 
-                                class="p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
+                        <!-- Fecha -->
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            {{ \Carbon\Carbon::parse($reporte->fecha)->format('d/m/Y') }}
+                        </td>
+
+                        <!-- Estado del Reporte -->
+                        <td class="px-6 py-4 text-center">
+                            <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
+                                {{ $reporte->estado }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            @if ($reporte->estado == 'aceptada' || $reporte->estado == 'reprogramado')
+                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
+                                    En proceso
+                                </span>
+                            @endif
+                            @if ($reporte->estado == 'en proceso')
+                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
+                                    Reparado
+                                </span>
+                            @endif
+
+                            <button data-estado="{{ ($reporte->estado == 'aceptada')?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
+                                class="cambiar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]"
                                 title="Guardar cambio">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 21v-8H7v8"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3v4h8"/>
-                                </svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             </button>
-                        </form>
-                    </td>
+                        </td>
 
-                    <td class="px-6 py-4 text-center">
-                        <div class="flex justify-center">
-                            <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
-                                Reportar
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center">
+                                <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                    Reportar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -89,7 +102,7 @@
             <!-- Descripcion -->
             <div class="px-6 py-8">
                 <div class="relative group">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripción del Reporte</p>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripción del Problema</p>
                     <div class="relative">
                         <textarea id="descripcion-solicitud" readonly 
                             class="w-full p-5 bg-gray-50 border border-gray-100 rounded-[20px] text-sm text-gray-600 focus:outline-none resize-none h-40 leading-relaxed shadow-inner"

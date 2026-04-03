@@ -6,7 +6,7 @@
     </div>
 
     <!-- Header Menu (Computadora) -->
-    @if(!request()->routeIs('laboratorios'))
+    @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
         <div class="hidden md:flex justify-center gap-8 text-sm font-semibold">
             <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-all {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
                     ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
@@ -64,7 +64,7 @@
     </button>
 
     <!-- Links (Movil) -->
-    @if(!request()->routeIs('laboratorios'))
+    @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
         <div class="flex flex-col gap-6 text-sm font-semibold">
             <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
                     ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">

@@ -18,8 +18,6 @@ class Solicitud extends Model
     protected $fillable = [
         "info_usuario",
         "info_material",
-        "numero_computadora",
-        "descripcion",
         "fecha"
     ];
 

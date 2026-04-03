@@ -75,11 +75,11 @@
                         <td class="px-6 py-4 text-center">
                             <!-- Select de Estados -->
                             @if ($solicitud->estado == 'aceptada')
-                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
+                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
                                     En prestamo
                                 </span>
                             @elseif ($solicitud->estado == 'en prestamo')
-                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
+                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
                                     Recibido
                                 </span>
                             @endif

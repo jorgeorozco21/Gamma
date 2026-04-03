@@ -4,7 +4,7 @@
     @foreach ($laboratorios as $laboratorio)
         <!-- Card de Laboratorio -->
         @if ($laboratorio->tipo == 'prestamos')<a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="flex flex-col gap-2 cursor-pointer">@endif
-        @if ($laboratorio->tipo == 'computo')<a href="#" class="flex flex-col gap-2 cursor-pointer">@endif
+        @if ($laboratorio->tipo == 'computo')<a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-computo') }}" class="flex flex-col gap-2 cursor-pointer">@endif
             <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full">
                 <!-- Tipo de laboratorio -->
                 <div class="mb-4">

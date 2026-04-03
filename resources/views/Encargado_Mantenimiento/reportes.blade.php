@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Reportes</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
@@ -29,19 +30,23 @@
                         <div>
                             <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Reportes</h1>
                             <p class="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                                Administración de Reportes
+                                Administración de Reportes Computo
                             </p>
                         </div>
                     </div>
                 </header>
 
                 <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
-                    <!-- Filtro de Reportes -->
-
                     <!-- Tabla de Solicitudes -->
-                    <x-encargado-mantenimiento.tabla-reportes />
+                    <x-encargado-mantenimiento.tabla-reportes :reportes="$reportes" />
                 </div>
             </main>
         </div>
+
+        <input type="hidden" id="id_usuario" value="{{ $usuario->id }}">
+        <input type="hidden" id="nombre" value="{{ $usuario->nombre }}">
+        <input type="hidden" id="email" value="{{ $usuario->email }}">
+
+        @vite(['resources/js/Mantenimiento/reportes_computo.js'])
     </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuditoriaController;
+use App\Http\Controllers\AuditoriaComputoController;
 use App\Http\Controllers\CargaInventarioController;
 use App\Http\Controllers\CargaLaboratoriosController;
 use App\Http\Controllers\CargaMaterialesController;
@@ -12,10 +13,13 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SolicitudEliminadaController;
+use App\Http\Controllers\SolicitudesComputoController;
 use App\Http\Controllers\SolicitudesController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+
+use function Laravel\Prompts\select;
 
 Route::middleware('check.login')->group(function (){
 
@@ -448,26 +452,6 @@ Route::get('/usuario/normal/materiales', function (Illuminate\Http\Request $requ
     return response()->json($materiales);
 });
 
-Route::get('/usuario/normal/actualizar-materiales', function (Illuminate\Http\Request $request){
-
-    $materiales = 
-        DB::table('inventarios as i')
-        ->join('materiales as m','m.id','=','i.id_material')
-        ->select(
-            'i.id',
-            'i.cantidad_disponible',
-            'i.cantidad_total',
-            'm.nombre',
-            'm.descripcion',
-            'm.tipo'
-        )
-        ->where('i.id_laboratorio','=',$request->idLab)
-        ->get()
-    ;
-
-    return response()->json($materiales);
-});
-
 Route::get('/usuario/normal/laboratorios/{id}-solicitudes', function($id){
 
     $laboratorio =
@@ -565,6 +549,63 @@ Route::delete('/usuario/normal/eliminar-solicitud/{id}', [SolicitudesController:
 
 Route::delete('/usuario/normal/eliminar-solicitud-eliminada/{id}', [SolicitudEliminadaController::class, 'destroy']);
 
+Route::get('/usuario/normal/laboratorios/{id}-laboratorio-computo', function($id){
+
+    $infoLaboratorio = 
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre',
+            'l.cantidad_computadoras'
+        )
+        ->where('l.id','=',$id)
+        ->first()
+    ;
+
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->select(
+            's.numero_computadora',
+            DB::raw('COUNT(*) as cantidad_reportes')
+        )
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id')
+                ->where('a.estado', '=', 'completado');
+        })
+        ->where('s.id_laboratorio','=',$id)
+        ->groupBy('s.numero_computadora')
+        ->get()
+        ->pluck('cantidad_reportes','numero_computadora')
+    ;
+
+    return view('Normal.solicitudes-computo', compact('infoLaboratorio', 'reportes'));
+})->name('solicitudes-computo');
+
+Route::get('/usuario/normal/laboratorios/obtener-reportes-computo', function (Illuminate\Http\Request $request){
+    
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->select(
+            's.descripcion'
+        )
+        ->where('s.numero_computadora','=',$request->id)
+        ->where('s.id_laboratorio','=',$request->idLaboratorio)
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id')
+                ->where('a.estado', '=', 'completado');
+        })
+        ->get()
+    ;
+
+    return response()->json($reportes);
+});
+
+Route::post('/usuario/normal/laboratorios/solicitud-computo', [SolicitudesComputoController::class, 'store']);
+
 Route::get('/usuario/encargado/solicitudes-pendientes', function(){
 
     $laboratorios = 
@@ -574,6 +615,7 @@ Route::get('/usuario/encargado/solicitudes-pendientes', function(){
             'l.nombre'
         )
         ->where('l.id_institucion','=',session('id_institucion'))
+        ->where('l.tipo','=','prestamos')
         ->get()
     ;
 
@@ -614,35 +656,6 @@ Route::get('/usuario/encargado/solicitudes-pendientes', function(){
 
     return view('Encargado_Area.solicitudes-pendientes', compact('solicitudes','usuario','laboratorios'));
 })->name('solicitudes-pendientes');
-
-Route::get('/usuario/encargado/actualizar-solicitudes-prestamos', function(Illuminate\Http\Request $request){
-
-    $solicitudes = 
-        DB::table('solicitudes as s')
-        ->join('laboratorios as l', function($join) {
-            $join->on(
-                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
-                '=', 
-                'l.id'
-            );
-        })
-        ->select(
-            's.id',
-            's.fecha',
-            's.info_usuario',
-            's.info_material'
-        )
-        ->where('l.id_institucion', '=', session('id_institucion'))
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('auditoria as a')
-                ->whereColumn('a.id_solicitud', 's.id');
-        })
-        ->get()
-    ;
-
-    return response()->json($solicitudes);
-});
 
 Route::get('/api/usuario/encargado/solicitudes-pendientes', function(Illuminate\Http\Request $request){
     $consulta = 
@@ -698,6 +711,7 @@ Route::get('/usuario/encargado/solicitudes-aceptadas', function(){
             'l.nombre'
         )
         ->where('l.id_institucion','=',session('id_institucion'))
+        ->where('l.tipo','=','prestamos')
         ->get()
     ;
 
@@ -739,35 +753,6 @@ Route::get('/usuario/encargado/solicitudes-aceptadas', function(){
 
     return view('Encargado_Area.solicitudes-aceptadas', compact('laboratorios','solicitudes','usuario'));
 })->name('solicitudes-aceptadas');
-
-Route::get('/usuario/encargado/actualizar-solicitudes-aceptadas', function(Illuminate\Http\Request $request){
-    $solicitudes = 
-        DB::table('solicitudes as s')
-        ->join('auditoria as a', function($join) {
-            $join->on('s.id', '=', 'a.id_solicitud')
-                ->whereRaw('a.id = (SELECT MAX(id) FROM auditoria WHERE id_solicitud = s.id)');
-        })
-        ->join('laboratorios as l', function($join) {
-            $join->on(
-                DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
-                '=', 
-                'l.id'
-            );
-        })
-        ->select(
-            's.id',
-            's.fecha',
-            's.info_usuario',
-            's.info_material',
-            'a.estado'
-        )
-        ->where('a.estado','!=','recibido')
-        ->where('l.id_institucion', '=', session('id_institucion'))
-        ->get()
-    ;
-
-    return response()->json($solicitudes);
-});
 
 Route::get('/api/usuario/encargado/solicitudes-aceptadas', function(Illuminate\Http\Request $request){
     $consulta = 
@@ -811,22 +796,277 @@ Route::get('/api/usuario/encargado/solicitudes-aceptadas', function(Illuminate\H
     return response()->json($solicitudes);
 });
 
-Route::get('/solicitudes-pendientes-computo', function(){
-    return view('Encargado_Area.solicitudes-pendientes-computo');
+Route::get('/usuario/encargado/solicitudes-pendientes-computo', function(){
+
+    $laboratorios = 
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre'
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->where('l.tipo','=','computo')
+        ->get()
+    ;
+
+    $usuario = 
+        DB::table('usuarios as u')
+        ->select(
+            'u.id',
+            'u.nombre',
+            'u.email'
+        )   
+        ->where("u.id","=",session('id_usuario'))
+        ->first()
+    ;
+
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+        ->select(
+            's.id',
+            's.numero_computadora',
+            'l.nombre',
+            's.descripcion',
+            's.fecha'
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+        ->get()
+    ;
+
+    return view('Encargado_Area.solicitudes-pendientes-computo', compact('laboratorios','reportes','usuario'));
 })->name('solicitudes-pendientes-computo');
 
+Route::get('/usuario/encargado/reportes-computo', function(Illuminate\Http\Request $request){
+
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->select(
+            's.descripcion'
+        )
+        ->where('s.numero_computadora','=',$request->id)
+        ->where('s.id','<',$request->idSolicitud)
+        ->where(function($query) {
+        $query->selectRaw('count(*)')
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        }, '<', 3)
+        ->get()
+    ;
+
+    return response()->json($reportes);
+});
+
+Route::post('/usuario/encargado/actualizar-solicitudes-computo', [AuditoriaComputoController::class, 'store']);
+
+Route::delete('/usuario/encargado/rechazar-solicitud-computo/{id}', [SolicitudesComputoController::class, 'destroy']);
+
+Route::get('/api/usuario/encargado/solicitudes-pendientes-computo', function (Illuminate\Http\Request $request){
+    $consulta = 
+        DB::table('solicitudes_computo as s')
+        ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+        ->select(
+            's.id',
+            's.numero_computadora',
+            'l.nombre',
+            's.descripcion',
+            's.fecha'
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+    ;
+
+    if ($request->filtro != "Sin Filtro"){
+        $consulta->where(DB::raw("s.id_laboratorio"), '=', $request->filtro);
+    }
+
+    if ($request->texto) {
+        $consulta->where(function($q) use ($request) {
+            $term = '%' . $request->texto . '%';
+            $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
+            ->orWhere(DB::raw("s.numero_computadora"), 'ilike', $term);
+        });
+    }
+
+    $reportes = $consulta->get();
+
+    return response()->json($reportes);
+});
+
 Route::get('/solicitudes-aceptadas-computo', function(){
-    return view('Encargado_Area.solicitudes-aceptadas-computo');
+
+    $laboratorios = 
+        DB::table('laboratorios as l')
+        ->select(
+            'l.id',
+            'l.nombre'
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->where('l.tipo','=','computo')
+        ->get()
+    ;
+
+    $usuario = 
+        DB::table('usuarios as u')
+        ->select(
+            'u.id',
+            'u.nombre',
+            'u.email'
+        )   
+        ->where("u.id","=",session('id_usuario'))
+        ->first()
+    ;
+
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+        ->select(
+            's.id',
+            's.numero_computadora',
+            'l.nombre',
+            's.descripcion',
+            's.fecha',
+            DB::raw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) as estado')
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->whereRaw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) != ?', ['completado'])
+        ->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+        ->get()
+    ;
+
+    return view('Encargado_Area.solicitudes-aceptadas-computo', compact('laboratorios','usuario','reportes'));
 })->name('solicitudes-aceptadas-computo');
 
-Route::get('/reportes', function(){
-    return view('Encargado_Mantenimiento.reportes');
+Route::get('/api/usuario/encargado/solicitudes-aceptadas-computo', function (Illuminate\Http\Request $request){
+
+    $consulta = 
+        DB::table('solicitudes_computo as s')
+        ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+        ->select(
+            's.id',
+            's.numero_computadora',
+            'l.nombre',
+            's.descripcion',
+            's.fecha',
+            DB::raw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) as estado')
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->whereRaw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) != ?', ['completado'])
+        ->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+    ;
+
+    if ($request->filtro != 'Sin Filtro'){
+        $consulta->where('l.id','=',$request->filtro);
+    }
+
+    if ($request->texto){
+        $consulta->where(function($q) use ($request) {
+            $term = '%' . $request->texto . '%';
+            $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
+            ->orWhere(DB::raw("s.numero_computadora"), 'ilike', $term);
+        });
+    }
+
+    $reportes = $consulta->get();
+
+    return response()->json($reportes);
+});
+
+Route::get('/usuario/mantenimiento/reportes-computo', function(){
+
+    $usuario = 
+        DB::table('usuarios as u')
+        ->select(
+            'u.id',
+            'u.nombre',
+            'u.email'
+        )   
+        ->where("u.id","=",session('id_usuario'))
+        ->first()
+    ;
+
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+        ->select(
+            's.id',
+            's.numero_computadora',
+            'l.nombre',
+            's.descripcion',
+            's.fecha',
+            DB::raw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) as estado')
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->whereRaw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) NOT IN (?, ?)', ['reparado', 'completado'])
+        ->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+        ->get()
+    ;
+
+    return view('Encargado_Mantenimiento.reportes', compact('usuario','reportes'));
 })->name('reportes');
 
-Route::get('/solicitudes-computo', function(){
-    return view('Normal.solicitudes-computo');
-})->name('solicitudes-computo');
+Route::get('/usuario/mantenimiento/actualizar-informacion-reportes', function(){
 
+    $reportes = 
+        DB::table('solicitudes_computo as s')
+        ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+        ->select(
+            's.id',
+            's.numero_computadora',
+            'l.nombre',
+            's.descripcion',
+            's.fecha',
+            DB::raw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) as estado')
+        )
+        ->where('l.id_institucion','=',session('id_institucion'))
+        ->whereRaw('(SELECT estado FROM auditoria_computo 
+                WHERE id_solicitud = s.id 
+                ORDER BY id DESC LIMIT 1) NOT IN (?, ?)', ['reparado', 'completado'])
+        ->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('auditoria_computo as a')
+                ->whereColumn('a.id_solicitud', 's.id');
+        })
+        ->get()
+    ;
+
+    return response()->json($reportes);
+});
 
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 

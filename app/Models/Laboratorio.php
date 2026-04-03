@@ -31,4 +31,8 @@ class Laboratorio extends Model
     public function solicitudEliminada(){
         return $this->hasMany(SolicitudEliminada::class, "id_laboratorio");
     }
+
+    public function solicitudComputo(){
+        return $this->hasMany(SolicitudComputo::class, "id_laboratorio");
+    }
 }

@@ -4,8 +4,8 @@ const buscador = document.getElementById('buscador');
 const idLaboratorio = document.getElementById('id-laboratorio').value;
 const contenedorTarjetas = document.getElementById('contenedor-materiales');
 
-async function buscadorGeneral(){
-    const response = await fetch(`/usuario/normal/materiales?texto=${buscador.value}&idLab=${idLaboratorio}`);
+export async function buscadorGeneral(texto, id){
+    const response = await fetch(`/usuario/normal/materiales?texto=${texto}&idLab=${id}`);
     const data = await response.json();
 
     generarTarjetas(data);
@@ -90,6 +90,6 @@ const delay = 300;
 buscador.addEventListener("input", ()=>{
     clearTimeout(typingTimer);
     typingTimer = setTimeout(()=>{
-        buscadorGeneral();
+        buscadorGeneral(buscador.value, idLaboratorio);
     }, delay);
 });
