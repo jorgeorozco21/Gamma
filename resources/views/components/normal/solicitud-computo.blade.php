@@ -8,13 +8,7 @@
     <!-- Header -->
     <div class="mb-8">
         <div class="flex items-center gap-3 mb-2">
-            <span class="text-[#7B1FA3]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                        d="M5 8h14l-1 12H6L5 8zm3 0V6a4 4 0 118 0v2"/>
-                </svg>
-            </span>
-            <h2 class="text-xl font-extrabold text-gray-800">Solicitudes de Reportes</h2>
+            <h2 id="encabezado" class="text-xl font-extrabold text-gray-800">Solicitudes de Reportes</h2>
         </div>
 
         <div class="h-1 bg-gray-100 rounded-full overflow-hidden">
@@ -27,15 +21,8 @@
     </div>
 
     <!-- Cards de Items -->
-    <div class="flex-1 overflow-y-auto space-y-4 pr-2">
-        <!-- Card -->
-        <div class="p-4 bg-[#F7F6F8] rounded-2xl border-2 border-red-200 relative group hover:shadow-md hover:border-red-600 transition-all cursor-default">
-            <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3">
-                El mouse no funciona al hacer clic derecho.
-            </p>
-        </div>
+    <div id="contenedor-reportes" class="flex-1 overflow-y-auto space-y-4 pr-2">
     </div>
-    
 
     <!-- Footer -->
     <div class="mt-6 pt-6 border-t border-gray-100">
@@ -51,7 +38,7 @@
         </div>
         
         <!-- Boton de Enviar Reporte -->
-        <button class="w-full mt-4 bg-purple-700 hover:bg-[#7B1FA3] text-white py-4 rounded-2xl font-bold transition-all">
+        <button id="enviar" class="w-full mt-4 bg-purple-700 hover:bg-[#7B1FA3] text-white py-4 rounded-2xl font-bold transition-all">
             Enviar Reporte
         </button>
     </div>

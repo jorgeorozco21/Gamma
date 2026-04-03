@@ -1,9 +1,10 @@
 "use strict";
 
-import { generarTarjetas } from "./buscador_materiales";
+import { buscadorGeneral } from "./buscador_materiales";
 
 const contenedorMateriales = document.getElementById('contenedor-materiales-solicitar');
 const botonEnviar = document.getElementById('enviar');
+const buscador = document.getElementById('buscador');
 const idLaboratorio = document.getElementById('id-laboratorio').value;
 const materialesSolicitados = {};
 const materiales = {};
@@ -131,7 +132,9 @@ botonEnviar.addEventListener("click", (e)=>{
                 delete materiales[m];
             }
 
-            actualizarMateriales();
+            buscador.value = '';
+
+            buscadorGeneral(buscador.value, idLaboratorio);
         }
     }
 });
@@ -166,11 +169,4 @@ async function crearSolicitud(info){
     }catch (error){
         console.error("Error de conexión:", error);
     }
-}
-
-async function actualizarMateriales(){
-    const response = await fetch(`/usuario/normal/actualizar-materiales?idLab=${idLaboratorio}`);
-    const data = await response.json();
-
-    generarTarjetas(data);
 }

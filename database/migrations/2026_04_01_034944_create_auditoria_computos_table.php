@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('solicitudes', function (Blueprint $table) {
+        Schema::create('auditoria_computo', function (Blueprint $table) {
             $table->id();
-            $table->jsonb('info_usuario')->nullable();
-            $table->jsonb('info_material')->nullable();
-            $table->string("fecha");
+            $table->unsignedBigInteger('id_solicitud');
+            $table->string('estado');
+            $table->jsonb('info_usuario');
+            $table->string('fecha');
             $table->timestamps();
+
+            $table->foreign('id_solicitud')->references('id')->on('solicitudes_computo')->onDelete('cascade');
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('solicitudes');
+        Schema::dropIfExists('auditoria_computos');
     }
 };

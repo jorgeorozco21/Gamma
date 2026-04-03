@@ -20,18 +20,11 @@ document.addEventListener('click', function(e){
             cambiarEstadoSolicitud(id, estado);
             buscador.value = '';
             filtro.selectedIndex = 0;
-            actualizarInformacion();
+            buscadorGeneral();
         }
     }
 
 });
-
-async function actualizarInformacion(){
-    const response = await fetch(`/usuario/encargado/actualizar-solicitudes-aceptadas`);
-    const data = await response.json();
-
-    generarRegistro(data);
-}
 
 async function cambiarEstadoSolicitud(id, estado){
     const datos = {

@@ -19,7 +19,7 @@ contenedorSolicitudes.addEventListener('click', function(e) {
             solicitudAceptada(id);
             buscador.value = '';
             filtro.selectedIndex = 0;
-            actualizarInformacion();
+            buscadorGeneral();
         }
     }
 
@@ -32,7 +32,7 @@ contenedorSolicitudes.addEventListener('click', function(e) {
             rechazarSolicitud(id, idLab, fecha);
             buscador.value = '';
             filtro.selectedIndex = 0;
-            actualizarInformacion();
+            buscadorGeneral();
         }
     }
 });
@@ -95,14 +95,6 @@ async function solicitudAceptada(id){
     }catch (error){
         console.error("Error de conexión:", error);
     }
-}
-
-
-async function actualizarInformacion(){
-    const response = await fetch(`/usuario/encargado/actualizar-solicitudes-prestamos`);
-    const data = await response.json();
-
-    generarRegistro(data);
 }
 
 function generarRegistro(informacion){
