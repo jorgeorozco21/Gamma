@@ -1,5 +1,12 @@
 const contendorModalEdit = document.getElementById("modal-edit");
-const cerrarModalEdit = document.getElementById("cerrar-modal-edit"); 
+const cerrarModalEdit = document.getElementById("cerrar-modal-edit");
+const cerrarModal = document.getElementById('cerrar-modal'); 
+
+cerrarModal.addEventListener('click', ()=>{
+    document.getElementById('nombre').value = '';
+    document.getElementById('descripcion').value = '';
+    document.getElementById('tipo').selectedIndex = 0;
+})
 
 document.addEventListener("click", function(e){ 
     const boton = e.target.closest(".abrir-modal-edit");
@@ -14,6 +21,9 @@ document.addEventListener("click", function(e){
 });
 
 cerrarModalEdit.addEventListener("click",()=>{
+    document.getElementById('nombre-edit').value = '';
+    document.getElementById('descripcion-edit').value = '';
+    document.getElementById('tipo-edit').selectedIndex = 0;
     contendorModalEdit.style.display = "none";
 });
 

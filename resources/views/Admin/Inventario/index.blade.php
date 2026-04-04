@@ -23,6 +23,7 @@
         
         <div class="flex h-full">
             <!-- Sidebar -->
+            <x-admin.sidebar-admin :admin="$admin" />
             
             <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
                 <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">

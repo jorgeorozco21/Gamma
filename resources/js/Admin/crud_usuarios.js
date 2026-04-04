@@ -154,7 +154,7 @@ document.addEventListener("click", async function(e){
     }
 });
 
-const filtroTipo = document.getElementById("filtrar-tipo");
+/*const filtroTipo = document.getElementById("filtrar-tipo");
 
 // Funcion para desaparecer y desaparecer el filtro de grupo
 filtroTipo.addEventListener("change", ()=>{
@@ -176,4 +176,4 @@ filtroGrupo.addEventListener("change", ()=>{
     if (filtroGrupo.value != "Sin Filtro"){
         filtroTipo.value = "normal";
     }
-});
+});*/

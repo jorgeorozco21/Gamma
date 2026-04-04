@@ -23,7 +23,7 @@
     
     <div class="flex h-full">
         <!-- Sidebar -->
-
+        <x-admin.sidebar-admin :admin="$admin" />
 
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
             <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
@@ -82,35 +82,6 @@
                     </div>
                 </div>
             </header>
-            <div>
-                @if ($errors->errores_excel->any())
-                    <div>
-                        <h2>Errores Carga Masiva</h2>
-                        <ul>
-                            @foreach ($errors->errores_excel->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="alerta errores">
-                        <h2>Errores</h2>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @if (session('success'))
-                    <div class="alerta success">
-                        <ul>
-                            <li>{{ session('success') }}</li>
-                        </ul>
-                    </div>
-                @endif
-            </div>
 
             <!-- Filtros -->
             <x-admin.filtro-materiales />

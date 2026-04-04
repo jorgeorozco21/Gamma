@@ -6,7 +6,7 @@
 <!-- Descripcion del Material -->
 <div>
     <label for="descripcion-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Descripcion</label>
-    <textarea id="descripcion-edit" name="descripcion" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]" autocomplete="off"></textarea>
+    <textarea id="descripcion-edit" name="descripcion" class="w-full max-h-32 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all" autocomplete="off"></textarea>
 </div>
 <!-- Tipo de Prestamo -->
 <div>

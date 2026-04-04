@@ -20,7 +20,7 @@
                         <!-- Descripcion del Material -->
                         <td class="px-6 py-4 justify-center">
                             <button type="button" 
-                                onclick="openMaterialModal('Necesito la computadora para realizar la práctica de C++.')" 
+                                onclick="openMaterialModal('{{ $material->descripcion }}')" 
                                 class="flex items-center gap-2 text-[#7B1FA3]"
                                 title="Ver Descripcion">
                                 <div class="p-1.5 bg-purple-100 rounded-lg">

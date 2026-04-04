@@ -15,6 +15,16 @@ class InventarioController extends Controller
      */
     public function index()
     {
+        $admin = 
+            DB::table('usuarios as u')
+            ->select(
+                'u.nombre_usuario',
+                'u.email'
+            )
+            ->where('u.id','=',session('id_usuario'))
+            ->first()
+        ;
+
         $materiales = 
             DB::table("materiales as m")
             ->select(
@@ -57,7 +67,7 @@ class InventarioController extends Controller
             ->get()
         ;
 
-        return view('Admin.Inventario.index', compact("materiales","laboratorios","inventarios"));
+        return view('Admin.Inventario.index', compact("materiales","laboratorios","inventarios","admin"));
     }
 
     /**

@@ -51,6 +51,11 @@ function vaciar(){
 }
 
 cerrarModal.addEventListener("click",()=>{
+    document.getElementById("nombre").value = '';
+    document.getElementById("grado").value = '';
+    document.getElementById("grupo").value = '';
+    document.getElementById("laboratorios").selectedIndex = 0;
+    document.getElementById('laboratorios-agregados').innerHTML = '';
     vaciar();
 })
 
@@ -114,11 +119,13 @@ const contendorModalEdit = document.getElementById("modal-edit");
 const cerrarModalEdit = document.getElementById("cerrar-modal-edit"); 
 
 document.addEventListener("click", function(e){ 
-    if(e.target.closest(".abrir-modal-edit")){ 
+    const editar = e.target.closest(".abrir-modal-edit");
+
+    if(editar){ 
 
         contendorModalEdit.style.display = "flex"; 
 
-        let id = e.target.dataset.id;
+        let id = editar.dataset.id;
 
         vaciar();
         
@@ -128,6 +135,13 @@ document.addEventListener("click", function(e){
 
 cerrarModalEdit.addEventListener("click",()=>{
     contendorModalEdit.style.display = "none";
+    document.getElementById("formulario-editar").action = '';
+    document.getElementById("nombre-edit").value = '';
+    document.getElementById("grado-edit").value = '';
+    document.getElementById("grupo-edit").value = '';
+    document.getElementById("inf-laboratorios-edit").value = '';
+    document.getElementById("laboratorios-edit").selectedIndex = 0;
+    document.getElementById('laboratorios-agregados-edit').innerHTML = '';
     vaciar();
 });
 
@@ -156,7 +170,6 @@ async function asignarInformacionFormularioEditar(informacion){
     document.getElementById("grado-edit").value = informacion.grado;
     document.getElementById("grupo-edit").value = informacion.grupo;
     document.getElementById("inf-laboratorios-edit").value = informacion.laboratorios;
-
     const idLaboratorios = informacion.laboratorios.split(",");
 
     for (const id of idLaboratorios){

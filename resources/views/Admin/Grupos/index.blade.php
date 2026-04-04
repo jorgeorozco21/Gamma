@@ -16,6 +16,7 @@
         <x-admin.alertas-usuarios />
         <div class="flex h-full">
             <!-- Sidebar -->
+            <x-admin.sidebar-admin :admin="$admin" />
 
             <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
                 <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
@@ -59,25 +60,6 @@
                         </div>
                     </div>
                 </header>
-                <div>
-                    @if ($errors->any())
-                        <div class="alerta errores">
-                            <h2>Errores</h2>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('success'))
-                        <div class="alerta success">
-                            <ul>
-                                <li>{{ session('success') }}</li>
-                            </ul>
-                        </div>
-                    @endif
-                </div>
 
                 <!-- Filtros -->
                 <x-admin.filtro-grupos />
@@ -126,6 +108,6 @@
             </div>
         </div>
 
-        @vite(['resources/js/Admin/modal.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/crud_inventario.js','resources/js/Admin/crud_grupos.js', 'resources/js/Admin/buscador_inventario.js', 'resources/js/Admin/boton_modales.js'])
+        @vite(['resources/js/Admin/modal.js', 'resources/js/Admin/alertas.js','resources/js/Admin/crud_grupos.js', 'resources/js/Admin/buscador_grupos.js' , 'resources/js/Admin/boton_modales.js'])
     </body>
 </html>

@@ -6,6 +6,7 @@ const filtroTipo = document.getElementById("filtrar-tipo");
 const filtroGrupo = document.getElementById("filtrar-grupo");
 
 async function buscadorGeneral(){
+    console.log(buscador.value, filtroTipo.value, filtroGrupo.value);
     const response = await fetch(`/api/usuarios?texto=${buscador.value}&tipoUsuario=${filtroTipo.value}&grupo=${filtroGrupo.value}`);
     const data = await response.json();
     
@@ -20,21 +21,8 @@ const delay = 300;
 // funcion para dectectar si el usuario sigue escribiendo
 buscador.addEventListener("input", ()=>{
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(()=>{
-        document.getElementById("label-filtrar-tipo").style.display = "none";
-        document.getElementById("filtrar-grupo-label").style.display = "none";
-        filtroTipo.style.display = "none";
-        filtroGrupo.style.display = "none";
-        filtroGrupo.value = "Sin Filtro";
-        filtroTipo.value = "Sin Filtro";
+    typingTimer = setTimeout(()=>{  
         buscadorGeneral();
-
-        if (buscador.value == ""){
-            document.getElementById("label-filtrar-tipo").style.display = "flex";
-            document.getElementById("filtrar-grupo-label").style.display = "flex";
-            filtroTipo.style.display = "flex";
-            filtroGrupo.style.display = "flex";
-        }
     }, delay);
 });
 
@@ -101,6 +89,15 @@ function generarRegistro(data){
 }
 
 filtroTipo.addEventListener("change", ()=>{
+    if (filtroTipo.value == 'encargado' || filtroTipo.value == 'mantenimiento'){
+        filtroGrupo.selectedIndex = 0;
+        filtroGrupo.style.display = 'none';
+        document.getElementById('filtrar-grupo-label').style.display = 'none';
+    }else{
+        filtroGrupo.style.display = 'flex';
+        document.getElementById('filtrar-grupo-label').style.display = 'flex';
+    }
+
     buscadorGeneral();
 });
 

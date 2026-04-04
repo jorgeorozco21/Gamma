@@ -2,6 +2,13 @@
 
 const contendorModalEdit = document.getElementById("modal-edit");
 const cerrarModalEdit = document.getElementById("cerrar-modal-edit"); 
+const cerrarModal = document.getElementById('cerrar-modal');
+
+cerrarModal.addEventListener('click', ()=>{
+    document.getElementById('material').selectedIndex = 0;
+    document.getElementById('cantidad').value = 1;
+    document.getElementById('laboratorio').selectedIndex = 0;
+});
 
 document.addEventListener("click", function(e){ 
     const boton = e.target.closest(".abrir-modal-edit");
@@ -58,5 +65,8 @@ function asignarInformacionFormularioEditar(informacion){
 }
 
 cerrarModalEdit.addEventListener("click",()=>{
+    document.getElementById('material-edit').selectedIndex = 0;
+    document.getElementById('cantidad-edit').value = 1;
+    document.getElementById('laboratorio-edit').selectedIndex = 0;
     contendorModalEdit.style.display = "none";
 });

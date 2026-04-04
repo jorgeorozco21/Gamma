@@ -15,6 +15,16 @@ class MaterialController extends Controller
      */
     public function index()
     {
+        $admin = 
+            DB::table('usuarios as u')
+            ->select(
+                'u.nombre_usuario',
+                'u.email'
+            )
+            ->where('u.id','=',session('id_usuario'))
+            ->first()
+        ;
+
         $materiales = 
             DB::table("materiales as m")
             ->select(
@@ -29,7 +39,7 @@ class MaterialController extends Controller
             ->get()
         ;
 
-        return view('Admin.Materiales.index', compact("materiales"));
+        return view('Admin.Materiales.index', compact("materiales","admin"));
     }
 
     /**

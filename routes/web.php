@@ -47,12 +47,16 @@ Route::middleware('check.login')->group(function (){
                 "g.grado",
                 "g.grupo"
             )
-            ->where(function ($buscador) use ($request){
-                $buscador->where("u.nombre_usuario","ilike","%".$request->texto."%")
-                ->orWhere("u.email","ilike","%".$request->texto."%")
-                ->orWhere("u.nombre","ilike","%".$request->texto."%");
-            })
         ;
+
+        if ($request->texto != '') {
+            $query->where(function ($q) use ($request) {
+                $term = "%" . $request->texto . "%";
+                $q->where("u.nombre_usuario", "ilike", $term)
+                ->orWhere("u.email", "ilike", $term)
+                ->orWhere("u.nombre", "ilike", $term);
+            });
+        }
 
         if ($request->tipoUsuario != "Sin Filtro"){
             $query->where("u.".$request->tipoUsuario,"=","1");

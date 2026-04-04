@@ -1,6 +1,14 @@
 "use strict";
 
 const tipoLaboratorio = document.getElementById('tipo');
+const cerrarModal = document.getElementById('cerrar-modal');
+
+cerrarModal.addEventListener('click', ()=>{
+    document.getElementById('nombre').value = '';
+    document.getElementById('tipo').selectedIndex = 0;
+    document.getElementById('label-cantidad').style.display = "none";
+    document.getElementById('cantidad').style.display = 'none';
+});
 
 tipoLaboratorio.addEventListener("change", ()=>{
     if (tipoLaboratorio.value == "prestamos"){
@@ -59,16 +67,22 @@ const contendorModalEdit = document.getElementById("modal-edit");
 const cerrarModalEdit = document.getElementById("cerrar-modal-edit"); 
 
 document.addEventListener("click", function(e){ 
-    if(e.target.closest(".abrir-modal-edit")){ 
+    const editar = e.target.closest(".abrir-modal-edit");
+    if(editar){ 
 
         contendorModalEdit.style.display = "flex"; 
 
-        let id = e.target.dataset.id;
+        let id = editar.dataset.id;
         
         informacionEditar(id);
     } 
 });
 
 cerrarModalEdit.addEventListener("click",()=>{
+    document.getElementById('nombre-edit').value = '';
+    document.getElementById('tipo-edit').selectedIndex = 0;
+    document.getElementById('label-cantidad-edit').style.display = "none";
+    document.getElementById('cantidad-edit').style.display = 'none';
+
     contendorModalEdit.style.display = "none";
 });

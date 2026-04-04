@@ -15,6 +15,16 @@ class LaboratorioController extends Controller
      */
     public function index()
     {
+        $admin = 
+            DB::table('usuarios as u')
+            ->select(
+                'u.nombre_usuario',
+                'u.email'
+            )
+            ->where('u.id','=',session('id_usuario'))
+            ->first()
+        ;
+
         $laboratorios = 
             DB::table("laboratorios as l")
             ->select(
@@ -29,7 +39,7 @@ class LaboratorioController extends Controller
             ->get()
         ;
 
-        return view('Admin.Laboratorios.index', compact('laboratorios'));
+        return view('Admin.Laboratorios.index', compact('laboratorios','admin'));
     }
 
     /**

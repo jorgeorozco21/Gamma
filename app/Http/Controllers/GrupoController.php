@@ -13,6 +13,16 @@ class GrupoController extends Controller
      */
     public function index()
     {
+        $admin = 
+            DB::table('usuarios as u')
+            ->select(
+                'u.nombre_usuario',
+                'u.email'
+            )
+            ->where('u.id','=',session('id_usuario'))
+            ->first()
+        ;
+
         $laboratorios = 
             DB::table("laboratorios as l")
             ->select(
@@ -39,7 +49,7 @@ class GrupoController extends Controller
             ->get()
         ;
 
-        return view('Admin.Grupos.index',compact("grupos","laboratorios"));
+        return view('Admin.Grupos.index',compact("grupos","laboratorios","admin"));
     }
 
     /**
