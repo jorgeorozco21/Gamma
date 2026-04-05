@@ -1081,3 +1081,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('check.lo
 Route::get('/seleccionar-perfil', function(){
     return view('Paginas.seleccionar-rol');
 })->name('seleccionar-perfil');
+
+Route::get('/perfil', function(){
+    return view('Paginas.perfil');
+})->name('perfil');

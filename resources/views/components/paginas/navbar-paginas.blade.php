@@ -6,9 +6,25 @@
     </div>
 
     <!-- Usuario -->
-    <div class="w-9 h-9 rounded-full border-2 border-[#7B1FA3] flex items-center justify-center hover:bg-[#7B1FA3] group">
-        <svg class="w-5 h-5 text-[#7B1FA3] group-hover:text-white transition" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-        </svg>
+    <div class="hidden md:flex items-center gap-4">
+        <div class="flex flex-col leading-tight text-right">
+            <span class="font-extrabold text-black text-sm">
+                Jonathan Orozco
+            </span>
+            <span class="text-xs text-gray-400">
+                jeduerdoorozco06@gmail.com
+            </span>
+        </div>
+
+        <!-- Boton Cerrar Sesion -->
+        <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">
+            @csrf
+            <button class="text-gray-400 hover:text-red-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+            </button>
+        </form>
     </div>
 </nav>
