@@ -1077,3 +1077,7 @@ Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');
 
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('check.login');
+
+Route::get('/seleccionar-perfil', function(){
+    return view('Paginas.seleccionar-rol');
+})->name('seleccionar-perfil');

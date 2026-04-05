@@ -11,7 +11,7 @@
             .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
     </head>
-    <body class="h-full overflow-hidden">
+    <body class="h-full overflow-hidden bg-[#F7F6F8]">
         <!-- Alertas -->
         <x-admin.alertas-usuarios />
         <div class="flex h-full">
@@ -61,11 +61,13 @@
                     </div>
                 </header>
 
-                <!-- Filtros -->
-                <x-admin.filtro-grupos />
+                <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+                    <!-- Filtros -->
+                    <x-admin.filtro-grupos />
 
-                <!-- Tabla Grupos -->
-                <x-admin.tabla-grupos :grupos="$grupos" />
+                    <!-- Tabla Grupos -->
+                    <x-admin.tabla-grupos :grupos="$grupos" />
+                </div>
             </main>
         </div>
 

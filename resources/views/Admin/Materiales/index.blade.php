@@ -16,7 +16,7 @@
         .scroll-rojo::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
     </style>
 </head>
-<body class="h-full overflow-hidden">
+<body class="h-full overflow-hidden bg-[#F7F6F8]">
     <!-- Alertas -->
     <x-admin.alertas-usuarios />
     <x-admin.alertas-carga-masiva />
@@ -83,11 +83,13 @@
                 </div>
             </header>
 
-            <!-- Filtros -->
-            <x-admin.filtro-materiales />
-
-            <!-- Filtros -->
-            <x-admin.tabla-materiales :materiales="$materiales" />
+            <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+                <!-- Filtros -->
+                <x-admin.filtro-materiales />
+    
+                <!-- Tabla -->
+                <x-admin.tabla-materiales :materiales="$materiales" />
+            </div>
         </main>
     </div>
 

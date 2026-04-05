@@ -83,8 +83,8 @@
     <div class="p-4 border-t border-gray-100">
         <div class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors group">
             <div class="flex flex-col items-start gap-0.5">
-                    <p class="text-xs font-bold text-gray-800">Encargado Area</p>
-                    <p class="text-[10px] text-gray-400">encaragadoarea@example.com</p>
+                    <p class="text-xs font-bold text-gray-800 break-words">Encargado Area</p>
+                    <p class="text-[10px] text-gray-400 truncate">encaragadoarea@example.com</p>
             </div>
             <!-- Cerrar Sesion -->
             <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">

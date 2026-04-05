@@ -16,7 +16,7 @@
             .scroll-rojo::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
         </style>
     </head>
-    <body class="h-full overflow-hidden">
+    <body class="h-full overflow-hidden bg-[#F7F6F8]">
         <!-- Alertas -->
         <x-admin.alertas-usuarios />
         <x-admin.alertas-carga-masiva />
@@ -82,41 +82,14 @@
                         </div>
                     </div>
                 </header>
-                <div>
-                    @if ($errors->errores_excel->any())
-                        <div>
-                            <h2>Errores Carga Masiva</h2>
-                            <ul>
-                                @foreach ($errors->errores_excel->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if ($errors->any())
-                        <div class="alerta errores">
-                            <h2>Errores</h2>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('success'))
-                        <div class="alerta success">
-                            <ul>
-                                <li>{{ session('success') }}</li>
-                            </ul>
-                        </div>
-                    @endif
+
+                <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+                    <!-- Filtros -->
+                    <x-admin.filtro-inventario :laboratorios="$laboratorios" />
+
+                    <!-- Tabla de Inventarios -->
+                    <x-admin.tabla-inventario :inventarios="$inventarios" />
                 </div>
-
-                <!-- Filtros -->
-                <x-admin.filtro-inventario :laboratorios="$laboratorios" />
-
-                <!-- Tabla de Inventarios -->
-                <x-admin.tabla-inventario :inventarios="$inventarios" />
             </main>
         </div>
 
