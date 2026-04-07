@@ -7,14 +7,14 @@
 
     <!-- Usuario -->
     <div class="hidden md:flex items-center gap-4">
-        <div class="flex flex-col leading-tight text-right">
+        <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight text-right">
             <span class="font-extrabold text-black text-sm">
-                Jonathan Orozco
+                {{ session('nombre_usuario') }}
             </span>
             <span class="text-xs text-gray-400">
-                jeduerdoorozco06@gmail.com
+                {{ session('email') }}
             </span>
-        </div>
+        </a>
 
         <!-- Boton Cerrar Sesion -->
         <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">

@@ -234,8 +234,6 @@ class UsuarioController extends Controller
             });
         }
 
-        $contrasena = Str::random(12);
-        $datosUsuario['contrasena'] = Hash::make($contrasena);
         $datosUsuario['admin'] = "0";
 
         $band = false;
@@ -309,4 +307,29 @@ class UsuarioController extends Controller
 
         return Excel::download(new ArchivoUsuariosExport, 'usuarios.xlsx');
     } 
+
+    public function actualizarContrasena(Request $request)
+    {
+        $request->validate([
+            'contrasenaActual' => 'required',
+            'nuevaContrasena' => 'required',
+            'validarContrasena' => 'required'
+        ],[
+            'contrasenaActual.required' => 'Debes ingresar la contraseña actual',
+            'nuevaContrasena.required' => 'Debes ingresar la nueva contraseña',
+            'validarContrasena.required' => 'Debes validar la nueva contraseña'
+        ]);
+
+        $usuario = DB::table('usuarios as u')->where('u.id','=',session('id_usuario'))->first();
+
+        if (!Hash::check($request->contrasenaActual, $usuario->contrasena)) return back()->with('error', 'La contrasena actual no es correcta');
+
+        if ($request->nuevaContrasena != $request->validarContrasena) return back()->with('error', 'Error al validar la contraseña');
+
+        DB::table('usuarios')
+        ->where('id', session('id_usuario'))
+        ->update(['contrasena' => Hash::make($request->nuevaContrasena)]);
+
+        return back()->with('success', '¡Contraseña actualizada correctamente!');
+    }
 }

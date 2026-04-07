@@ -1,9 +1,9 @@
 @props(['laboratorio'])
 <nav class="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center relative z-40">
     <!-- Logo -->
-    <div class="text-[#7B1FA3] font-extrabold text-xl tracking-tight">
+    <a href="{{ url('/seleccionar-tipo-usuario') }}" class="text-[#7B1FA3] font-extrabold text-xl tracking-tight">
         Gamma
-    </div>
+    </a>
 
     <!-- Header Menu (Computadora) -->
     @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
@@ -21,14 +21,14 @@
 
     <!-- Usuario (Computadora) -->
     <div class="hidden md:flex items-center gap-4">
-        <div class="flex flex-col leading-tight text-right">
+        <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight text-right">
             <span class="font-extrabold text-black text-sm">
                 {{ session('nombre_usuario') }}
             </span>
             <span class="text-xs text-gray-400">
-                {{ session('nombre') }}
+                {{ session('email') }}
             </span>
-        </div>
+        </a>
 
         <!-- Boton Cerrar Sesion -->
         <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">
@@ -80,14 +80,14 @@
 
     <!-- Usuario (Movil) -->
     <div class="mt-auto border-t pt-6">
-        <div class="flex flex-col leading-tight mb-4">
+        <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight mb-4">
             <span class="font-extrabold text-black text-sm">
                 {{ session('nombre_usuario') }}
             </span>
             <span class="text-xs text-gray-400">
-                {{ session('nombre') }}
+                {{ session('email') }}
             </span>
-        </div>
+        </a>
 
         <!-- Boton Cerrar Sesion (Movil)-->
         <form action="{{ url('/logout') }}" method="POST" class="border-l pl-4 border-gray-100">

@@ -7,9 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#F7F6F8]">
+    <x-admin.alertas-usuarios />
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <x-sidebar-general />
+        @if (session('tipo') == 'admin') <x-admin.sidebar-admin :admin="$admin" /> @else <x-paginas.sidebar-perfil /> @endif
         <!-- Contenedor -->
         <main class="flex-1 flex flex-col overflow-hidden bg-[#F9FAFB]">
             <!-- Header -->
@@ -29,10 +30,9 @@
 
             <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
                 <!-- Componente Perfil -->
-                <x-paginas.campos-perfil />
+                <x-paginas.campos-perfil :datos="$datos" />
             </div>
         </main>
     </div>
-    
 </body>
 </html>

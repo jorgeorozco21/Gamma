@@ -16,7 +16,7 @@ class CheckLogin
     public function handle(Request $request, Closure $next): Response
     {
         // 1. Verificación normal de sesión
-        if (!session()->has('id_institucion')) {
+        if (!session()->has('id_usuario')) {
             return redirect()->route('login.index');
         }
 

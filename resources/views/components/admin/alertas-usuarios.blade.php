@@ -14,6 +14,17 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div class="alerta-temporal bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl text-sm shadow-sm transition-all duration-500 transform" role="alert">
+            <div class="flex items-center gap-3 mb-1">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="font-bold">Se detectaron errores:</p>
+            </div>
+            <ul class="list-disc list-inside opacity-80 ml-8">
+                <li>{{ session('error') }}</li>
+            </ul>
+        </div>
+    @endif
     
     @if (session('success'))
         <div class="alerta-temporal bg-green-50 border border-green-100 text-green-600 px-6 py-4 rounded-2xl text-sm font-bold shadow-sm transition-all duration-500 transform flex items-center gap-3" role="alert">

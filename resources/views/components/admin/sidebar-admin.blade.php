@@ -76,13 +76,13 @@
     
     <div class="p-4 border-t border-gray-100">
         <div class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
-            <div class="flex items-center gap-3 pr-1">
-                <img src="https://ui-avatars.com/api/?name=Admin+User&background=6B7280&color=fff" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" alt="User">
+            <a href="{{ url('/perfil') }}" class="flex items-center gap-3 pr-1">
+                <img src="https://ui-avatars.com/api/?name={{ $admin->nombre_usuario }}&background=6B7280&color=fff" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" alt="User">
                 <div class="leading-tight min-w-0">
                     <p class="text-xs font-bold text-gray-800 break-words">{{ $admin->nombre_usuario }}</p>
                     <p class="text-[10px] text-gray-400 truncate" title="{{ $admin->email }}">{{ $admin->email }}</p>
                 </div>
-            </div>
+            </a>
             <form action="{{ url('/logout') }}" method="POST" class="border-l pl-2 border-gray-100">
                 @csrf
                 <button type="submit" class="p-2 text-gray-400 hover:text-red-500 transition-colors">

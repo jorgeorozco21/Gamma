@@ -26,6 +26,7 @@ class LoginController extends Controller
                 "u.nombre_usuario",
                 "u.contrasena",
                 "u.nombre",
+                "u.email",
                 "u.admin",
                 "u.mantenimiento",
                 "u.encargado",
@@ -36,48 +37,28 @@ class LoginController extends Controller
             ->first()
         ;
 
-        if (!$usuario){
-            return redirect()->route('login.index')->with("error",'Usuario y/o Contraseña incorrecta')->withInput();
+        if (!$usuario || !Hash::check($request->contrasena, $usuario->contrasena)) {
+            return redirect()->route('login.index')->with("error", 'Usuario y/o Contraseña incorrecta')->withInput();
         }
 
-        if (Hash::check($request->contrasena, $usuario->contrasena)){
-            if ($usuario->admin == "1"){
+        session([
+            "id_usuario" => $usuario->id,
+            "nombre_usuario" => $usuario->nombre_usuario,
+            "nombre" => $usuario->nombre,
+            "email" => $usuario->email,
+            "id_institucion" => $usuario->id_institucion
+        ]);
 
-                session([
-                    "id_usuario" => $usuario->id,
-                    "id_institucion" => $usuario->id_institucion
-                ]);
-
-                return redirect('/admin');
-            }else{
-                if ($usuario->normal == "1"){
-
-                    session([
-                        "id_usuario" => $usuario->id,
-                        "nombre_usuario" => $usuario->nombre_usuario,
-                        "nombre" => $usuario->nombre,
-                        "id_institucion" => $usuario->id_institucion
-                    ]);
-
-                    return redirect('/usuario/normal/laboratorios');
-                }
-
-                if ($usuario->encargado == "1"){
-
-                    session([
-                        "id_usuario" => $usuario->id,
-                        "nombre_usuario" => $usuario->nombre_usuario,
-                        "nombre" => $usuario->nombre,
-                        "id_institucion" => $usuario->id_institucion
-                    ]);
-
-                    return redirect('/usuario/encargado/solicitudes-pendientes');
-                }
-            }
-            return view('Login.index');
+        if ($usuario->admin == "1") {
+            session(["tipo" => "admin"]);
+            return redirect('/admin');
         }
-
-        return redirect()->route('login.index')->with("error",'Usuario y/o Contraseña incorrecta')->withInput();
+        
+        if ($usuario->normal == "1") session(["normal" => true]);
+        if ($usuario->encargado == "1") session(["encargado" => true]);
+        if ($usuario->mantenimiento == "1") session(["mantenimiento" => true]);
+        
+        return redirect('/seleccionar-tipo-usuario');
     }
 
     public function logout(Request $request)
@@ -86,5 +67,21 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login.index');
+    }
+
+    public function activarRol($rol)
+    {
+
+        if (!session("$rol")){
+            return redirect('/seleccionar-tipo-usuario')->with('error', 'Acceso no autorizado.');
+        }
+
+        session(['tipo' => $rol]);
+
+        return match ($rol){
+            'normal' => redirect('/usuario/normal/laboratorios'),
+            'encargado' => redirect('/usuario/encargado/solicitudes-pendientes'),
+            'mantenimiento' => redirect('/usuario/mantenimiento/reportes-computo')
+        };
     }
 }
