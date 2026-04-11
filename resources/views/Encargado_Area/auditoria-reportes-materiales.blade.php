@@ -28,9 +28,9 @@
                     </button>
 
                     <div>
-                        <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Solicitudes</h1>
+                        <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Reportes</h1>
                         <p class="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                            Administración de Solicitudes
+                            Administración de Reportes
                         </p>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                 <!-- Filtro de Solicitudes -->
                 <x-encargado-area.filtro-solicitudes :laboratorios="$laboratorios" />
                 
-                <!-- Tabla de Solicitudes Aceptadas -->
-                <x-encargado-area.tabla-solicitudes-computo-aceptadas :reportes="$reportes" />
+                <!-- Tabla de Reportes -->
+                <x-encargado-area.tabla-reportes-materiales :reportes="$reportes" />
             </div>
         </main>
         </div>
@@ -50,6 +50,6 @@
         <input type="hidden" id="nombre" value="{{ $usuario->nombre }}">
         <input type="hidden" id="email" value="{{ $usuario->email }}">
 
-        @vite(['resources/js/Encargado/solicitudes_aceptadas_computo.js'])
+        @vite(['resources/js/Encargado/reportes_materiales.js'])
     </body>
 </html>

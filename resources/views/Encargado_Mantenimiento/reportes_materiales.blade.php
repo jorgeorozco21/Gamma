@@ -4,20 +4,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Solicitudes Pendientes</title>
+        <title>Reportes</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             .no-scrollbar::-webkit-scrollbar { display: none; }
             .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
     </head>
-    <body class="h-full overflow-hidden">
+    <body class="bg-[#F7F6F8] h-full overflow-hidden">
         <div class="flex h-full">
-        <!-- Sidebar -->
-        <x-sidebar-general />
+            <!-- Header -->
+            <x-sidebar-general />
 
             <!-- Contenedor -->
-            <main class="flex-1 flex flex-col overflow-hidden bg-[#F9FAFB]">
+            <main class="flex-1 flex flex-col overflow-hidden">
                 <!-- Header -->
                 <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
                     <div class="flex items-center gap-4">
@@ -28,28 +28,25 @@
                         </button>
 
                         <div>
-                            <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Solicitudes</h1>
+                            <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Reportes</h1>
                             <p class="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                                Administración de Solicitudes
+                                Administración de Reportes de Materiales
                             </p>
                         </div>
                     </div>
                 </header>
 
                 <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
-                    <!-- Filtro de Solicitudes -->
-                    <x-encargado-area.filtro-solicitudes :laboratorios="$laboratorios" />
-
                     <!-- Tabla de Solicitudes -->
-                    <x-encargado-area.tabla-solicitudes :solicitudes="$solicitudes" />
+                    <x-encargado-mantenimiento.tabla-reportes-materiales :reportes="$reportes" />
                 </div>
             </main>
         </div>
+
+        <input type="hidden" id="id_usuario" value="{{ $usuario->id }}">
+        <input type="hidden" id="nombre" value="{{ $usuario->nombre }}">
+        <input type="hidden" id="email" value="{{ $usuario->email }}">
+
+        @vite(['resources/js/Mantenimiento/reportes_materiales.js']);
     </body>
-
-    <input type="hidden" id="id_usuario" value="{{ $usuario->id }}">
-    <input type="hidden" id="nombre" value="{{ $usuario->nombre }}">
-    <input type="hidden" id="email" value="{{ $usuario->email }}">
-
-    @vite(['resources/js/Encargado/solicitudes_pendientes.js'])
 </html>

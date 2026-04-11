@@ -19,17 +19,31 @@ document.addEventListener('click', (e)=>{
             actualizarInformacion();
         }
     }
+
+    const reportar = e.target.closest('.reportar');
+
+    if (reportar){
+        if (confirm('El material no tiene reparacion ??')){
+            const id = reportar.dataset.id;
+            const estado = reportar.dataset.estado;
+            const idInventario = reportar.dataset.inventario;
+            const cantidad = reportar.dataset.cantidad;
+
+            sinFuncionamiento(id, estado, idInventario, cantidad);
+            actualizarInformacion();
+        }
+    }
 });
 
 async function cambiarEstado(id, estado){
     const datos = {
-        'id_solicitud': id,
+        'id_reporte': id,
         'estado': estado,
         'info_usuario': usuario
     };
 
     try{
-        const respuesta = await fetch('/usuario/mantenimiento/actualizar-solicitudes-computo',{
+        const respuesta = await fetch('/usuario/mantenimiento/actualizar-reportes-materiales',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +66,7 @@ async function cambiarEstado(id, estado){
 }
 
 async function actualizarInformacion(){
-    const response = await fetch(`/usuario/mantenimiento/actualizar-informacion-reportes`);
+    const response = await fetch(`/usuario/mantenimiento/actualizar-informacion-reportes-mateiales`);
     const data = await response.json();
 
     generarRegistro(data);
@@ -72,13 +86,17 @@ function generarRegistro(informacion){
         reportes += `
             <tr class="hover:bg-gray-50/50 transition-colors group">
                 <td class="px-6 py-4">
-                    ${r.numero_computadora}
+                    ${r.nombre}
+                </td>
+
+                <td class="px-6 py-4">
+                    ${r.cantidad}
                 </td>
 
                 <!-- Material Dañado -->
                 <td class="px-6 py-4">
                     <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
-                        ${r.nombre}
+                        ${r.nombreLaboratorio}
                     </span>
                 </td>
 
@@ -104,16 +122,16 @@ function generarRegistro(informacion){
                 <!-- Estado del Reporte -->
                 <td class="px-6 py-4 text-center">
                     <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
-                        ${r.estado}
+                        ${ (r.estado == null)?'espera':r.estado}
                     </span>
                 </td>
 
                 <td class="px-6 py-4 text-center">
                     <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
-                        ${ (r.estado == 'aceptada' || r.estado == 'reprogramado')?'en proceso':'reparado' }
+                        ${ (r.estado == null)?'en proceso':'reparado' }
                     </span>
 
-                    <button data-estado="${ (r.estado == 'aceptada' || r.estado == 'reprogramado')?'en proceso':'reparado' }" data-id="${r.id}"
+                    <button data-estado="${ (r.estado == null)?'en proceso':'reparado' }" data-id="${r.id}"
                         class="cambiar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]"
                         title="Guardar cambio">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -121,15 +139,54 @@ function generarRegistro(informacion){
                 </td>
 
                 <td class="px-6 py-4 text-center">
-                    <div class="flex justify-center">
-                        <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
-                            Reportar
-                        </button>
-                    </div>
+        `;
+
+        if (r.estado == 'en proceso'){
+            reportes += `
+                <button data-id="${r.id}" class="reportar flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                    Sin Reparacion
+                </button>
+            `;
+        }
+
+        reportes += `
                 </td>
             </tr>
         `;
     });
 
     contenedorReportes.innerHTML =  reportes;
+}
+
+async function sinFuncionamiento(id, estado, idInventario, cantidad){
+    const datos = {
+        'id_reporte': id,
+        'estado': estado,
+        'info_usuario': usuario,
+        'id_inventario': idInventario,
+        'cantidad': cantidad
+    };
+
+    try{
+        const respuesta = await fetch('/usuario/mantenimiento/reporte-sin-funcionamiento',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify(datos)
+        });
+
+        const resultado = await respuesta.json();
+
+        if (respuesta.ok){
+            console.log(resultado);
+            alert("Material eliminado");
+        }else{
+            alert(resultado.error);
+        }
+    }catch (error){
+        console.error("Error de conexión:", error);
+    }
 }

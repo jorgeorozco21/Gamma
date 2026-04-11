@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\AuditoriaComputoController;
+use App\Http\Controllers\AuditoriaReporteMaterialController;
 use App\Http\Controllers\CargaInventarioController;
 use App\Http\Controllers\CargaLaboratoriosController;
 use App\Http\Controllers\CargaMaterialesController;
@@ -12,9 +13,11 @@ use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReporteMaterialController;
 use App\Http\Controllers\SolicitudEliminadaController;
 use App\Http\Controllers\SolicitudesComputoController;
 use App\Http\Controllers\SolicitudesController;
+use App\Models\AuditoriaReporteMaterial;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -312,6 +315,7 @@ Route::middleware('check.login')->group(function (){
                     "i.id",
                     "m.nombre as nombreMaterial",
                     "i.cantidad_total",
+                    "i.cantidad_disponible",
                     "l.nombre as nombreLaboratorio"
                 )
                 ->where("m.nombre","ilike","%".$request->texto."%")
@@ -802,6 +806,46 @@ Route::middleware('check.login')->group(function (){
         
             return response()->json($solicitudes);
         });
+
+        Route::get('/api/solicitudes-en-prestamo', function (){
+            $solicitudes = 
+                DB::table('solicitudes as s')
+                ->select(
+                    's.id'
+                )
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria as a')
+                        ->whereColumn('a.id_solicitud', 's.id')
+                        ->where('a.estado', '=', 'en prestamo');
+                })
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria as a')
+                        ->whereColumn('a.id_solicitud', 's.id')
+                        ->where('a.estado', '=', 'recibido');
+                })
+                ->get();
+            ;
+
+            return response()->json($solicitudes);
+        });
+
+        Route::get('/api/info-materiales-solicitud-prestamo', function (Illuminate\Http\Request $request){
+
+            $solicitud = 
+                DB::table('solicitudes as s')
+                ->select(
+                    's.info_material'
+                )
+                ->where('s.id','=',$request->id)
+                ->first()
+            ;
+
+            return response()->json($solicitud);
+        });
+
+        Route::post('/creacion-reporte-material', [ReporteMaterialController::class, 'store']);
         
         Route::get('/usuario/encargado/solicitudes-pendientes-computo', function(){
         
@@ -909,7 +953,7 @@ Route::middleware('check.login')->group(function (){
             return response()->json($reportes);
         });
         
-        Route::get('/solicitudes-aceptadas-computo', function(){
+        Route::get('/usuario/encargado/solicitudes-aceptadas-computo', function(){
         
             $laboratorios = 
                 DB::table('laboratorios as l')
@@ -1004,6 +1048,112 @@ Route::middleware('check.login')->group(function (){
             return response()->json($reportes);
         });
 
+        Route::get('/usuario/encargado/reportes-materiales', function (){
+
+            $laboratorios = 
+                DB::table('laboratorios as l')
+                ->select(
+                    'l.id',
+                    'l.nombre'
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->where('l.tipo','=','prestamos')
+                ->get()
+            ;
+        
+            $usuario = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.id',
+                    'u.nombre',
+                    'u.email'
+                )   
+                ->where("u.id","=",session('id_usuario'))
+                ->first()
+            ;
+
+            $reportes = 
+                DB::table('reportes_materiales as r')
+                ->join('inventarios as i','i.id','=','r.id_inventario')
+                ->join('materiales as m','m.id','=','i.id_material')
+                ->join('laboratorios as l','l.id','=','i.id_laboratorio')
+                ->select(
+                    'r.id',
+                    'r.id_inventario',
+                    'm.nombre',
+                    'l.nombre as nombreLaboratorio',
+                    'r.cantidad',
+                    'r.descripcion',
+                    'r.fecha',
+                    DB::raw('(SELECT estado FROM auditoria_reportes_materiales
+                        WHERE id_reporte = r.id 
+                        ORDER BY id DESC LIMIT 1) as estado')
+                )
+                ->where('r.id_institucion','=',session('id_institucion'))
+                ->whereRaw('
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) NOT IN (?, ?) 
+                    OR 
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) IS NULL
+                ', ['recibido', 'sin reparacion'])
+                ->get()
+            ;
+
+            return view('Encargado_Area.auditoria-reportes-materiales', compact('laboratorios','usuario','reportes'));
+        });
+
+        Route::get('/api/usuario/encargado/reportes-materiales', function (Illuminate\Http\Request $request){
+        
+            $consulta = 
+                DB::table('reportes_materiales as r')
+                ->join('inventarios as i','i.id','=','r.id_inventario')
+                ->join('materiales as m','m.id','=','i.id_material')
+                ->join('laboratorios as l','l.id','=','i.id_laboratorio')
+                ->select(
+                    'r.id',
+                    'm.nombre',
+                    'l.nombre as nombreLaboratorio',
+                    'r.cantidad',
+                    'r.descripcion',
+                    'r.fecha',
+                    DB::raw('(SELECT estado FROM auditoria_reportes_materiales
+                        WHERE id_reporte = r.id 
+                        ORDER BY id DESC LIMIT 1) as estado')
+                )
+                ->where('r.id_institucion','=',session('id_institucion'))
+                ->whereRaw('
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) NOT IN (?, ?) 
+                    OR 
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) IS NULL
+                ', ['recibido', 'sin reparacion'])
+            ;
+        
+            if ($request->filtro != 'Sin Filtro'){
+                $consulta->where('l.id','=',$request->filtro);
+            }
+        
+            if ($request->texto){
+                $consulta->where(function($q) use ($request) {
+                    $term = '%' . $request->texto . '%';
+                    $q->where(DB::raw("CAST(r.id AS TEXT)"), 'ilike', $term)
+                    ->orWhere(DB::raw("m.nombre"), 'ilike', $term);
+                });
+            }
+        
+            $reportes = $consulta->get();
+        
+            return response()->json($reportes);
+        });
+
+        Route::post('/usuario/encargado/actualizar-reportes-materiales', [AuditoriaReporteMaterialController::class, 'completarReporte']);
+
     });
 
     Route::middleware(['tipo:mantenimiento'])->group(function (){
@@ -1078,6 +1228,93 @@ Route::middleware('check.login')->group(function (){
         
             return response()->json($reportes);
         });
+
+        Route::post('/usuario/mantenimiento/actualizar-solicitudes-computo', [AuditoriaComputoController::class, 'store']);
+
+        Route::get('/usuario/mantenimiento/reportes-materiales', function(){
+        
+            $usuario = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.id',
+                    'u.nombre',
+                    'u.email'
+                )   
+                ->where("u.id","=",session('id_usuario'))
+                ->first()
+            ;
+
+            $reportes = 
+                DB::table('reportes_materiales as r')
+                ->join('inventarios as i','i.id','=','r.id_inventario')
+                ->join('materiales as m','m.id','=','i.id_material')
+                ->join('laboratorios as l','l.id','=','i.id_laboratorio')
+                ->select(
+                    'r.id',
+                    'r.id_inventario',
+                    'm.nombre',
+                    'l.nombre as nombreLaboratorio',
+                    'r.cantidad',
+                    'r.descripcion',
+                    'r.fecha',
+                    DB::raw('(SELECT estado FROM auditoria_reportes_materiales
+                        WHERE id_reporte = r.id 
+                        ORDER BY id DESC LIMIT 1) as estado')
+                )
+                ->where('r.id_institucion','=',session('id_institucion'))
+                ->whereRaw('
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) NOT IN (?, ?, ?)
+                    OR 
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) IS NULL
+                ', ['reparado', 'recibido', 'sin reparacion'])
+                ->get()
+            ;
+        
+            return view('Encargado_Mantenimiento.reportes_materiales', compact('usuario','reportes'));
+        })->name('reportes');
+
+        Route::post('/usuario/mantenimiento/actualizar-reportes-materiales', [AuditoriaReporteMaterialController::class, 'store']);
+
+        Route::get('/usuario/mantenimiento/actualizar-informacion-reportes-mateiales', function(){
+        
+            $reportes = 
+                DB::table('reportes_materiales as r')
+                ->join('inventarios as i','i.id','=','r.id_inventario')
+                ->join('materiales as m','m.id','=','i.id_material')
+                ->join('laboratorios as l','l.id','=','i.id_laboratorio')
+                ->select(
+                    'r.id',
+                    'r.id_inventario',
+                    'm.nombre',
+                    'l.nombre as nombreLaboratorio',
+                    'r.cantidad',
+                    'r.descripcion',
+                    'r.fecha',
+                    DB::raw('(SELECT estado FROM auditoria_reportes_materiales
+                        WHERE id_reporte = r.id 
+                        ORDER BY id DESC LIMIT 1) as estado')
+                )
+                ->where('r.id_institucion','=',session('id_institucion'))
+                ->whereRaw('
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) NOT IN (?, ?, ?)
+                    OR 
+                    (SELECT estado FROM auditoria_reportes_materiales
+                    WHERE id_reporte = r.id 
+                    ORDER BY id DESC LIMIT 1) IS NULL
+                ', ['reparado', 'recibido', 'sin reparacion'])
+                ->get()
+            ;
+        
+            return response()->json($reportes);
+        });
+
+        Route::post('/usuario/mantenimiento/reporte-sin-funcionamiento', [AuditoriaReporteMaterialController::class, 'sinFuncionamiento']);
 
     });
     

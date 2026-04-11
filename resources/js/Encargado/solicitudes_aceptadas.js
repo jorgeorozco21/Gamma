@@ -162,3 +162,171 @@ buscador.addEventListener("input", ()=>{
 filtro.addEventListener("change", ()=>{
     buscadorGeneral();
 });
+
+const abrir = document.getElementById("abrir-modal");
+const cerrar = document.getElementById("cerrar-modal-reporte");
+const buscar = document.getElementById("boton-buscar");
+const seleccionar = document.getElementById("boton-seleccionar");
+const generarReporte = document.getElementById("enviar-reporte");
+let materiales;
+let actual = 1;
+let cantidadMaxima;
+let idSolicitud;
+let idInventario;
+
+abrir.addEventListener('click', function() {
+    consultarSolicitudes();
+});
+
+async function consultarSolicitudes(){
+    const response = await fetch('/api/solicitudes-en-prestamo');
+    const data = await response.json();
+
+    const select = document.getElementById('opciones-solicitudes');
+    select.innerHTML = '';
+
+    data.forEach(s =>{
+        select.innerHTML += `
+            <option value="${s.id}">${s.id}</option>
+        `;
+    });
+
+    const modal =  document.getElementById('material-modal-reporte');
+
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+}
+
+function reiniciarFormulario(){
+    actual = 1;
+    document.getElementById('mas').classList.add('hidden');
+    document.getElementById('menos').classList.add('hidden');
+    document.getElementById('cantidad').innerHTML = '';
+    document.getElementById('cantidad-reportar').innerHTML = '';
+    document.getElementById('descripcion').value = '';
+    document.getElementById('descripcion').disabled = true;
+    document.getElementById('opciones-solicitudes').innerHTML = '';
+    document.getElementById('opciones-materiales-reportar').disabled = true;
+    document.getElementById('opciones-materiales-reportar').innerHTML = '';
+    generarReporte.disabled = true;
+
+    const modal = document.getElementById('material-modal-reporte');
+
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+}
+
+cerrar.addEventListener('click', function (){
+    reiniciarFormulario();
+});
+
+buscar.addEventListener('click', function (){
+    consultarInformacion(document.getElementById('opciones-solicitudes').value);
+});
+
+async function consultarInformacion(id){
+    const response = await fetch(`/api/info-materiales-solicitud-prestamo?id=${id}`);
+    const data = await response.json();
+
+    idSolicitud = id;
+    materiales = JSON.parse(data.info_material);
+
+    const opcionesMateriales = document.getElementById('opciones-materiales-reportar');
+
+    opcionesMateriales.innerHTML = '';
+
+    materiales.forEach(m =>{
+        opcionesMateriales.innerHTML += `
+            <option value="${m.nombre}">${m.nombre}</option>
+        `;
+    })
+
+    opcionesMateriales.disabled = false;
+}
+
+seleccionar.addEventListener('click', function (){
+    const info = materiales.find(m => m.nombre == document.getElementById('opciones-materiales-reportar').value);
+    cantidadMaxima = info.cantidad;
+    idInventario = info.id;
+    if (cantidadMaxima == 1){
+        document.getElementById('mas').classList.add('hidden');
+        document.getElementById('menos').classList.add('hidden');
+    }else{
+        document.getElementById('mas').classList.remove('hidden');
+        document.getElementById('menos').classList.remove('hidden');
+    }
+    document.getElementById('cantidad-reportar').innerHTML = ` 1 `;
+    actual = 1;
+    document.getElementById('cantidad').innerHTML = ` ${cantidadMaxima} `;
+    document.getElementById('descripcion').disabled = false;
+    document.getElementById('descripcion').value = '';
+    generarReporte.disabled = false;
+});
+
+document.getElementById('mas').addEventListener('click', function (){
+    if (actual < cantidadMaxima){
+        actual++;
+        document.getElementById('cantidad-reportar').innerHTML = ` ${actual} `
+    }
+});
+
+document.getElementById('menos').addEventListener('click', function (){
+    if (actual > 1){
+        actual--;
+        document.getElementById('cantidad-reportar').innerHTML = ` ${actual} `
+    }
+});
+
+generarReporte.addEventListener('click', function (){
+    if (document.getElementById('descripcion').value == ''){
+        alert('No puedes generar un reporte sin descripcion');
+    }else{
+        if (confirm('Deseas generar el reporte ??')){
+            reporte();
+            buscador.value = '';
+            filtro.selectedIndex = 0;
+            buscadorGeneral();
+            reiniciarFormulario();
+        }
+    }
+});
+
+async function reporte(){
+    const material = document.getElementById('opciones-materiales-reportar').value;
+    const indice = materiales.findIndex(m => m.nombre == material);
+
+    materiales[indice].cantidad = cantidadMaxima - actual;
+
+    materiales = materiales.filter(m => m.cantidad > 0);
+
+    const datos = {
+        'id': idSolicitud,
+        'info_usuario': usuario,
+        'info_material': materiales,
+        'id_inventario': idInventario,
+        'descripcion': document.getElementById('descripcion').value,
+        'cantidad': actual
+    };
+
+    try{
+        const respuesta = await fetch('/creacion-reporte-material',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify(datos)
+        });
+
+        const resultado = await respuesta.json();
+
+        if (respuesta.ok){
+            alert("Reporte generado correctamente");
+        }else{
+            alert(resultado.error);
+        }
+    }catch (error){
+        console.error("Error de conexión:", error);
+    }
+}

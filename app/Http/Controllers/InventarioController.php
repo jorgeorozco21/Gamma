@@ -58,6 +58,7 @@ class InventarioController extends Controller
                 "i.id",
                 "m.nombre as nombreMaterial",
                 "i.cantidad_total",
+                'i.cantidad_disponible',
                 "l.nombre as nombreLaboratorio"
             )
             ->where("l.id_institucion","=",session("id_institucion"))
@@ -140,6 +141,10 @@ class InventarioController extends Controller
     public function destroy(string $id)
     {
         $inventario = Inventario::findOrFail($id);
+
+        if ($inventario->cantidad_disponible != $inventario->cantidad_total){
+            return redirect()->route('admin.inventario.index')->with("error",'No se puede borrar un invetario si la cantidad total no es igual a la disponible');
+        }
 
         $inventario->delete();
 
