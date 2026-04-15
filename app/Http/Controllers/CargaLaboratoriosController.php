@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\FilasImport;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
@@ -92,7 +93,23 @@ class CargaLaboratoriosController extends Controller
         }
 
         foreach ($datosValidados as $laboratorio){
-            Laboratorio::create($laboratorio);
+            $nuevoLaboratorio = Laboratorio::create($laboratorio);
+
+            if ($nuevoLaboratorio->tipo == 'computo'){
+                $computadorasParaInsertar = [];
+
+                for ($i=1;$i<=$nuevoLaboratorio->cantidad_computadoras;$i++){
+                    $computadorasParaInsertar[] = [
+                        'numero_computadora' => "PC-$i",
+                        'estado' => 'activo',
+                        'id_laboratorio' => $nuevoLaboratorio->id, 
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+                }
+                
+                DB::table('computadoras')->insert($computadorasParaInsertar);
+            }
         }
 
         return redirect()->route('admin.laboratorios.index')->with('success',"Informacion agregada correctamente");

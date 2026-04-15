@@ -19,6 +19,17 @@ document.addEventListener('click', (e)=>{
             actualizarInformacion();
         }
     }
+
+    const reportar = e.target.closest('.reportar');
+
+    if (reportar){
+        if (confirm('La computadora no funciona ??')){
+            const id = reportar.dataset.id;
+
+            editarEstado(id);
+            actualizarInformacion();
+        }
+    }
 });
 
 async function cambiarEstado(id, estado){
@@ -119,17 +130,52 @@ function generarRegistro(informacion){
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     </button>
                 </td>
-
                 <td class="px-6 py-4 text-center">
+        `;
+
+        if (r.estado != 'aceptada' && r.estado != 'reprogramado'){
+            reportes += `
                     <div class="flex justify-center">
-                        <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                        <button data-id="${r.id_computadora}" class="reportar flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
                             Reportar
                         </button>
                     </div>
+            `;
+        }
+
+        reportes += `
                 </td>
             </tr>
         `;
     });
 
     contenedorReportes.innerHTML =  reportes;
+}
+
+async function editarEstado(id){
+    const datos = {
+        'id_computadora': id
+    };
+
+    try{
+        const respuesta = await fetch(`/usuario/matenimiento/editar-computadora-${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(datos)
+        });
+
+        const resultado = await respuesta.json();
+
+        if (respuesta.ok){
+            alert("Informacion actualizada correctamente");
+        }else{
+            alert("Error: " + resultado.message);
+        }
+    }catch (error){
+        console.error("Error al editar:", error);
+    }
 }

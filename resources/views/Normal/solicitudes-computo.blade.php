@@ -15,7 +15,7 @@
             <div class="flex-1 p-8 overflow-y-auto">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Solicitudes - {{ $infoLaboratorio->nombre }}</h1>
+                        <h1 class="text-2xl font-bold text-gray-800">Solicitudes - {{ $laboratorio->nombre }}</h1>
                         <p class="text-gray-500 text-sm">Revisa las solicitudes de computo realizadas</p>
                     </div>
                     <!-- Buscador -->
@@ -30,15 +30,13 @@
                     </div>
                 </div>
                 <!-- Componente Card Solicitud Computo -->
-                <x-normal.card-solicitud-computo :infoLaboratorio="$infoLaboratorio" :reportes="$reportes" />
+                <x-normal.card-solicitud-computo :infoLaboratorio="$infoLaboratorio" />
             </div>
             <!-- Componente Solicitud de Materiales-->
             <x-normal.solicitud-computo />
         </main>
 
-        <input type="hidden" id="cantidad-computadoras" value="{{ $infoLaboratorio->cantidad_computadoras }}">
-        <input type="hidden" id="reportes" value="{{ json_encode($reportes) }}">
-        <input type="hidden" id="id-laboratorio" value="{{ $infoLaboratorio->id }}">
+        <input type="hidden" id="id-laboratorio" value="{{ $laboratorio->id }}">
 
         @vite(['resources/js/Normal/buscador_computadora.js','resources/js/Normal/creacion_solicitudes_computo.js'])
     </body>

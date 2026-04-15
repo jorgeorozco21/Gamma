@@ -12,17 +12,16 @@ class SolicitudComputo extends Model
     protected $table = 'solicitudes_computo';
 
     protected $fillable = [
-        'id_laboratorio',
-        'numero_computadora',
+        'id_computadora',
         'descripcion',
         'fecha'
     ];
 
-    public function laboratorio(){
-        return $this->belongsTo(Laboratorio::class, 'id_laboratorio');
-    }
-
     public function auditorias(){
         return $this->hasMany(AuditoriaComputo::class, 'id_solicitud');
+    }
+
+    public function computadora(){
+        return $this->belongsTo(Computadora::class, 'id_computadora');
     }
 }

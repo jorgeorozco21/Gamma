@@ -51,7 +51,6 @@ async function informacionReportes(idSolicitud, idComputadora){
     const response = await fetch(`/usuario/encargado/reportes-computo?id=${idComputadora}&idSolicitud=${idSolicitud}`);
     const data = await response.json();
 
-    console.log(data);
     openReportesModal(idSolicitud, data);
 }
 
@@ -60,7 +59,7 @@ function openReportesModal(requestId, informacion){
 
     if (informacion.length === 0) {
         contenedorReportes.innerHTML = `
-            <div class="mb-4 p-4 bg-[#F7F6F8] rounded-2xl border-2 border-red-200 relative group hover:shadow-md hover:border-red-600 transition-all cursor-default">
+            <div class="mb-4 p-4 bg-[#F7F6F8] rounded-2xl relative group transition-all cursor-default">
                 <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3">
                     No hay reportes.
                 </p>
@@ -186,7 +185,7 @@ function generarRegistros(informacion){
                 <!-- Descripcion -->
                 <td class="px-6 py-4 justify-center">
                     <button type="button" 
-                        onclick="openMaterialModal(${r.id},${r.descripcion})" 
+                        onclick="openMaterialModal('${r.id}','${r.descripcion}')" 
                         class="flex items-center gap-2 text-[#7B1FA3]"
                         title="Ver Descripcion">
                         <div class="p-1.5 bg-purple-100 rounded-lg">
@@ -198,7 +197,7 @@ function generarRegistros(informacion){
                 </td>
                 
                 <td class="px-6 py-4 justify-center">
-                    <button data-id="${r.numero_computadora}" data-idSolicitud="${r.id}"
+                    <button data-id="${r.id_computadora}" data-idSolicitud="${r.id}"
                         class="ver-reportes flex items-center gap-2 text-[#7B1FA3]"
                         title="Ver Descripcion">
                         <div class="p-1.5 bg-purple-100 rounded-lg">

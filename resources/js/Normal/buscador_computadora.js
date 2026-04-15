@@ -1,40 +1,24 @@
 "use strict";
 
-export const computadoras = [];
-const reportes = JSON.parse(document.getElementById('reportes').value);
-const cantidadComputadoras = document.getElementById('cantidad-computadoras').value;
 const buscador = document.getElementById('buscador');
+const idLaboratorio = document.getElementById('id-laboratorio').value;
 const contenedor = document.getElementById('contenedor-tarjetas');
 
-generarInformacion(cantidadComputadoras, reportes);
-
-function generarInformacion(cantidad, solicitudes){
-    for (let i=1;i<=cantidad;i++){
-        const c = solicitudes[i] || 0;
-
-        computadoras.push({
-            'nombre': `pc-${i}`,
-            'id': i,
-            'cantidad_reportes': c
-        });
-    }
-}
-
-function buscadorGeneral(){
-    const texto = buscador.value.toLowerCase();
-    const data = computadoras.filter(computadora => computadora.nombre.includes(texto));
+export async function buscadorGeneral(){
+    const response = await fetch(`/api/usuario/normal/laboratorios/buscador-computadora?texto=${buscador.value}&id=${idLaboratorio}`);
+    const data = await response.json();
 
     generarTarjetas(data);
 }
 
-export function generarTarjetas(informacion){
+function generarTarjetas(informacion){
     contenedor.innerHTML = '';
 
     let tarjetas = '';
 
     informacion.forEach(s =>{
         tarjetas += `
-            <div data-numerocomputadora="${s.id}" class="tarjeta bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full cursor-pointer">
+            <div data-id="${s.id}" data-numerocomputadora="${s.numero_computadora}" class="tarjeta bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full cursor-pointer">
                 <!-- Cantidad de Reportes -->
                 <div class="mb-4">
                     <span class="bg-[#E0E7FF] text-[#3730A3] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider">

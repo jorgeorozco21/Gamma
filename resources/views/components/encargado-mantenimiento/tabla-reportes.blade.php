@@ -67,7 +67,7 @@
                                 </span>
                             @endif
 
-                            <button data-estado="{{ ($reporte->estado == 'aceptada')?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
+                            <button data-estado="{{ ($reporte->estado == 'aceptada' || $reporte->estado == 'reprogramado')?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
                                 class="cambiar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]"
                                 title="Guardar cambio">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -75,11 +75,13 @@
                         </td>
 
                         <td class="px-6 py-4 text-center">
-                            <div class="flex justify-center">
-                                <button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
-                                    Reportar
-                                </button>
-                            </div>
+                            @if ($reporte->estado != 'aceptada' && $reporte->estado != 'reprogramado')
+                                <div class="flex justify-center">
+                                    <button data-id="{{ $reporte->id_computadora }}" class="reportar flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                        Reportar
+                                    </button>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

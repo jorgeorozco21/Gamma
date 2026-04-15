@@ -6,7 +6,7 @@
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID Solicitud</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">No. Computadora</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Computadora</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Reportes Anteriores</th>
@@ -49,7 +49,7 @@
                         </td>
                         
                         <td class="px-6 py-4 justify-center">
-                            <button data-id="{{ $reporte->numero_computadora }}" data-idSolicitud="{{ $reporte->id }}"
+                            <button data-id="{{ $reporte->id_computadora }}" data-idSolicitud="{{ $reporte->id }}"
                                 class="ver-reportes flex items-center gap-2 text-[#7B1FA3]"
                                 title="Ver Descripcion">
                                 <div class="p-1.5 bg-purple-100 rounded-lg">

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('solicitudes_computo', function (Blueprint $table) {
+        Schema::create('computadoras', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_computadora');
-            $table->text('descripcion');
-            $table->string('fecha');
+            $table->string("numero_computadora");
+            $table->string("estado");
+            $table->unsignedBigInteger("id_laboratorio");
             $table->timestamps();
 
-            $table->foreign("id_computadora")->references("id")->on("computadoras")->onDelete("cascade")->onUpdate("cascade"); 
+            $table->foreign("id_laboratorio")->references("id")->on("laboratorios")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('solicitud_computos');
+        Schema::dropIfExists('computadoras');
     }
 };

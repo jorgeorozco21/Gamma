@@ -7,6 +7,7 @@ use App\Http\Controllers\CargaInventarioController;
 use App\Http\Controllers\CargaLaboratoriosController;
 use App\Http\Controllers\CargaMaterialesController;
 use App\Http\Controllers\CargaUsuariosController;
+use App\Http\Controllers\ComputadoraController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\LaboratorioController;
@@ -17,7 +18,7 @@ use App\Http\Controllers\ReporteMaterialController;
 use App\Http\Controllers\SolicitudEliminadaController;
 use App\Http\Controllers\SolicitudesComputoController;
 use App\Http\Controllers\SolicitudesController;
-use App\Models\AuditoriaReporteMaterial;
+use App\Models\Grupo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -366,6 +367,7 @@ Route::middleware('check.login')->group(function (){
                 DB::table('usuarios as u')
                 ->join('grupos as g','g.id','=','u.id_grupo')
                 ->select(
+                    'u.id_grupo',
                     'g.laboratorios'
                 )
                 ->where('u.id','=',session('id_usuario'))
@@ -375,6 +377,8 @@ Route::middleware('check.login')->group(function (){
             $idLaboratorios = explode(',',$labAcceso->laboratorios);
         
             $laboratorios = [];
+            $band = false;
+            $aux = "";
             foreach ($idLaboratorios as $id){
                 $infoLab = 
                     DB::table('laboratorios as l')
@@ -386,8 +390,26 @@ Route::middleware('check.login')->group(function (){
                     ->where('l.id','=',$id)
                     ->first()
                 ;
+
+
+                if (!$infoLab){
+                    $band = true;
+                }else{
+                    $aux .= $id . ",";
+                }
         
                 $laboratorios[] = $infoLab;
+            }
+
+            if ($band){
+                $aux = substr($aux,0,-1);
+
+                $grupo = Grupo::where('id', $labAcceso->id_grupo)->first();
+
+                if ($grupo) {
+                    $grupo->laboratorios = $aux;
+                    $grupo->save(); 
+                }
             }
         
             return view('Normal.laboratorios', compact('laboratorios'));
@@ -557,39 +579,72 @@ Route::middleware('check.login')->group(function (){
         Route::delete('/usuario/normal/eliminar-solicitud-eliminada/{id}', [SolicitudEliminadaController::class, 'destroy']);
         
         Route::get('/usuario/normal/laboratorios/{id}-laboratorio-computo', function($id){
-        
-            $infoLaboratorio = 
+
+            $laboratorio = 
                 DB::table('laboratorios as l')
                 ->select(
-                    'l.id',
-                    'l.nombre',
-                    'l.cantidad_computadoras'
+                    'id',
+                    'nombre',
+                    'cantidad_computadoras'
                 )
                 ->where('l.id','=',$id)
                 ->first()
-            ;
+            ; 
         
-            $reportes = 
-                DB::table('solicitudes_computo as s')
-                ->select(
-                    's.numero_computadora',
-                    DB::raw('COUNT(*) as cantidad_reportes')
-                )
-                ->whereNotExists(function ($query) {
-                    $query->select(DB::raw(1))
-                        ->from('auditoria_computo as a')
-                        ->whereColumn('a.id_solicitud', 's.id')
-                        ->where('a.estado', '=', 'completado');
-                })
-                ->where('s.id_laboratorio','=',$id)
-                ->groupBy('s.numero_computadora')
-                ->get()
-                ->pluck('cantidad_reportes','numero_computadora')
-            ;
+            $infoLaboratorio = DB::table('computadoras as c')
+            ->leftJoin('solicitudes_computo as s', function($join) {
+                $join->on('s.id_computadora', '=', 'c.id')
+                    ->whereNotExists(function ($query) {
+                        $query->select(DB::raw(1))
+                            ->from('auditoria_computo as a')
+                            ->whereColumn('a.id_solicitud', 's.id')
+                            ->where('a.estado', '=', 'completado');
+                    });
+            })
+            ->select(
+                'c.id',
+                'c.numero_computadora',
+                DB::raw('COUNT(s.id) as cantidad_reportes')
+            )
+            ->where('c.estado','=','activo')
+            ->where('c.id_laboratorio', '=', $id)
+            ->where('c.estado', '=', 'activo')
+            ->groupBy('c.id', 'c.numero_computadora')
+            ->orderBy('c.id','ASC')
+            ->get();
         
-            return view('Normal.solicitudes-computo', compact('infoLaboratorio', 'reportes'));
+            return view('Normal.solicitudes-computo', compact('infoLaboratorio','laboratorio'));
         })->name('solicitudes-computo');
         
+        Route::get('/api/usuario/normal/laboratorios/buscador-computadora', function (Illuminate\Http\Request $request){
+            $computadoras =
+                DB::table('computadoras as c')
+                ->leftJoin('solicitudes_computo as s', function($join) {
+                    $join->on('s.id_computadora', '=', 'c.id')
+                        ->whereNotExists(function ($query) {
+                            $query->select(DB::raw(1))
+                                ->from('auditoria_computo as a')
+                                ->whereColumn('a.id_solicitud', 's.id')
+                                ->where('a.estado', '=', 'completado');
+                        });
+                })
+                ->select(
+                    'c.id',
+                    'c.numero_computadora',
+                    DB::raw('COUNT(s.id) as cantidad_reportes')
+                )
+                ->where('c.estado','=','activo')
+                ->where('c.id_laboratorio', '=', $request->id)
+                ->where('c.numero_computadora','ilike','%'.$request->texto.'%')
+                ->where('c.estado', '=', 'activo')
+                ->groupBy('c.id', 'c.numero_computadora')
+                ->orderBy('c.id','ASC')
+                ->get()
+            ;
+
+            return response()->json($computadoras);
+        });
+
         Route::get('/usuario/normal/laboratorios/obtener-reportes-computo', function (Illuminate\Http\Request $request){
             
             $reportes = 
@@ -597,8 +652,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.descripcion'
                 )
-                ->where('s.numero_computadora','=',$request->id)
-                ->where('s.id_laboratorio','=',$request->idLaboratorio)
+                ->where('s.id_computadora','=',$request->id)
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
                         ->from('auditoria_computo as a')
@@ -614,100 +668,100 @@ Route::middleware('check.login')->group(function (){
         Route::post('/usuario/normal/laboratorios/solicitud-computo', [SolicitudesComputoController::class, 'store']);
         
     });
-    
-    Route::get('/usuario/encargado/solicitudes-pendientes', function(){
-    
-        $laboratorios = 
-            DB::table('laboratorios as l')
-            ->select(
-                'l.id',
-                'l.nombre'
-            )
-            ->where('l.id_institucion','=',session('id_institucion'))
-            ->where('l.tipo','=','prestamos')
-            ->get()
-        ;
-    
-        $usuario = 
-            DB::table('usuarios as u')
-            ->select(
-                'u.id',
-                'u.nombre',
-                'u.email'
-            )   
-            ->where("u.id","=",session('id_usuario'))
-            ->first()
-        ;
-    
-        $solicitudes = 
-            DB::table('solicitudes as s')
-            ->join('laboratorios as l', function($join) {
-                $join->on(
-                    DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
-                    '=', 
-                    'l.id'
-                );
-            })
-            ->select(
-                's.id',
-                's.fecha',
-                's.info_usuario',
-                's.info_material'
-            )
-            ->where('l.id_institucion', '=', session('id_institucion'))
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('auditoria as a')
-                    ->whereColumn('a.id_solicitud', 's.id');
-            })
-            ->get()
-        ;
-    
-        return view('Encargado_Area.solicitudes-pendientes', compact('solicitudes','usuario','laboratorios'));
-    })->name('solicitudes-pendientes');
-    
-    Route::get('/api/usuario/encargado/solicitudes-pendientes', function(Illuminate\Http\Request $request){
-        $consulta = 
-            DB::table('solicitudes as s')
-            ->join('laboratorios as l', function($join) {
-                $join->on(
-                    DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
-                    '=', 
-                    'l.id'
-                );
-            })
-            ->select(
-                's.id',
-                's.fecha',
-                's.info_usuario',
-                's.info_material'
-            )
-            ->where('l.id_institucion', '=', session('id_institucion'))
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('auditoria as a')
-                    ->whereColumn('a.id_solicitud', 's.id');
-            })
-        ;
-    
-        if ($request->filtro != "Sin Filtro"){
-            $consulta->where(DB::raw("s.info_usuario->>'idLaboratorio'"), '=', $request->filtro);
-        }
-    
-        if ($request->texto) {
-            $consulta->where(function($q) use ($request) {
-                $term = '%' . $request->texto . '%';
-                $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
-                ->orWhere(DB::raw("s.info_usuario->>'nombre'"), 'ilike', $term);
-            });
-        }
-    
-        $solicitudes = $consulta->get();
-    
-        return response()->json($solicitudes);
-    });
 
     Route::middleware(['tipo:encargado'])->group(function (){
+
+        Route::get('/usuario/encargado/solicitudes-pendientes', function(){
+    
+            $laboratorios = 
+                DB::table('laboratorios as l')
+                ->select(
+                    'l.id',
+                    'l.nombre'
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->where('l.tipo','=','prestamos')
+                ->get()
+            ;
+        
+            $usuario = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.id',
+                    'u.nombre',
+                    'u.email'
+                )   
+                ->where("u.id","=",session('id_usuario'))
+                ->first()
+            ;
+        
+            $solicitudes = 
+                DB::table('solicitudes as s')
+                ->join('laboratorios as l', function($join) {
+                    $join->on(
+                        DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                        '=', 
+                        'l.id'
+                    );
+                })
+                ->select(
+                    's.id',
+                    's.fecha',
+                    's.info_usuario',
+                    's.info_material'
+                )
+                ->where('l.id_institucion', '=', session('id_institucion'))
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria as a')
+                        ->whereColumn('a.id_solicitud', 's.id');
+                })
+                ->get()
+            ;
+        
+            return view('Encargado_Area.solicitudes-pendientes', compact('solicitudes','usuario','laboratorios'));
+        })->name('solicitudes-pendientes');
+        
+        Route::get('/api/usuario/encargado/solicitudes-pendientes', function(Illuminate\Http\Request $request){
+            $consulta = 
+                DB::table('solicitudes as s')
+                ->join('laboratorios as l', function($join) {
+                    $join->on(
+                        DB::raw("CAST(s.info_usuario->>'idLaboratorio' AS INTEGER)"), 
+                        '=', 
+                        'l.id'
+                    );
+                })
+                ->select(
+                    's.id',
+                    's.fecha',
+                    's.info_usuario',
+                    's.info_material'
+                )
+                ->where('l.id_institucion', '=', session('id_institucion'))
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria as a')
+                        ->whereColumn('a.id_solicitud', 's.id');
+                })
+            ;
+        
+            if ($request->filtro != "Sin Filtro"){
+                $consulta->where(DB::raw("s.info_usuario->>'idLaboratorio'"), '=', $request->filtro);
+            }
+        
+            if ($request->texto) {
+                $consulta->where(function($q) use ($request) {
+                    $term = '%' . $request->texto . '%';
+                    $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
+                    ->orWhere(DB::raw("s.info_usuario->>'nombre'"), 'ilike', $term);
+                });
+            }
+        
+            $solicitudes = $consulta->get();
+        
+            return response()->json($solicitudes);
+        });
     
         Route::post('/usuario/encargado/actualizar-solicitudes', [AuditoriaController::class, 'store']);
         
@@ -873,14 +927,17 @@ Route::middleware('check.login')->group(function (){
         
             $reportes = 
                 DB::table('solicitudes_computo as s')
-                ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+                ->join('computadoras as c','c.id','=','s.id_computadora')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
-                    's.numero_computadora',
+                    's.id_computadora',
+                    'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
                     's.fecha'
                 )
+                ->where('c.estado','=','activo')
                 ->where('l.id_institucion','=',session('id_institucion'))
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
@@ -900,7 +957,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.descripcion'
                 )
-                ->where('s.numero_computadora','=',$request->id)
+                ->where('s.id_computadora','=',$request->id)
                 ->where('s.id','<',$request->idSolicitud)
                 ->where(function($query) {
                 $query->selectRaw('count(*)')
@@ -920,14 +977,17 @@ Route::middleware('check.login')->group(function (){
         Route::get('/api/usuario/encargado/solicitudes-pendientes-computo', function (Illuminate\Http\Request $request){
             $consulta = 
                 DB::table('solicitudes_computo as s')
-                ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+                ->join('computadoras as c','c.id','=','s.id_computadora')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
-                    's.numero_computadora',
+                    's.id_computadora',
+                    'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
                     's.fecha'
                 )
+                ->where('c.estado','=','activo')
                 ->where('l.id_institucion','=',session('id_institucion'))
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
@@ -944,7 +1004,7 @@ Route::middleware('check.login')->group(function (){
                 $consulta->where(function($q) use ($request) {
                     $term = '%' . $request->texto . '%';
                     $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
-                    ->orWhere(DB::raw("s.numero_computadora"), 'ilike', $term);
+                    ->orWhere(DB::raw("c.numero_computadora"), 'ilike', $term);
                 });
             }
         
@@ -979,10 +1039,12 @@ Route::middleware('check.login')->group(function (){
         
             $reportes = 
                 DB::table('solicitudes_computo as s')
-                ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+                ->join('computadoras as c','c.id','=','s.id_computadora')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
-                    's.numero_computadora',
+                    's.id_computadora',
+                    'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
                     's.fecha',
@@ -990,6 +1052,7 @@ Route::middleware('check.login')->group(function (){
                         WHERE id_solicitud = s.id 
                         ORDER BY id DESC LIMIT 1) as estado')
                 )
+                ->where('c.estado','=','activo')
                 ->where('l.id_institucion','=',session('id_institucion'))
                 ->whereRaw('(SELECT estado FROM auditoria_computo 
                         WHERE id_solicitud = s.id 
@@ -1009,10 +1072,12 @@ Route::middleware('check.login')->group(function (){
         
             $consulta = 
                 DB::table('solicitudes_computo as s')
-                ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+                ->join('computadoras as c','c.id','=','s.id_computadora')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
-                    's.numero_computadora',
+                    's.id_computadora',
+                    'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
                     's.fecha',
@@ -1020,6 +1085,7 @@ Route::middleware('check.login')->group(function (){
                         WHERE id_solicitud = s.id 
                         ORDER BY id DESC LIMIT 1) as estado')
                 )
+                ->where('c.estado','=','activo')
                 ->where('l.id_institucion','=',session('id_institucion'))
                 ->whereRaw('(SELECT estado FROM auditoria_computo 
                         WHERE id_solicitud = s.id 
@@ -1039,7 +1105,7 @@ Route::middleware('check.login')->group(function (){
                 $consulta->where(function($q) use ($request) {
                     $term = '%' . $request->texto . '%';
                     $q->where(DB::raw("CAST(s.id AS TEXT)"), 'ilike', $term)
-                    ->orWhere(DB::raw("s.numero_computadora"), 'ilike', $term);
+                    ->orWhere(DB::raw("c.numero_computadora"), 'ilike', $term);
                 });
             }
         
@@ -1173,10 +1239,12 @@ Route::middleware('check.login')->group(function (){
         
             $reportes = 
                 DB::table('solicitudes_computo as s')
-                ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+                ->join('computadoras as c','c.id','=','s.id_computadora')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
-                    's.numero_computadora',
+                    's.id_computadora',
+                    'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
                     's.fecha',
@@ -1184,6 +1252,7 @@ Route::middleware('check.login')->group(function (){
                         WHERE id_solicitud = s.id 
                         ORDER BY id DESC LIMIT 1) as estado')
                 )
+                ->where('c.estado','=','activo')
                 ->where('l.id_institucion','=',session('id_institucion'))
                 ->whereRaw('(SELECT estado FROM auditoria_computo 
                         WHERE id_solicitud = s.id 
@@ -1203,10 +1272,12 @@ Route::middleware('check.login')->group(function (){
         
             $reportes = 
                 DB::table('solicitudes_computo as s')
-                ->join('laboratorios as l','l.id','=','s.id_laboratorio')
+                ->join('computadoras as c','c.id','=','s.id_computadora')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
-                    's.numero_computadora',
+                    's.id_computadora',
+                    'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
                     's.fecha',
@@ -1214,6 +1285,7 @@ Route::middleware('check.login')->group(function (){
                         WHERE id_solicitud = s.id 
                         ORDER BY id DESC LIMIT 1) as estado')
                 )
+                ->where('c.estado','=','activo')
                 ->where('l.id_institucion','=',session('id_institucion'))
                 ->whereRaw('(SELECT estado FROM auditoria_computo 
                         WHERE id_solicitud = s.id 
@@ -1230,6 +1302,8 @@ Route::middleware('check.login')->group(function (){
         });
 
         Route::post('/usuario/mantenimiento/actualizar-solicitudes-computo', [AuditoriaComputoController::class, 'store']);
+
+        Route::put('/usuario/matenimiento/editar-computadora-{id}', [ComputadoraController::class, 'edit']);
 
         Route::get('/usuario/mantenimiento/reportes-materiales', function(){
         
