@@ -1453,7 +1453,10 @@ Route::get('/', function () {
     
     return view('index');
 });
-    
+
+Route::get('/pagina-principal', function(){
+        return view('Paginas.pagina-principal');
+    })->name('pagina-principal');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
     

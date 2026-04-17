@@ -6,8 +6,8 @@
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Material</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cantidad Disponible</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cantidad Total</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad Disponible</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad Total</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
@@ -17,8 +17,8 @@
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $inventario->nombreMaterial }}</td>
                         <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $inventario->nombreLaboratorio }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $inventario->cantidad_disponible }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $inventario->cantidad_total }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 font-medium text-center">{{ $inventario->cantidad_disponible }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 font-medium text-center">{{ $inventario->cantidad_total }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
                                 <!-- Editar -->

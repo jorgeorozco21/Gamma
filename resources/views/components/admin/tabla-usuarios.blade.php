@@ -33,10 +33,24 @@
 
                         <!-- Tipo de Usuario -->
                         <td class="px-6 py-4">
-                            <div class="flex flex-col h-full justify-center">
-                                @if ($usuario->normal == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>@endif
-                                @if ($usuario->encargado == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>@endif
-                                @if ($usuario->mantenimiento == "1") <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>@endif
+                            <div class="flex flex-col h-full justify-center gap-2">     
+                                <div class="flex flex-row flex-wrap gap-2">
+                                    @if ($usuario->normal == "1") 
+                                        <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-blue-50 text-blue-600 border border-blue-100 w-fit">
+                                            Normal
+                                        </span>
+                                    @endif
+                                    @if ($usuario->encargado == "1") 
+                                        <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-purple-50 text-[#7B1FA3] border border-purple-100 w-fit">
+                                            Encargado de Area
+                                        </span>
+                                    @endif
+                                </div>
+                                @if ($usuario->mantenimiento == "1") 
+                                    <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-amber-50 text-amber-600 border border-amber-100 w-fit">
+                                        Encargado de Mantenimiento
+                                    </span>
+                                @endif
                             </div>
                         </td>
 

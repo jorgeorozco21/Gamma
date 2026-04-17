@@ -51,10 +51,14 @@ function generarRegistro(data){
                     ${usuario.nombre}
                 </td>
 
-                <td class="flex flex-col px-6 py-4">
-                    ${ (usuario.normal == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Normal</span>':'' }
-                    ${ (usuario.encargado == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Area</span>':'' }
-                    ${ (usuario.mantenimiento == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg">Encargado de Mantenimiento</span>':'' }
+                <td class="px-6 py-4">
+                    <div class="flex flex-col h-full justify-center gap-2"> 
+                        <div class="flex flex-row flex-wrap gap-2">
+                            ${ (usuario.normal == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-blue-50 text-blue-600 border border-blue-100 w-fit">Normal</span>':'' }
+                            ${ (usuario.encargado == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-purple-50 text-[#7B1FA3] border border-purple-100 w-fit">Encargado de Area</span>':'' }
+                        <div>
+                            ${ (usuario.mantenimiento == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-amber-50 text-amber-600 border border-amber-100 w-fit">Encargado de Mantenimiento</span>':'' }
+                    </div>
                 </td>
 
                 <td class="px-6 py-4 text-sm text-gray-500">
