@@ -1451,12 +1451,8 @@ Route::middleware('check.login')->group(function (){
 Route::get('/', function () {
     session()->forget(['id_usuario', 'id_institucion']);
     
-    return view('index');
+    return view('Paginas.pagina-principal');
 });
-
-Route::get('/pagina-principal', function(){
-        return view('Paginas.pagina-principal');
-    })->name('pagina-principal');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
     
