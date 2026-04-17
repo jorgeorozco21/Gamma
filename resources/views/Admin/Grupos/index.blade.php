@@ -105,7 +105,7 @@
         </div>
 
         <div id="modal-laboratorios" style="display: none;">
-            <button id="cerrar-modal-laboratorios"> X </button>
+            <button id="cerrar-modal-laboratorios">✕</button>
             <div id="contenido-modal-laboratorios">
             </div>
         </div>

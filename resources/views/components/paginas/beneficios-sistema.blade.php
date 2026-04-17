@@ -1,7 +1,7 @@
 <section>
-    <div class="text-center mb-16">
-        <h2 class="text-3xl font-extrabold text-gray-900">Beneficios</h2>
-        <p class="text-gray-500 mt-2">¿Porque elegir Gamma?</p>
+    <div class="flex items-center gap-4 mb-10">
+        <div class="h-10 w-1.5 bg-[#7B1FA3] rounded-lg"></div>
+        <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">Beneficios de la plataforma</h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

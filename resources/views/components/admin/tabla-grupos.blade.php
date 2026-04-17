@@ -64,7 +64,7 @@
                 </button>
             </div>
             <!-- Lista -->
-            <div class="px-6 py-6 h-[252px] overflow-y-auto">
+            <div class="px-6 py-6 max-h-[300px] overflow-y-auto no-scrollbar">
                 <ul id="contenido-modal-laboratorios" class="space-y-3 text-sm text-gray-600">
                     <!-- Aquí se insertan los laboratorios -->
                 </ul>

@@ -8,6 +8,10 @@
     <!-- Header Menu (Computadora) -->
     @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
         <div class="hidden md:flex justify-center gap-8 text-sm font-semibold">
+            <a href="{{ route('laboratorios') }}" class="transition-all {{ request()->routeIs('laboratorios') 
+                    ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+                Laboratorios
+            </a>
             <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-all {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
                     ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
                 Materiales
@@ -66,11 +70,14 @@
     <!-- Links (Movil) -->
     @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
         <div class="flex flex-col gap-6 text-sm font-semibold">
+            <a href="{{ route('laboratorios') }}" class="transition-all {{ request()->routeIs('laboratorios') 
+                    ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
+                Laboratorios
+            </a>
             <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
                     ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
                 Materiales
             </a>
-
             <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') 
                     ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
                 Solicitudes
@@ -79,7 +86,7 @@
     @endif
 
     <!-- Usuario (Movil) -->
-    <div class="mt-auto border-t pt-6">
+    <div class="mt-auto border-t pt-6 flex items-center justify-between">
         <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight mb-4">
             <span class="font-extrabold text-black text-sm">
                 {{ session('nombre_usuario') }}
@@ -97,7 +104,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                 </svg>
-                Cerrar sesión
             </button>
         </form>
     </div>

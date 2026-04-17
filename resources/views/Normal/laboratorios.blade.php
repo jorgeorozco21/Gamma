@@ -5,13 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Laboratorios</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        </style>
     </head>
     <body class="bg-[#F7F6F8]">
         <!-- Header -->
         <x-normal.navbar />
         <!-- Contenedor -->
         <main class="flex flex-1 overflow-hidden">
-            <div class="flex-1 p-8 overflow-y-auto">
+            <div class="flex-1 p-8 overflow-hidden">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">Laboratorios</h1>

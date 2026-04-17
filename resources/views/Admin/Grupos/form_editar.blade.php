@@ -22,8 +22,7 @@
     </div>
 </div>
 
-<div id="laboratorios-agregados-edit">
-</div>
+<div id="laboratorios-agregados-edit" class="max-h-[120px] overflow-y-auto pr-1"></div>
 
 <input type="hidden" id="inf-laboratorios-edit" name="laboratorios">
 <input type="hidden" name="id_institucion" value="{{ session("id_institucion") }}">

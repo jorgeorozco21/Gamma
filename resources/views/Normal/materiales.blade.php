@@ -6,13 +6,17 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Materiales</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        </style>
     </head>
     <body class="bg-[#F7F6F8]">
         <!-- Header -->
         <x-normal.navbar :laboratorio="$laboratorio" />
         <!-- Contenedor -->
         <main class="flex flex-1 overflow-hidden">
-            <div class="flex-1 p-8 overflow-y-auto">
+            <div class="flex-1 p-8 overflow-hidden">
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">Materiales Disponibles - {{ $laboratorio->nombre }}</h1>

@@ -1,5 +1,5 @@
 @props(['materiales'])
-<div id="contenedor-materiales" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div id="contenedor-materiales" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto max-h-[475px] overflow-y-auto pr-2 no-scrollbar">
     @foreach ($materiales as $material)
 
         @php
@@ -22,7 +22,7 @@
 
         @if ($band)    
             <div class="flex flex-col gap-2">
-                <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full">
+                <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full">
                     <div class="mb-4">
                         <span class="bg-[{{ $color }}] text-[{{ $colorLetra }}] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider">
                             {{ $material->cantidad_disponible }} Disponibles

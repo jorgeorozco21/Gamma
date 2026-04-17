@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div id="laboratorios-agregados"></div>
+    <div id="laboratorios-agregados" class="max-h-[120px] overflow-y-auto pr-1"></div>
     
     <div class="pt-2">
         <button type="submit" value="Crear Grupo"
