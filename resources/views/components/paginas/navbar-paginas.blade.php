@@ -12,7 +12,7 @@
             <span class="text-[14px] font-bold">Login</span>
         </a>
 
-        @elseif(Route::is('seleccionar-rol'))
+        @elseif(Route::is('seleccionar-perfil'))
             <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight text-right">
                 <span class="font-extrabold text-black text-sm">
                     {{ session('nombre_usuario') }}
