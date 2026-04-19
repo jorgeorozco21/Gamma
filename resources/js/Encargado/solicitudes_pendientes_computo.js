@@ -3,6 +3,7 @@
 const contenedorReportes = document.getElementById('contenedor-reportes');
 const contenedorSolicitudes = document.getElementById('contenedor-solicitudes');
 const buscador = document.getElementById('buscador');
+const filtroTipo = document.getElementById('filtro-tipo');
 buscador.placeholder = "ID de Solicitud o No Computadora";
 const filtro = document.getElementById('filtro');
 const usuario = {
@@ -71,7 +72,10 @@ function openReportesModal(requestId, informacion){
         informacion.forEach(r => {
             resportes += `
                 <div class="mb-4 p-4 bg-[#F7F6F8] rounded-2xl border-2 border-red-200 relative group hover:shadow-md hover:border-red-600 transition-all cursor-default">
-                    <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3">
+                    <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3 uppercase">
+                        ${r.tipo}
+                    </p>
+                    <p class="text-[11px] text-gray-500 font-bold leading-relaxed line-clamp-3">
                         ${r.descripcion}
                     </p>
                 </div>
@@ -182,6 +186,10 @@ function generarRegistros(informacion){
                     </span>
                 </td>
 
+                <td class="px-6 py-4 text-sm font-mono text-gray-500 uppercase">
+                    ${r.tipo}
+                </td>
+
                 <!-- Descripcion -->
                 <td class="px-6 py-4 justify-center">
                     <button type="button" 
@@ -237,7 +245,7 @@ function generarRegistros(informacion){
 }
 
 async function buscadorGeneral(){
-    const response = await fetch(`/api/usuario/encargado/solicitudes-pendientes-computo?texto=${buscador.value}&filtro=${filtro.value}`);
+    const response = await fetch(`/api/usuario/encargado/solicitudes-pendientes-computo?texto=${buscador.value}&filtro=${filtro.value}&filtrotipo=${filtroTipo.value}`);
     const data = await response.json();
 
     generarRegistros(data);
@@ -257,5 +265,9 @@ buscador.addEventListener("input", ()=>{
 });
 
 filtro.addEventListener("change", ()=>{
+    buscadorGeneral();
+});
+
+filtroTipo.addEventListener('change', ()=>{
     buscadorGeneral();
 });

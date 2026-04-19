@@ -32,7 +32,9 @@ class LaboratorioController extends Controller
                 "l.id",
                 "l.nombre",
                 "l.tipo",
-                "l.cantidad_computadoras"
+                DB::raw('(SELECT COUNT(*) FROM computadoras 
+                WHERE id_laboratorio = l.id 
+                AND estado = \'activo\') as cantidad_computadoras')
             )
             ->where("l.id_institucion","=",session("id_institucion"))
             ->orderBy("l.nombre","ASC")
@@ -79,7 +81,7 @@ class LaboratorioController extends Controller
 
             for ($i=1;$i<=$nuevoLaboratorio->cantidad_computadoras;$i++){
                 $computadorasParaInsertar[] = [
-                    'numero_computadora' => "PC-$i",
+                    'numero_computadora' => "$i",
                     'estado' => 'activo',
                     'id_laboratorio' => $nuevoLaboratorio->id, 
                     'created_at' => now(),
@@ -120,20 +122,14 @@ class LaboratorioController extends Controller
 
         $request->validate([
             "nombre" => "required|string|max:255",
-            "cantidad" => "integer|min:1"
         ],[
             "nombre.required" => "El Nombre es obligatorio",
             "nombre.max" => "El Nombre no puede exceder los 255 caracteres",
-            "cantidad.min" => "La Cantidad minima permitida es de 1"
         ]);
 
-        $datosLaboratorio['cantidad_computadoras']  = (int)$datosLaboratorio['cantidad_computadoras'];
-
-        if ($datosLaboratorio['tipo'] == "prestamos"){
-            $datosLaboratorio['cantidad_computadoras'] = null;
-        }
-
-        Laboratorio::where("id","=",$id)->update($datosLaboratorio);
+        $laboratorio = Laboratorio::findOrFail($id);
+        $laboratorio->nombre = $request->nombre;
+        $laboratorio->save();
 
         return redirect()->route('admin.laboratorios.index')->with('success','Informacion editada correctamente');
 

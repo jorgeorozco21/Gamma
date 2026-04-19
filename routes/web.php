@@ -127,7 +127,9 @@ Route::middleware('check.login')->group(function (){
                     "l.id",
                     "l.nombre",
                     "l.tipo",
-                    "l.cantidad_computadoras"
+                    DB::raw('(SELECT COUNT(*) FROM computadoras 
+                    WHERE id_laboratorio = l.id 
+                    AND estado = \'activo\') as cantidad_computadoras')
                 )
                 ->where("l.nombre","ilike","%".$request->texto."%")
             ;
@@ -153,7 +155,9 @@ Route::middleware('check.login')->group(function (){
                     "l.id",
                     "l.nombre",
                     "l.tipo",
-                    "l.cantidad_computadoras"
+                    DB::raw('(SELECT COUNT(*) FROM computadoras 
+                    WHERE id_laboratorio = l.id 
+                    AND estado = \'activo\') as cantidad_computadoras')
                 )
                 ->where("l.id","=",$request->id)
                 ->first()
@@ -357,6 +361,131 @@ Route::middleware('check.login')->group(function (){
             return response()->json($contrasena);
         });
 
+        Route::get('/admin/informes/laboratorios', function (){
+            $admin = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.nombre_usuario',
+                    'u.email'
+                )
+                ->where('u.id','=',session('id_usuario'))
+                ->first()
+            ;
+
+            $laboratorios = 
+                DB::table('laboratorios as l')
+                ->select(
+                    'l.id',
+                    'l.nombre',
+                    'l.tipo'
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->get()
+            ;
+
+            return view('Admin.Computadoras.laboratorios', compact('admin','laboratorios'));
+        });
+
+        Route::get('/admin/informes/laboratorios/{id}-laboratorio-computo/computadoras', function($id){
+            $admin = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.nombre_usuario',
+                    'u.email'
+                )
+                ->where('u.id','=',session('id_usuario'))
+                ->first()
+            ;
+
+            $laboratorio = 
+                DB::table('laboratorios as l')
+                ->select(
+                    'l.id',
+                    'l.nombre'
+                )
+                ->where('l.id','=',$id)
+                ->first()
+            ;
+
+            $computadoras = 
+                DB::table('computadoras as c')
+                ->select(
+                    'c.id',
+                    'c.numero_computadora',
+                    'c.estado'
+                )
+                ->where('c.id_laboratorio','=',$id)
+                ->orderBy('c.id','ASC')
+                ->get()
+            ;
+
+            return view('Admin.Computadoras.informacion_computadoras', compact('admin','laboratorio','computadoras'));
+        });
+
+        Route::get('/admin/informes/laboratorios/laboratorio-computo/reportes', function (Illuminate\Http\Request $request){
+
+            $reportes = 
+                DB::table('solicitudes_computo as s')
+                ->select(
+                    's.id',
+                    's.tipo',
+                    's.descripcion'
+                )
+                ->where('s.id_computadora','=',$request->id)
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria_computo as a')
+                        ->whereColumn('a.id_solicitud', 's.id');
+                })
+                ->get()
+            ;
+
+            return response()->json($reportes);
+        });
+
+        Route::get('/admin/informes/laboratorios/laboratorio-computo/auditorias', function (Illuminate\Http\Request $request){
+
+            $auditoria =
+                DB::table('auditoria_computo as a')
+                ->select(
+                    'a.estado',
+                    'a.info_usuario',
+                    'a.fecha'
+                )
+                ->where('a.id_solicitud','=',$request->id)
+                ->get() 
+            ;
+
+            return response()->json($auditoria);
+        });
+
+        Route::get('/api/admin/informes/laboratorios/laboratorio-computo/buscador', function (Illuminate\Http\Request $request){
+            $consulta = 
+                DB::table('computadoras as c')
+                ->select(
+                    'c.id',
+                    'c.numero_computadora',
+                    'c.estado'
+                )
+                ->where('c.id_laboratorio','=',$request->idLab)
+                ->where('c.numero_computadora','ilike','%'.$request->texto.'%')
+            ;
+
+            if ($request->filtro != "Sin Filtro"){
+                $consulta->where('c.estado','=',$request->filtro);
+            }
+
+            $consulta->orderBy('c.id','ASC');
+            $computadoras = $consulta->get();
+
+            return response()->json($computadoras);
+        });
+
+        Route::put('/admin/informes/laboratorios/laboratorio-computo/editar-computadora-{id}', [ComputadoraController::class, 'edit']);
+
+        Route::post('/admin/informes/laboratorios/laboratorio-computo/reemplazar-computadora-{id}', [ComputadoraController::class, 'reemplazar']);
+
+        Route::post('/admin/informes/laboratorios/laboratorio-computo/crear-computadora-{id}', [ComputadoraController::class, 'crearComputadora']);
     });
 
     Route::middleware(['tipo:normal'])->group(function (){
@@ -650,6 +779,7 @@ Route::middleware('check.login')->group(function (){
             $reportes = 
                 DB::table('solicitudes_computo as s')
                 ->select(
+                    's.tipo',
                     's.descripcion'
                 )
                 ->where('s.id_computadora','=',$request->id)
@@ -932,6 +1062,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.id',
                     's.id_computadora',
+                    's.tipo',
                     'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
@@ -955,6 +1086,7 @@ Route::middleware('check.login')->group(function (){
             $reportes = 
                 DB::table('solicitudes_computo as s')
                 ->select(
+                    's.tipo',
                     's.descripcion'
                 )
                 ->where('s.id_computadora','=',$request->id)
@@ -982,6 +1114,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.id',
                     's.id_computadora',
+                    's.tipo',
                     'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
@@ -997,7 +1130,11 @@ Route::middleware('check.login')->group(function (){
             ;
         
             if ($request->filtro != "Sin Filtro"){
-                $consulta->where(DB::raw("s.id_laboratorio"), '=', $request->filtro);
+                $consulta->where("c.id_laboratorio", '=', $request->filtro);
+            }
+
+            if ($request->filtrotipo != "Sin Filtro"){
+                $consulta->where("s.tipo", '=', $request->filtrotipo);
             }
         
             if ($request->texto) {
@@ -1044,6 +1181,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.id',
                     's.id_computadora',
+                    's.tipo',
                     'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
@@ -1077,6 +1215,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.id',
                     's.id_computadora',
+                    's.tipo',
                     'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
@@ -1099,6 +1238,10 @@ Route::middleware('check.login')->group(function (){
         
             if ($request->filtro != 'Sin Filtro'){
                 $consulta->where('l.id','=',$request->filtro);
+            }
+
+            if ($request->filtrotipo != "Sin Filtro"){
+                $consulta->where("s.tipo", '=', $request->filtrotipo);
             }
         
             if ($request->texto){
@@ -1244,6 +1387,7 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     's.id',
                     's.id_computadora',
+                    's.tipo',
                     'c.numero_computadora',
                     'l.nombre',
                     's.descripcion',
@@ -1276,6 +1420,7 @@ Route::middleware('check.login')->group(function (){
                 ->join('laboratorios as l','l.id','=','c.id_laboratorio')
                 ->select(
                     's.id',
+                    's.tipo',
                     's.id_computadora',
                     'c.numero_computadora',
                     'l.nombre',

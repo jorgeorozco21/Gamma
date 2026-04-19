@@ -8,6 +8,7 @@
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID Solicitud</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">No. Computadora</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipo</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado de la Solicitud</th>
@@ -33,6 +34,10 @@
                             <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
                                 {{ $reporte->nombre }}
                             </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-sm font-mono text-gray-500 uppercase">
+                            {{ $reporte->tipo }}
                         </td>
 
                         <!-- Descripcion -->

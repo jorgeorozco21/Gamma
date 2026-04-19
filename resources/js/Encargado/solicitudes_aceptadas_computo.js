@@ -3,6 +3,7 @@
 const buscador = document.getElementById('buscador');
 buscador.placeholder = "ID de Solicitud o No Computadora";
 const filtro = document.getElementById('filtro');
+const filtroTipo = document.getElementById('filtro-tipo');
 const contenedorReportes =  document.getElementById('contenedor-reportes');
 const usuario = {
     'id': document.getElementById('id_usuario').value,
@@ -11,7 +12,7 @@ const usuario = {
 };
 
 async function buscadorGeneral(){
-    const response = await fetch(`/api/usuario/encargado/solicitudes-aceptadas-computo?texto=${buscador.value}&filtro=${filtro.value}`);
+    const response = await fetch(`/api/usuario/encargado/solicitudes-aceptadas-computo?texto=${buscador.value}&filtro=${filtro.value}&filtrotipo=${filtroTipo.value}`);
     const data = await response.json();
 
     generarRegistros(data);
@@ -31,6 +32,10 @@ buscador.addEventListener("input", ()=>{
 });
 
 filtro.addEventListener("change", ()=>{
+    buscadorGeneral();
+});
+
+filtroTipo.addEventListener("change", ()=>{
     buscadorGeneral();
 });
 
@@ -62,6 +67,10 @@ function generarRegistros(informacion){
                     <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
                         ${r.nombre}
                     </span>
+                </td>
+
+                <td class="px-6 py-4 text-sm font-mono text-gray-500 uppercase">
+                    ${r.tipo}
                 </td>
 
                 <!-- Descripcion -->

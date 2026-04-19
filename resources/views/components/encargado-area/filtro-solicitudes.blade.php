@@ -12,6 +12,18 @@
         </div>
     </div>
 
+    @if (request()->is('*computo*'))
+        <div class="w-full md:w-64">
+            <label for="filtro-tipo" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Tipo</label>
+            <select id="filtro-tipo" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] appearance-none cursor-pointer">
+                <option value="Sin Filtro">Todos los Tipos</option>
+                <option value="hardware">Hardware</option>
+                <option value="software">Software</option>
+                <option value="red">Red</option>
+            </select>
+        </div>
+    @endif
+
     <!-- Laboratorios -->
     <div class="w-full md:w-64">
         <label for="filtro" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Laboratorios</label>
