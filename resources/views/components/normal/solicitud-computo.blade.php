@@ -28,13 +28,27 @@
     <div class="mt-6 pt-6 border-t border-gray-100">
         <!-- Reporte -->
         <div class="mb-4">
-            <label for="descripcion-reporte" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                Descripción del Problema
-            </label>
-            <!-- Descripcion del Reporte -->
-            <textarea id="descripcion-reporte" name="descripcion" rows="4"
-                class="w-full p-4 bg-gray-50 border border-gray-100 rounded-[20px] text-sm text-gray-600 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-[#7B1FA3] transition-all resize-none shadow-inner"
-                placeholder="Ej: Hay algunas fallas en el monitor"></textarea>
+            <divc class="mb-4">
+                <label for="tipo" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                    Tipo de Problema
+                </label>
+
+                <select id="tipo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all">
+                    <option value="hardware">Hardware</option>
+                    <option value="software">Software</option>
+                    <option value="red">Red</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="descripcion-reporte" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                    Descripción del Problema
+                </label>
+                <!-- Descripcion del Reporte -->
+                <textarea id="descripcion-reporte" name="descripcion" rows="4"
+                    class="w-full p-4 bg-gray-50 border border-gray-100 rounded-[20px] text-sm text-gray-600 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-[#7B1FA3] transition-all resize-none shadow-inner"
+                    placeholder="Ej: Hay algunas fallas en el monitor"></textarea>
+            </div>
         </div>
         
         <!-- Boton de Enviar Reporte -->

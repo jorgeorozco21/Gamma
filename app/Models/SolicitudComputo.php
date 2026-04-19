@@ -13,6 +13,7 @@ class SolicitudComputo extends Model
 
     protected $fillable = [
         'id_computadora',
+        'tipo',
         'descripcion',
         'fecha'
     ];

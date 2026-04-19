@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('solicitudes_computo', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_computadora');
+            $table->string('tipo');
             $table->text('descripcion');
             $table->string('fecha');
             $table->timestamps();

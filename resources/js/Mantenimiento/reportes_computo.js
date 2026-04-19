@@ -93,6 +93,10 @@ function generarRegistro(informacion){
                     </span>
                 </td>
 
+                <td class="px-6 py-4 text-sm font-mono text-gray-500 uppercase">
+                    ${r.tipo}
+                </td>
+
                 <!-- Descripcion -->
                 <td class="px-6 py-4 justify-center">
                     <button type="button" 

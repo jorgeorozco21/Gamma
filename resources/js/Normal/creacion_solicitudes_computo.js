@@ -30,7 +30,10 @@ function generarTarjetasReportes(informacion){
     informacion.forEach(r =>{
         tarjetas += `
             <div class="p-4 bg-[#F7F6F8] rounded-2xl border-2 border-red-200 relative group hover:shadow-md hover:border-red-600 transition-all cursor-default">
-                <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3">
+                <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3 uppercase">
+                    ${r.tipo}
+                </p>
+                <p class="text-[11px] text-gray-500 font-bold leading-relaxed line-clamp-3">
                     ${r.descripcion}
                 </p>
             </div>
@@ -65,6 +68,7 @@ crear.addEventListener("click", function(){
 
     if (confirm('Deseas realizar el reporte ??')){
         crearSolicitud();
+        document.getElementById('tipo').selectedIndex = 0;
         document.getElementById('descripcion-reporte').value = '';
         document.getElementById("encabezado").innerHTML = `Solicitudes de Reportes`;
         contenedorReportes.innerHTML = '';
@@ -77,6 +81,7 @@ crear.addEventListener("click", function(){
 async function crearSolicitud(){
     const datos = {
         'id_computadora': idCom,
+        'tipo': document.getElementById('tipo').value,
         'descripcion': document.getElementById('descripcion-reporte').value.trim()
     };
 

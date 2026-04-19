@@ -22,20 +22,6 @@ tipoLaboratorio.addEventListener("change", ()=>{
     }
 });
 
-const tipoLaboratorioEdit = document.getElementById('tipo-edit');
-
-tipoLaboratorioEdit.addEventListener("change", ()=>{
-    if (tipoLaboratorioEdit.value == "prestamos"){
-        document.getElementById("label-cantidad-edit").style.display = "none";
-        document.getElementById("cantidad-edit").style.display = "none";
-        document.getElementById('cantidad-edit').value = null;
-    }else{
-        document.getElementById("label-cantidad-edit").style.display = "flex";
-        document.getElementById("cantidad-edit").style.display = "flex";
-        document.getElementById('cantidad-edit').value = 1;
-    }
-});
-
 async function informacionEditar(id){
     const response = await fetch(`/api/laboratorios/editar?id=${id}`);
     const data = await response.json();
@@ -51,16 +37,9 @@ function asignarInformacionFormularioEditar(informacion){
         <option value="prestamos" ${ (informacion.tipo == "prestamos")?"selected":"" }>Laboratorio de Prestamos</option>
         <option value="computo" ${ (informacion.tipo == "computo")?"selected":"" }>Laboratorio de Computo</option>`
     ;
-    document.getElementById("cantidad-edit").value = informacion.cantidad_computadoras;
+    document.getElementById("cantidad-edit").innerHTML = `${informacion.cantidad_computadoras}`;
 
-    if (document.getElementById("tipo-edit").value != "computo"){
-        document.getElementById("label-cantidad-edit").style.display = "none";
-        document.getElementById("cantidad-edit").style.display = "none";
-        document.getElementById("cantidad-edit").value = null;
-    }else{
-        document.getElementById("label-cantidad-edit").style.display = "flex";
-        document.getElementById("cantidad-edit").style.display = "flex";
-    }
+    document.getElementById('tipo-edit').innerHTML =  `${informacion.tipo}`;
 }
 
 const contendorModalEdit = document.getElementById("modal-edit");
@@ -80,9 +59,8 @@ document.addEventListener("click", function(e){
 
 cerrarModalEdit.addEventListener("click",()=>{
     document.getElementById('nombre-edit').value = '';
-    document.getElementById('tipo-edit').selectedIndex = 0;
-    document.getElementById('label-cantidad-edit').style.display = "none";
-    document.getElementById('cantidad-edit').style.display = 'none';
+    document.getElementById('tipo-edit').innerHTML = '';
+    document.getElementById('cantidad-edit').innerHTML = '';
 
     contendorModalEdit.style.display = "none";
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Computadora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ComputadoraController extends Controller
 {
@@ -46,7 +47,7 @@ class ComputadoraController extends Controller
     {
         $computadora = Computadora::findOrFail($id);
 
-        $computadora->estado = 'inactivo';
+        $computadora->estado = ($computadora->estado == 'activo')?'inactivo':'activo';
 
         $computadora->save();
 
@@ -67,5 +68,36 @@ class ComputadoraController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function reemplazar(string $id)
+    {
+        $computadora = Computadora::findOrFail($id);
+
+        $computadora->estado = 'activo';
+
+        $computadora->save();
+
+        DB::table('solicitudes_computo as s')
+        ->where('s.id_computadora','=',$id)
+        ->delete();
+
+        return response()->json('todo bien');
+    }
+
+    public function crearComputadora(string $id){
+        $total = DB::table('computadoras')
+        ->where('id_laboratorio', $id)
+        ->count();
+
+        $info = [
+            'numero_computadora' => $total + 1,
+            'estado' => 'activo',
+            'id_laboratorio' => $id
+        ];
+
+        Computadora::create($info);
+
+        return response()->json('todo bien');
     }
 }
