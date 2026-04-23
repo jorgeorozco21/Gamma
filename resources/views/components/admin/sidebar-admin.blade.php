@@ -1,11 +1,4 @@
 @props(['admin'])
-<button id="abrir-sidebar" class="md:hidden fixed top-4 left-4 z-[60] bg-white p-2.5 rounded-xl border border-gray-100 shadow-lg text-[#7B1FA3] transition-all duration-300">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-</button>
-
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
 
 <aside class="w-64 bg-white h-screen flex flex-col border-r border-gray-100 shrink-0">
     <div class="p-6 flex items-center justify-between">
@@ -74,15 +67,15 @@
         </a>
 
         <a href="{{ url('/admin/informes/laboratorios') }}" 
-        class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('/admin/informes/laboratorios') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
-            <svg class="w-5 h-5 {{ request()->is('/admin/informes/laboratorios') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('admin/informes/laboratorios') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
+            <svg class="w-5 h-5 {{ request()->is('admin/informes/laboratorios') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             <span class="text-sm font-semibold">Informes de Laboratorios</span>
         </a>
     </nav>
     
-    <div class="p-4 border-t border-gray-100">
+    <div class="p-2 border-t border-gray-100">
         <div class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
             <a href="{{ url('/perfil') }}" class="flex items-center gap-3 pr-1">
                 <img src="https://ui-avatars.com/api/?name={{ $admin->nombre_usuario }}&background=6B7280&color=fff" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" alt="User">

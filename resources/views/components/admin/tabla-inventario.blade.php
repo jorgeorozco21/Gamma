@@ -15,10 +15,10 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($inventarios as $inventario)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $inventario->nombreMaterial }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $inventario->nombreLaboratorio }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium text-center">{{ $inventario->cantidad_disponible }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium text-center">{{ $inventario->cantidad_total }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium">{{ $inventario->nombreMaterial }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium">{{ $inventario->nombreLaboratorio }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $inventario->cantidad_disponible }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $inventario->cantidad_total }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
                                 <!-- Editar -->

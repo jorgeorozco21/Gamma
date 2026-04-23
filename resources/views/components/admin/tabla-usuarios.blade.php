@@ -20,14 +20,14 @@
                             <div class="flex items-center gap-3">
                                 <!-- Nombre de Usuario y Correo -->
                                 <div class="min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 truncate">{{ $usuario->nombre_usuario }}</p>
+                                    <p class="text-sm font-bold text-black truncate">{{ $usuario->nombre_usuario }}</p>
                                     <p class="text-xs text-gray-400 truncate">{{ $usuario->email }}</p>
                                 </div>
                             </div>
                         </td>
 
                         <!-- Nombre -->
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                        <td class="px-6 py-4 text-sm text-black font-medium">
                             {{ $usuario->nombre }}
                         </td>
 

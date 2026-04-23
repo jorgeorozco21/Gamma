@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
             .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
     </head>
-    <body class="bg-[#F7F6F8]">
+    <body class="h-full overflow-hidden bg-[#F7F6F8]">
         <!-- Header -->
         <x-normal.navbar />
         <!-- Contenedor -->

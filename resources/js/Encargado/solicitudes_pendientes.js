@@ -126,31 +126,31 @@ function generarRegistro(informacion){
                 </td>
 
                 <!-- ID de Solicitud -->
-                <td class="px-6 py-4 text-sm font-mono text-gray-500">
+                <td class="px-6 py-4 text-sm text-black text-center">
                     ${s.id}
                 </td>
 
                 <!-- Laboratorio -->
-                <td class="px-6 py-4">
-                    <span class="py-1 rounded-lg bg-black-50 text-black text-xs font-bold">
-                        ${infoUsuario.nombreLaboratorio}
-                    </span>
+                <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
+                    ${infoUsuario.nombreLaboratorio}
                 </td>
 
                 <!-- Lista de Materiales -->
                 <td class="px-6 py-4 justify-center">
-                    <button type="button" onclick="openMaterialModal(${s.id}, ${materialesString})" 
-                        class="flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
-                        <div class="p-1.5 bg-purple-100 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                            </svg>
-                        </div>
-                    </button>
+                    <div class="flex justify-center">
+                        <button type="button" onclick="openMaterialModal(${s.id}, ${materialesString})" 
+                            class="flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
+                            <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
                 </td>
 
                 <!-- Fecha -->
-                <td class="px-6 py-4 text-sm text-gray-500">
+                <td class="px-6 py-4 text-sm text-gray-500 text-center">
                     ${fechaFormateada}
                 </td>
 

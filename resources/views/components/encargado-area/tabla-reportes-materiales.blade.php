@@ -5,12 +5,12 @@
             <!-- Encabezado de la Tabla -->
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID Reporte</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre Material</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cantidad</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">ID Reporte</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre Material</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Descripcion</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Fecha</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado de la Solicitud</th>
                 </tr>
             </thead>
@@ -19,50 +19,50 @@
                 @foreach ($reportes as $reporte)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- ID de la Solicitud -->
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 text-sm text-black text-center">
                             {{ $reporte->id }}
                         </td>
 
                         <!-- Nombre del material -->
-                        <td class="px-6 py-4 text-sm ont-bold text-gray-500">
+                        <td class="px-6 py-4 text-sm text-black text-center">
                             {{ $reporte->nombre }}
                         </td>
 
                         <!-- Cantidad -->
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 text-sm text-black text-center">
                             {{ $reporte->cantidad }}
                         </td>
 
                         <!-- Laboratorio -->
-                        <td class="px-6 py-4">
-                            <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
+                        <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
                                 {{ $reporte->nombreLaboratorio }}
-                            </span>
                         </td>
 
                         <!-- Descripcion -->
                         <td class="px-6 py-4 justify-center">
-                            <button type="button" 
-                                onclick="openMaterialModal('{{ $reporte->id }}', '{{ $reporte->descripcion }}')" 
-                                class="flex items-center gap-2 text-[#7B1FA3]"
-                                title="Ver motivo">
-                                <div class="p-1.5 bg-purple-100 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <div class="flex justify-center">
+                                <button type="button" 
+                                    onclick="openMaterialModal('{{ $reporte->id }}', '{{ $reporte->descripcion }}')" 
+                                    class="flex items-center gap-2 text-[#7B1FA3] hover:text-white"
+                                    title="Ver motivo">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
 
                         <!-- Fecha -->
-                        <td class="px-6 py-4 text-sm text-gray-500">
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">
                             {{ \Carbon\Carbon::parse($reporte->fecha)->format('d/m/Y') }}
                         </td>
 
                         <!-- Estado de la Solicitud -->
                         <td class="px-6 py-4 text-center">
                             @if ($reporte->estado == null || $reporte->estado == 'en proceso')
-                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
+                                <span class="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100 uppercase">
                                     {{ ($reporte->estado == null)?'Espera':$reporte->estado }}
                                 </span>
                             @endif

@@ -4,9 +4,9 @@
         <table class="w-full text-left border-collapse min-w-[800px]">
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">No. Computadora</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Estado</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Reportes </th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">No. Computadora</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Reportes </th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cambiar Estado</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Reemplazar Equipo</th>
                 </tr>
@@ -15,35 +15,43 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($computadoras as $computadora)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $computadora->numero_computadora }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $computadora->numero_computadora }}</td>
+                        <td class="px-6 py-4 text-center">
                         <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg {{ ($computadora->estado == 'activo')?'bg-green-50 text-green-600 border border-green-100':'bg-red-50 text-red-600 border border-red-100' }} w-fit">
                                 {{ $computadora->estado }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
-                            <button data-id="{{ $computadora->id }}" data-computadora="{{ $computadora->numero_computadora }}"
-                                class="reportes flex items-center gap-2 text-[#7B1FA3] group/btn">
-                                <div class="p-1.5 bg-purple-100 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            <div class="flex justify-center">
+                                <button data-id="{{ $computadora->id }}" data-computadora="{{ $computadora->numero_computadora }}"
+                                    class="reportes flex items-center gap-2 text-[#7B1FA3] hover:text-white">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center">
+                                <button data-id="{{ $computadora->id }}" class="cambiar-estado flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-black hover:text-[#7B1FA3] hover:bg-purple-50 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7h-9M20 7l-3-3M20 7l-3 3M4 17h9M4 17l3 3M4 17l3-3" />
                                     </svg>
-                                </div>
-                            </button>
+                                    <span class="font-medium">Cambiar estado</span>
+                                </button>
+                            </div>
                         </td>
                         <td class="px-6 py-4">
-                            <button data-id="{{ $computadora->id }}" class="cambiar-estado flex items-center gap-2 p-2 rounded-lg text-sm text-gray-600 hover:text-[#7B1FA3] hover:bg-purple-50 transition-colors group">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7h-9M20 7l-3-3M20 7l-3 3M4 17h9M4 17l3 3M4 17l3-3" />
-                                </svg>
-                            </button>
-                        </td>
-                        <td class="px-6 py-4">
-                            <button data-id="{{ $computadora->id }}" class="reemplazar flex items-center gap-2 p-2 rounded-lg text-sm text-gray-600 hover:text-[#7B1FA3] hover:bg-purple-50 transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23 4v6h-6M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-                                </svg>
-                            </button>
+                            <div class="flex justify-center">
+                                <button data-id="{{ $computadora->id }}" class="reemplazar flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-black hover:text-[#7B1FA3] hover:bg-purple-50 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23 4v6h-6M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                                    </svg>
+                                    <span class="font-medium">Reemplazar equipo</span>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

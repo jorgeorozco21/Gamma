@@ -56,7 +56,7 @@ function generarRegistro(data){
                         <div class="flex flex-row flex-wrap gap-2">
                             ${ (usuario.normal == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-blue-50 text-blue-600 border border-blue-100 w-fit">Normal</span>':'' }
                             ${ (usuario.encargado == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-purple-50 text-[#7B1FA3] border border-purple-100 w-fit">Encargado de Area</span>':'' }
-                        <div>
+                        </div>
                             ${ (usuario.mantenimiento == "1")?'<span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-amber-50 text-amber-600 border border-amber-100 w-fit">Encargado de Mantenimiento</span>':'' }
                     </div>
                 </td>

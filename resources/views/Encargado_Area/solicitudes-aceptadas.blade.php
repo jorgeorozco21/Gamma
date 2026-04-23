@@ -21,7 +21,7 @@
             <!-- Header -->
             <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
                 <div class="flex items-center gap-4">
-                    <button id="abrir-sidebar" class="md:hidden p-2 rounded-xl bg-gray-50 text-[#7B1FA3] hover:bg-purple-50 transition-colors">
+                    <button id="abrir-sidebar" class="md:hidden text-gray-700 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -62,49 +62,59 @@
                         <!-- Encabezado -->
                         <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                             <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Reportar Material</h3>
-                        </div>
-
-                        <div>
-                            <select id="opciones-solicitudes">
-                            </select>
-                            <button id="boton-buscar">
-                                Buscar
+                            <button type="button" id="cerrar-modal-reporte" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">    
+                                ✕
                             </button>
                         </div>
 
-                        <div>
-                            <select id="opciones-materiales-reportar" disabled>
-                            </select>
-                            <button id="boton-seleccionar">
-                                Seleccionar
+                        <div class="px-6 py-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">ID de Solicitud</label>
+                            <div class="flex gap-1">
+                                <select id="opciones-solicitudes" class="w-full px-2 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all">
+                                </select>
+                                <button id="boton-buscar" class="w-1/3 text-xs bg-[#7B1FA3] text-white font-bold px-2 py-2 rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="px-6 py-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Seleccionar Material</label>
+                            <div class="flex gap-1">
+                                <select id="opciones-materiales-reportar" class="w-full px-2 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all" disabled>
+                                </select>
+                                <button id="boton-seleccionar" class="w-1/3 text-xs bg-[#7B1FA3] text-white font-bold px-2 py-2 rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
+                                    Seleccionar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="px-6 py-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Cantidad</label>
+                            <div id="cantidad" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all"></div>
+                        </div>
+
+                        <div class="px-6 py-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Descripcion del Problema</label>
+                            <textarea id="descripcion" class="w-full max-h-32 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all"
+                                placeholder="Descripcion del problema..." disabled></textarea>
+                        </div>
+
+                        <div class="px-6 py-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Cantidad a Reparar</label>
+                            <div class="flex items-center justify-center gap-3">
+                            <button id="menos" class="hidden w-1/3 text-xs bg-[#7B1FA3] text-white font-bold px-2 py-2 rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
+                                -
+                            </button>
+                            <div id="cantidad-reportar" class="w-1/3 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3] transition-all text-center font-semibold">
+                            </div>
+                            <button id="mas" class="hidden w-1/3 text-xs bg-[#7B1FA3] text-white font-bold px-2 py-2 rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
+                                +
                             </button>
                         </div>
 
-                        <div class="flex">
-                            Cantidad <div id="cantidad"></div>
-                        </div>
-
-                        <div class="px-6 py-6">
-                            <textarea id="descripcion" placeholder="Descripcion del problema..." disabled></textarea>
-                        </div>
-
-                        <div class="flex">
-                            Cantidad a Reparar
-                            <button id="mas" class="hidden">+</button>
-                            <div id="cantidad-reportar"></div>
-                            <button id="menos" class="hidden">-</button>
-                        </div>
-
-                        <div>
-                            <button id="enviar-reporte" disabled>Reportar</button>
-                        </div>
-
-                        <!-- Cerrar Material -->
-                        <div class="bg-gray-50 px-6 py-4 flex justify-center">
-                            <button type="button" id="cerrar-modal-reporte"
-                                class="px-10 py-2 bg-[#7B1FA3] text-white text-xs font-bold rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
-                                Cerrar
-                            </button>
+                        <div class="py-4 flex justify-center mt-2">
+                            <button id="enviar-reporte" class="px-10 py-2 bg-[#7B1FA3] text-white text-xs font-bold rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]" disabled>Reportar</button>
                         </div>
                     </div>
                 </div>

@@ -5,13 +5,13 @@
             <!-- Encabezado de la Tabla -->
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID Solicitud</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Computadora</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipo</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Reportes Anteriores</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">ID Solicitud</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Computadora</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Tipo</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Descripcion</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Reportes Anteriores</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Fecha</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
@@ -20,53 +20,55 @@
                 @foreach ($reportes as $reporte)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- ID Solicitud -->
-                        <td class="px-6 py-4 text-sm font-mono text-gray-500">
+                        <td class="px-6 py-4 text-sm text-black text-center">
                             {{ $reporte->id }}
                         </td>
                         <!-- Numero de computadora -->
-                        <td class="px-6 py-4 text-sm font-mono text-gray-500">
+                        <td class="px-6 py-4 text-sm text-black text-center">
                             {{ $reporte->numero_computadora }}
                         </td>
 
                         <!-- Laboratorio -->
-                        <td class="px-6 py-4">
-                            <span class="py-1 rounded-lg bg-black-50 text-black text-xs font-bold">
-                                {{ $reporte->nombre }}
-                            </span>
+                        <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
+                            {{ $reporte->nombre }}
                         </td>
 
-                        <td class="px-6 py-4 text-sm font-mono text-gray-500 uppercase">
+                        <td class="px-6 py-4 text-black text-xs font-bold text-center uppercase">
                             {{ $reporte->tipo }}
                         </td>
 
                         <!-- Descripcion -->
                         <td class="px-6 py-4 justify-center">
-                            <button type="button" 
-                                onclick="openMaterialModal('{{ $reporte->id }}', '{{ $reporte->descripcion }}')" 
-                                class="flex items-center gap-2 text-[#7B1FA3]"
-                                title="Ver Descripcion">
-                                <div class="p-1.5 bg-purple-100 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <div class="flex justify-center">
+                                <button type="button" 
+                                    onclick="openMaterialModal('{{ $reporte->id }}', '{{ $reporte->descripcion }}')" 
+                                    class="flex items-center gap-2 text-[#7B1FA3] hover:text-white"
+                                    title="Ver Descripcion">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
                         
                         <td class="px-6 py-4 justify-center">
-                            <button data-id="{{ $reporte->id_computadora }}" data-idSolicitud="{{ $reporte->id }}"
-                                class="ver-reportes flex items-center gap-2 text-[#7B1FA3]"
-                                title="Ver Descripcion">
-                                <div class="p-1.5 bg-purple-100 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <div class="flex justify-center">
+                                <button data-id="{{ $reporte->id_computadora }}" data-idSolicitud="{{ $reporte->id }}"
+                                    class="ver-reportes flex items-center gap-2 text-[#7B1FA3] hover:text-white"
+                                    title="Ver Descripcion">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
 
                         <!-- Fecha -->
-                        <td class="px-6 py-4 text-sm text-gray-500">
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">
                             {{ \Carbon\Carbon::parse($reporte->fecha)->format('d/m/Y') }}
                         </td>
 

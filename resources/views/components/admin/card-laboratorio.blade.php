@@ -5,7 +5,7 @@
         <!-- Card de Laboratorio -->
         @if ($laboratorio->tipo == 'prestamos')<a href="{{ url('/admin/informes/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="flex flex-col gap-2 cursor-pointer">@endif
         @if ($laboratorio->tipo == 'computo')<a href="{{ url('/admin/informes/laboratorios/'.$laboratorio->id.'-laboratorio-computo/computadoras') }}" class="flex flex-col gap-2 cursor-pointer">@endif
-            <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full">
+            <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full">
                 <!-- Tipo de laboratorio -->
                 <div class="mb-4">
                     <span class="bg-[#E0E7FF] text-[#3730A3] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider uppercase">

@@ -14,9 +14,11 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($laboratorios as $laboratorio)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->nombre }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->tipo }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->cantidad_computadoras }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium">{{ $laboratorio->nombre }}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-blue-50 text-blue-600 border-blue-100">{{ $laboratorio->tipo }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-black font-medium">{{ $laboratorio->cantidad_computadoras }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
                                 <!-- Editar -->
