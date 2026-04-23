@@ -4,6 +4,8 @@ const contenedorMateriales = document.getElementById('contenedor-materiales-soli
 const contenedorSolicitudes = document.getElementById('contenedor-solicitudes');
 const botonEliminar = document.getElementById('eliminar-solicitud');
 const idLaboratorio = document.getElementById('idLaboratorio').value;
+let idSol;
+let band = false;
 
 document.addEventListener("click", (e)=>{
     
@@ -12,8 +14,11 @@ document.addEventListener("click", (e)=>{
     if (tarjeta) {
 
         const idSolicitud = tarjeta.dataset.id;
+        const estado = tarjeta.dataset.estado;
+        idSol = idSolicitud;
+        band = true;
 
-        if (tarjeta.dataset.estado == ''){
+        if (!estado || estado === "null" || estado === ""){
             botonEliminar.dataset.ideliminar = idSolicitud;
             botonEliminar.classList.remove("bg-gray-400")
             botonEliminar.classList.add("bg-purple-700",'hover:bg-[#7B1FA3]');
@@ -92,10 +97,10 @@ botonEliminar.addEventListener("click", ()=>{
 
     if (confirmar){
         const id = botonEliminar.dataset.ideliminar;
-        eliminarSolicitud(id);
         contenedorMateriales.innerHTML = '';
-        actualizarSolicitudes();
         delete botonEliminar.dataset.ideliminar;
+        eliminarSolicitud(id);
+        actualizarSolicitudes();
     }
 });
 
@@ -239,3 +244,11 @@ function generarTarjetasSolicitudes(informacion){
 
     contenedorSolicitudes.innerHTML = tarjetas;
 }
+
+setInterval(() => {
+    actualizarSolicitudes();
+}, 5000);
+
+setInterval(() => {
+    if (band) infoSolicitud(idSol);
+}, 5000);

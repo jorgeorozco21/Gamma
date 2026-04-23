@@ -15,8 +15,7 @@ class AuditoriaComputo extends Model
     protected $fillable = [
         'id_solicitud',
         'estado',
-        'info_usuario',
-        'fecha'
+        'info_usuario'
     ];
 
     protected $casts = [

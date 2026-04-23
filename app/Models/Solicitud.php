@@ -17,14 +17,12 @@ class Solicitud extends Model
 
     protected $fillable = [
         "info_usuario",
-        "info_material",
-        "fecha"
+        "info_material"
     ];
 
     protected $casts = [
         "info_usuario" => "array",
-        "info_material" => "array",
-        "fecha" => "datetime",
+        "info_material" => "array"
     ];
 
     public function usuario(){

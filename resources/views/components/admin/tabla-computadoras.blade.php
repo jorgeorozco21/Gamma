@@ -70,7 +70,7 @@
             <!-- Boton de Cerrar -->
             <div class="bg-gray-50 px-6 py-5 flex justify-center">
                 <button type="button" onclick="closeMaterialModal()" 
-                    class="px-10 py-2 bg-[#7B1FA3] text-white text-xs font-bold rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
+                    class="cerrar-modal-reportes px-10 py-2 bg-[#7B1FA3] text-white text-xs font-bold rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
                     Cerrar
                 </button>
             </div>
@@ -95,7 +95,7 @@
             <!-- Boton de Cerrar -->
             <div class="bg-gray-50 px-6 py-5 flex justify-center">
                 <button type="button" onclick="closeAuditoriaModal()" 
-                    class="px-10 py-2 bg-[#7B1FA3] text-white text-xs font-bold rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
+                    class="cerrar-modal-auditoria px-10 py-2 bg-[#7B1FA3] text-white text-xs font-bold rounded-2xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]">
                     Cerrar
                 </button>
             </div>

@@ -6,11 +6,11 @@
     </div>
 
     <!-- Usuario -->
-    <div class="hidden md:flex items-center gap-4">
+    <div class="flex items-center gap-4">
         @if(Route::is('pagina-principal'))
-        <a href="{{ url('/login') }}" class="group flex items-center gap-2 bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-5 py-2 rounded-xl transition-all shadow-md active:scale-[0.98]">
-            <span class="text-[14px] font-bold">Login</span>
-        </a>
+            <a href="{{ url('/login') }}" class="group flex items-center gap-2 bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-5 py-2 rounded-xl transition-all shadow-md active:scale-[0.98]">
+                <span class="text-[14px] font-bold">Login</span>
+            </a>
 
         @elseif(Route::is('seleccionar-perfil'))
             <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight text-right">

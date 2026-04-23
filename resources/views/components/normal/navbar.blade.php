@@ -6,23 +6,23 @@
     </a>
 
     <!-- Header Menu (Computadora) -->
-    @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
+    @if(!request()->routeIs('laboratorios'))
         <div class="hidden md:flex justify-center gap-8 text-sm font-semibold">
-            <a href="{{ route('laboratorios') }}" class="transition-all {{ request()->routeIs('laboratorios') 
-                    ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+            {{-- Este link ahora siempre saldrá si no estás en la raíz de laboratorios --}}
+            <a href="{{ route('laboratorios') }}" class="transition-all {{ request()->routeIs('laboratorios') ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
                 Laboratorios
             </a>
-            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-all {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
-                    ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
-                Materiales
-            </a>
-            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-all {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') 
-                    ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
-                Solicitudes
-            </a>
+
+            @if (!request()->routeIs('solicitudes-computo'))
+                <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-all {{ request()->is('*/laboratorio-normal') ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+                    Materiales
+                </a>
+                <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-all {{ request()->is('*/solicitudes') ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+                    Solicitudes
+                </a>
+            @endif
         </div>
     @endif
-
     <!-- Usuario (Computadora) -->
     <div class="hidden md:flex items-center gap-4">
         <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight text-right">
@@ -68,20 +68,20 @@
     </button>
 
     <!-- Links (Movil) -->
-    @if(!request()->routeIs('laboratorios') && !request()->routeIs('solicitudes-computo'))
+    @if(!request()->routeIs('laboratorios'))
         <div class="flex flex-col gap-6 text-sm font-semibold">
             <a href="{{ route('laboratorios') }}" class="transition-all {{ request()->routeIs('laboratorios') 
                     ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
                 Laboratorios
             </a>
-            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') 
-                    ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
-                Materiales
-            </a>
-            <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-colors {{ request()->routeIs('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') 
-                    ? 'text-[#7B1FA3] flex items-center gap-2' : 'text-gray-600 hover:text-[#7B1FA3]' }}">
-                Solicitudes
-            </a>
+            @if (!request()->routeIs('solicitudes-computo'))
+                <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="transition-all {{ request()->is('*/laboratorio-normal') ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+                    Materiales
+                </a>
+                <a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-solicitudes') }}" class="transition-all {{ request()->is('*/solicitudes') ? 'text-[#7B1FA3] border-b-2 border-[#7B1FA3] pb-1' : 'text-gray-400 hover:text-[#7B1FA3] pb-[6px]' }}">
+                    Solicitudes
+                </a>
+            @endif
         </div>
     @endif
 

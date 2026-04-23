@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ArchivoLaboratoriosExport;
 use App\Models\Computadora;
+use App\Models\Grupo;
 use App\Models\Laboratorio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -144,6 +145,27 @@ class LaboratorioController extends Controller
         $laboratorio = Laboratorio::findOrFail($id);
 
         $laboratorio->delete();
+
+        $grupos = 
+            DB::table('grupos as g')
+            ->select('g.id','g.laboratorios')
+            ->where('g.laboratorios', '~', "(^|,)$id(,|$)")
+            ->get()
+        ;
+
+        foreach ($grupos as $g){
+            $labs = explode(',', $g->laboratorios);
+
+            if (($key = array_search($id, $labs)) !== false) {
+            unset($labs[$key]); 
+            
+            $nuevosIds = implode(',', $labs);
+
+            $grupo = Grupo::findOrFail($g->id); 
+            $grupo->laboratorios = $nuevosIds;
+            $grupo->save();
+        }
+        }
 
         return redirect()->route('admin.laboratorios.index')->with('success',"Laboratorio borrado correctamente");
     }

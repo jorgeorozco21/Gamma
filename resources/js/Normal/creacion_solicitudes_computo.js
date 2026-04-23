@@ -7,6 +7,7 @@ const crear = document.getElementById('enviar');
 const buscador = document.getElementById('buscador');
 let numeroComputadora;
 let idCom;
+let band = false;
 
 document.addEventListener("click", function(e){
     const tarjeta =  e.target.closest('.tarjeta');
@@ -15,7 +16,7 @@ document.addEventListener("click", function(e){
         const id = tarjeta.dataset.id;
         numeroComputadora = tarjeta.dataset.numerocomputadora;
         idCom = id;
-
+        band = true;
         obtenerReportes(id);
     }
 });
@@ -72,6 +73,7 @@ crear.addEventListener("click", function(){
         document.getElementById('descripcion-reporte').value = '';
         document.getElementById("encabezado").innerHTML = `Solicitudes de Reportes`;
         contenedorReportes.innerHTML = '';
+        band = false;
         idCom = null;
         buscador.value = '';
         buscadorGeneral();
@@ -107,3 +109,7 @@ async function crearSolicitud(){
         console.error("Error de conexión:", error);
     }
 }
+
+setInterval(() => {
+    if (band) obtenerReportes(idCom);
+}, 5000);

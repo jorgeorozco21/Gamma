@@ -29,8 +29,6 @@ class AuditoriaComputoController extends Controller
     public function store(Request $request)
     {
         $datos = $request->except('_token', '_method');
-
-        $datos['fecha'] = now();
     
         AuditoriaComputo::create($datos);
 

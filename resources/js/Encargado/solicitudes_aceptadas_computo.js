@@ -198,3 +198,7 @@ async function cambiarEstado(id, estado){
         console.error("Error de conexión:", error);
     }
 }
+
+setInterval(() => {
+    buscadorGeneral();
+}, 5000);

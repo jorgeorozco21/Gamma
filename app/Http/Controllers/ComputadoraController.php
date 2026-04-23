@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditoriaComputo;
 use App\Models\Computadora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -97,6 +98,20 @@ class ComputadoraController extends Controller
         ];
 
         Computadora::create($info);
+
+        return response()->json('todo bien');
+    }
+
+    public function sinFuncionamiento(string $id, Request $request){
+        $datos = $request->except('_token','_method');
+
+        AuditoriaComputo::create($datos);
+
+        $computadora = Computadora::findOrFail($id);
+
+        $computadora->estado = 'inactivo';
+
+        $computadora->save();
 
         return response()->json('todo bien');
     }

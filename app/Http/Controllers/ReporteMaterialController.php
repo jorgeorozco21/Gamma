@@ -36,7 +36,6 @@ class ReporteMaterialController extends Controller
             'info_usuario' => $request->info_usuario,
             'cantidad' => $request->cantidad,
             'descripcion' => $request->descripcion,
-            'fecha' => now(),
             'id_institucion' => session('id_institucion')
         ];
 

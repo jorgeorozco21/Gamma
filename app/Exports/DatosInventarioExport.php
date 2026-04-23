@@ -35,23 +35,42 @@ class DatosInventarioExport implements FromCollection, WithEvents, WithTitle
                 $hoja = $evento->sheet->getDelegate();
                 $id_institucion = session('id_institucion');
 
-                $cantMateriales = Material::where("id_institucion", $id_institucion)->count() + 1;
-                $cantLabs = Laboratorio::where("id_institucion", $id_institucion)->count() + 1;
+                $cantMateriales = Material::where("id_institucion", $id_institucion)->count();
+                $cantLabs = Laboratorio::where("id_institucion", $id_institucion)->count();
+
+                $primerMaterial = Material::where("id_institucion", $id_institucion)->orderBy('id')->value('nombre');
+                $primerLab = Laboratorio::where("id_institucion", $id_institucion)->orderBy('id')->value('nombre');
+
+                $valMat = new DataValidation();
+                $valMat->setType(DataValidation::TYPE_LIST)
+                    ->setErrorStyle(DataValidation::STYLE_STOP)
+                    ->setAllowBlank(true)                
+                    ->setShowErrorMessage(true)                 
+                    ->setShowDropDown(true)
+                    ->setErrorTitle('Material no válido')
+                    ->setError('Selecciona un material de la lista.')
+                    ->setFormula1("='Materiales'!\$B\$1:\$B\${$cantMateriales}");
+
+                $valLab = new DataValidation();
+                $valLab->setType(DataValidation::TYPE_LIST)
+                    ->setErrorStyle(DataValidation::STYLE_STOP)
+                    ->setAllowBlank(true)                
+                    ->setShowErrorMessage(true)                 
+                    ->setShowDropDown(true)
+                    ->setErrorTitle('Laboratorio no válido')
+                    ->setError('Selecciona un laboratorio de la lista.')
+                    ->setFormula1("='Laboratorios'!\$B\$1:\$B\${$cantLabs}");
 
                 for ($fila = 2; $fila <= 1000; $fila++) {
-                    $valMat = new DataValidation();
-                    $valMat->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
-                            ->setShowDropDown(true)
-                            ->setFormula1("='Materiales'!\$B\$1:\$B\${$cantMateriales}");
                     $hoja->getCell("A{$fila}")->setDataValidation($valMat);
-
-                    $valLab = new DataValidation();
-                    $valLab->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
-                            ->setShowDropDown(true)
-                            ->setFormula1("='Laboratorios'!\$B\$1:\$B\${$cantLabs}");
                     $hoja->getCell("C{$fila}")->setDataValidation($valLab);
+
+                    if ($primerMaterial) {
+                        $hoja->setCellValue("A{$fila}", $primerMaterial);
+                    }
+                    if ($primerLab) {
+                        $hoja->setCellValue("C{$fila}", $primerLab);
+                    }
                 }
 
                 $hoja->getColumnDimension('A')->setWidth(40); // Ancho de 30 para la columna A

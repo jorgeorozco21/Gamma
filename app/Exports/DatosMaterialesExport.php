@@ -34,12 +34,20 @@ class DatosMaterialesExport implements FromCollection, WithEvents, WithTitle
                 $id_institucion = session('id_institucion');
 
                 for ($fila = 2; $fila <= 1000; $fila++) {
-                    $valTipo = new DataValidation();
-                    $valTipo->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
-                            ->setShowDropDown(true)
-                            ->setFormula1('"prestamos por unidad,prestamos por cantidad"');
-                    $hoja->getCell("C{$fila}")->setDataValidation($valTipo);
+                    $validarTipo = new DataValidation();
+                    $validarTipo->setType(DataValidation::TYPE_LIST)
+                                ->setErrorStyle(DataValidation::STYLE_STOP) 
+                                ->setAllowBlank(false)
+                                ->setShowInputMessage(true)
+                                ->setShowErrorMessage(true) 
+                                ->setShowDropDown(true)
+                                ->setErrorTitle('Dato no válido')
+                                ->setError('Por favor, selecciona una opción de la lista.')
+                                ->setFormula1('"prestamos por unidad,prestamos por cantidad"');
+
+                    $hoja->getCell("C{$fila}")->setDataValidation($validarTipo);
+
+                    $hoja->setCellValue("C{$fila}", 'prestamos por unidad');
                 }
 
                 $hoja->getColumnDimension('A')->setWidth(40);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Solicitud;
 use App\Models\SolicitudEliminada;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SolicitudEliminadaController extends Controller
 {
@@ -33,7 +34,17 @@ class SolicitudEliminadaController extends Controller
 
         SolicitudEliminada::create($infoSolicitud);
 
-        Solicitud::findOrFail($infoSolicitud['id_solicitud'])->delete();
+        $solicitud = Solicitud::findOrFail($infoSolicitud['id_solicitud']);
+
+        $materiales = $solicitud->info_material;
+
+        foreach ($materiales as $m) {
+            DB::table('inventarios')
+                ->where('id', $m['id'])
+                ->increment('cantidad_disponible', $m['cantidad']);
+        }
+
+        $solicitud->delete();
 
         return response()->json('Todo bien');
     }

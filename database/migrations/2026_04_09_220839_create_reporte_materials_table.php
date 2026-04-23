@@ -17,7 +17,6 @@ return new class extends Migration
             $table->jsonb('info_usuario');
             $table->integer("cantidad");
             $table->text("descripcion");
-            $table->string("fecha");
             $table->unsignedBigInteger('id_institucion');
             $table->timestamps();
 
