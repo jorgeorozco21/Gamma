@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->jsonb('info_usuario')->nullable();
             $table->jsonb('info_material')->nullable();
-            $table->string("fecha");
             $table->timestamps();
         });
     }

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_reporte');
             $table->jsonb('info_usuario');
             $table->string('estado');
-            $table->string('fecha');
             $table->timestamps();
 
             $table->foreign('id_reporte')->references('id')->on('reportes_materiales')->onDelete('cascade')->onUpdate('cascade');

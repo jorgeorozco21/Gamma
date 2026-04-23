@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_computadora');
             $table->string('tipo');
             $table->text('descripcion');
-            $table->string('fecha');
             $table->timestamps();
 
             $table->foreign("id_computadora")->references("id")->on("computadoras")->onDelete("cascade")->onUpdate("cascade"); 

@@ -14,8 +14,7 @@ class SolicitudEliminada extends Model
     protected $fillable = [
         "id_solicitud",
         "id_usuario",
-        "id_laboratorio",
-        "fecha"
+        "id_laboratorio"
     ];
 
     public function usuario(){

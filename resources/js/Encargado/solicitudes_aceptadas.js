@@ -330,3 +330,7 @@ async function reporte(){
         console.error("Error de conexión:", error);
     }
 }
+
+setInterval(() => {
+    buscadorGeneral();
+}, 5000);

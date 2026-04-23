@@ -30,8 +30,6 @@ class AuditoriaReporteMaterialController extends Controller
     public function store(Request $request)
     {
         $datos = $request->except('_token', '_method');
-
-        $datos['fecha'] = now();
     
         AuditoriaReporteMaterial::create($datos);
 
@@ -74,8 +72,6 @@ class AuditoriaReporteMaterialController extends Controller
     {
         $datos = $request->except('_token', '_method', 'cantidad', 'id_inventario');
 
-        $datos['fecha'] = now();
-
         $inventario = Inventario::findOrFail($request->id_inventario);
 
         $inventario['cantidad_disponible'] += (int) $request->cantidad;
@@ -90,8 +86,6 @@ class AuditoriaReporteMaterialController extends Controller
     public function sinFuncionamiento(Request $request)
     {
         $datos = $request->except('_token', '_method', 'cantidad', 'id_inventario');
-
-        $datos['fecha'] = now();
 
         $inventario = Inventario::findOrFail($request->id_inventario);
 

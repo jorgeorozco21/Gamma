@@ -175,3 +175,7 @@ async function cambiarEstado(id, estado, idInventario, cantidad){
         console.error("Error de conexión:", error);
     }
 }
+
+setInterval(() => {
+    buscadorGeneral();
+}, 5000);

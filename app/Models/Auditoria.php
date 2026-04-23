@@ -17,13 +17,11 @@ class Auditoria extends Model
     protected $fillable = [
         "id_solicitud",
         "estado",
-        "info_usuario",
-        "fecha"
+        "info_usuario"
     ];
 
     protected $casts = [
-        "info_usuario" => "array",
-        "fecha" => "datetime"
+        "info_usuario" => "array"
     ];
 
     public function solicitud(){

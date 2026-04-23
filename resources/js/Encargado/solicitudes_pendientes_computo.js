@@ -271,3 +271,7 @@ filtro.addEventListener("change", ()=>{
 filtroTipo.addEventListener('change', ()=>{
     buscadorGeneral();
 });
+
+setInterval(() => {
+    buscadorGeneral();
+}, 5000);

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auditoria;
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuditoriaController extends Controller
 {
@@ -30,8 +32,18 @@ class AuditoriaController extends Controller
     {
         $info = $request->except('_token','_method');
 
-        $info['fecha'] = now();
+        if ($info['estado'] == 'recibido'){
+            $solicitud = Solicitud::findOrFail($info['id_solicitud']);
 
+            $materiales = $solicitud->info_material;
+
+            foreach ($materiales as $m) {
+                DB::table('inventarios')
+                    ->where('id', $m['id'])
+                    ->increment('cantidad_disponible', $m['cantidad']);
+            }
+        }
+        
         Auditoria::create($info);
 
         return response()->json('Todo bien');

@@ -200,3 +200,7 @@ buscador.addEventListener("input", ()=>{
 filtro.addEventListener("change", ()=>{
     buscadorGeneral();
 });
+
+setInterval(() => {
+    buscadorGeneral();
+}, 5000);

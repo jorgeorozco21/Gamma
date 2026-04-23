@@ -17,7 +17,6 @@ class ReporteMaterial extends Model
         'info_usuario',
         "cantidad",
         "descripcion",
-        "fecha",
         "id_institucion"
     ];
 

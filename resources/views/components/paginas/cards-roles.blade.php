@@ -1,4 +1,4 @@
-<div class="flex justify-center gap-8 mb-24 max-w-6xl mx-auto"> 
+<div class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-8 mb-24 max-w-6xl mx-auto px-6 md:px-0"> 
     @if (session('normal'))
         <div class="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
             <div class="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-purple-50 transition-colors">

@@ -170,3 +170,26 @@ async function crearSolicitud(info){
         console.error("Error de conexión:", error);
     }
 }
+
+async function consultarMateriales(){
+    const response = await fetch(`/usuario/normal/materiales?texto=${buscador.value}&idLab=${idLaboratorio}`);
+    const data = await response.json();
+
+    data.forEach(m =>{
+        if (m.id in materiales){
+            materiales[m.id] = {
+                'id': m.id,
+                'nombre': m.nombre,
+                'tipo': m.tipo,
+                'cantidad': Math.min(materiales[m.id].cantidad, m.cantidad_disponible),
+                'cantidad_maxima': m.cantidad_disponible
+            };
+        }
+    });
+
+    generarTarjeta(materiales);
+}
+
+setInterval(()=>{
+    consultarMateriales();
+},5000);

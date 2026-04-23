@@ -2,13 +2,18 @@
 
 const contenedorReportes = document.getElementById('contenedor-reportes');
 const contenedorAuditorias = document.getElementById('contenedor-auditorias');
+let bandReportes = false;
+let idRep;
+let bandAuditoria = false;
+let idAud;
 
 document.addEventListener('click', function(e){
     const reportes = e.target.closest('.reportes');
 
     if (reportes){
         const id = reportes.dataset.id;
-
+        bandReportes = true;
+        idRep = id;
         consultarReportes(id);
 
         document.getElementById('numero-computadora').innerHTML = `Computadora ${reportes.dataset.computadora}`;
@@ -21,6 +26,9 @@ document.addEventListener('click', function(e){
 
     if (reporte){
         const id = reporte.dataset.idsolicitud;
+
+        bandAuditoria = true;
+        idAud = id;
 
         consultarAuditoria(id);
 
@@ -48,6 +56,20 @@ document.addEventListener('click', function(e){
 
             reemplazarEquipo(id);
         }
+    }
+
+    const cerrarReportes = e.target.closest('.cerrar-modal-reportes');
+
+    if (cerrarReportes){
+        bandReportes = false;
+        idRep = null;
+    }
+
+    const cerrarAuditoria = e.target.closest('.cerrar-modal-auditoria');
+
+    if (cerrarAuditoria){
+        bandAuditoria = false;
+        idAud = null;
     }
 });
 
@@ -92,8 +114,6 @@ function generarReportes(informacion){
 async function consultarAuditoria(id){
     const response = await fetch(`/admin/informes/laboratorios/laboratorio-computo/auditorias?id=${id}`);
     const data = await response.json();
-
-    console.log(data);
 
     generarAuditorias(data);
 }
@@ -254,6 +274,10 @@ buscador.addEventListener("input", ()=>{
     }, delay);
 });
 
+setInterval(() =>{
+    buscadorGeneral();
+},5000);
+
 filtroTipo.addEventListener("change", ()=>{
     buscadorGeneral();
 });
@@ -302,3 +326,11 @@ function generarRegistro(informacion){
 
     contenedorInformacion.innerHTML = filas;
 }
+
+setInterval(()=>{
+    if (bandReportes)  consultarReportes(idRep);
+},5000);
+
+setInterval(()=>{
+    if (bandAuditoria)  consultarAuditoria(idAud);
+},5000);

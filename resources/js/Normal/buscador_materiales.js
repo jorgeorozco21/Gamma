@@ -93,3 +93,8 @@ buscador.addEventListener("input", ()=>{
         buscadorGeneral(buscador.value, idLaboratorio);
     }, delay);
 });
+
+
+setInterval(() => {
+    buscadorGeneral(buscador.value, idLaboratorio);
+}, 5000);

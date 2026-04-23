@@ -78,6 +78,11 @@
         openBtn.classList.remove('opacity-0', 'pointer-events-none');
     }
 
-    openBtn.addEventListener('click', openCart);
-    overlay.addEventListener('click', closeCart);
+    if (openBtn) {
+        openBtn.addEventListener('click', openCart);
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeCart);
+    }
 </script>

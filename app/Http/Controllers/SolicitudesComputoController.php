@@ -30,8 +30,6 @@ class SolicitudesComputoController extends Controller
     {
         $datos = $request->except('_token','_method');
 
-        $datos['fecha'] = now();
-
         SolicitudComputo::create($datos);
 
         return response()->json('Todo bien');

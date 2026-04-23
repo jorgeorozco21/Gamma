@@ -16,7 +16,6 @@ class AuditoriaReporteMaterial extends Model
         "id_reporte",
         "info_usuario",
         "estado",
-        "fecha"
     ];
 
     protected $casts = [

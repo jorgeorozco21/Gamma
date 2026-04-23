@@ -37,32 +37,35 @@ class DatosUsuarioExport implements FromCollection, WithTitle, WithEvents
                 $cantGrupos = Grupo::where("id_institucion", $id_institucion)->count() + 1;
 
                 for ($fila = 2; $fila <= 1000; $fila++) {
-                    $matenimiento = new DataValidation();
-                    $matenimiento->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
-                            ->setShowDropDown(true)
-                            ->setFormula1('"si,no"');
-                    $hoja->getCell("D{$fila}")->setDataValidation($matenimiento);
+                    $validarSiNo = new DataValidation();
+                    $validarSiNo->setType(DataValidation::TYPE_LIST)
+                                ->setErrorStyle(DataValidation::STYLE_STOP) // No permite ignorar el error
+                                ->setAllowBlank(false)
+                                ->setShowInputMessage(true)
+                                ->setShowErrorMessage(true) // Muestra alerta de error
+                                ->setShowDropDown(true)
+                                ->setErrorTitle('Dato no válido')
+                                ->setError('Por favor, selecciona una opción de la lista.')
+                                ->setFormula1('"si,no"');
 
-                    $encargado = new DataValidation();
-                    $encargado->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
-                            ->setShowDropDown(true)
-                            ->setFormula1('"si,no"');
-                    $hoja->getCell("E{$fila}")->setDataValidation($encargado);
+                    $hoja->getCell("D{$fila}")->setDataValidation($validarSiNo);
+                    $hoja->getCell("E{$fila}")->setDataValidation($validarSiNo);
+                    $hoja->getCell("F{$fila}")->setDataValidation($validarSiNo);
 
-                    $normal = new DataValidation();
-                    $normal->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
-                            ->setShowDropDown(true)
-                            ->setFormula1('"si,no"');
-                    $hoja->getCell("F{$fila}")->setDataValidation($normal);
+                    $hoja->setCellValue("D{$fila}", 'no');
+                    $hoja->setCellValue("E{$fila}", 'no');
+                    $hoja->setCellValue("F{$fila}", 'no');
 
                     $valGrupo = new DataValidation();
                     $valGrupo->setType(DataValidation::TYPE_LIST)
-                            ->setAllowBlank(false)
+                            ->setErrorStyle(DataValidation::STYLE_STOP)
+                            ->setAllowBlank(true)                
+                            ->setShowErrorMessage(true)                 
                             ->setShowDropDown(true)
+                            ->setErrorTitle('Grupo no válido')
+                            ->setError('Selecciona un grupo de la lista o deja la celda vacía.')
                             ->setFormula1("='Grupos'!\$B\$1:\$B\${$cantGrupos}");
+
                     $hoja->getCell("G{$fila}")->setDataValidation($valGrupo);
                 }
 

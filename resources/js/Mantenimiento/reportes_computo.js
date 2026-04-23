@@ -25,8 +25,10 @@ document.addEventListener('click', (e)=>{
     if (reportar){
         if (confirm('La computadora no funciona ??')){
             const id = reportar.dataset.id;
+            const idSolicitud = reportar.dataset.idsolicitud;
 
-            editarEstado(id);
+
+            editarEstado(id, idSolicitud);
             actualizarInformacion();
         }
     }
@@ -156,9 +158,11 @@ function generarRegistro(informacion){
     contenedorReportes.innerHTML =  reportes;
 }
 
-async function editarEstado(id){
+async function editarEstado(id, idSolicitud){
     const datos = {
-        'id_computadora': id
+        'estado': 'sin reparacion',
+        'info_usuario': usuario,
+        'id_solicitud': idSolicitud
     };
 
     try{
@@ -183,3 +187,7 @@ async function editarEstado(id){
         console.error("Error al editar:", error);
     }
 }
+
+setInterval(() => {
+    actualizarInformacion();
+}, 5000);

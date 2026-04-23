@@ -28,7 +28,7 @@ function generarTarjetas(informacion){
 
                 <!-- Nombre de Computadora -->
                 <h3 class="font-bold text-gray-900 text-base leading-tight">
-                    PC-${s.id}
+                    ${s.numero_computadora}
                 </h3>
             </div>
         `;
@@ -49,3 +49,7 @@ buscador.addEventListener("input", ()=>{
         buscadorGeneral();
     }, delay);
 });
+
+setInterval(() => {
+    buscadorGeneral();
+}, 5000);

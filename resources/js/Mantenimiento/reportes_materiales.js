@@ -190,3 +190,7 @@ async function sinFuncionamiento(id, estado, idInventario, cantidad){
         console.error("Error de conexión:", error);
     }
 }
+
+setInterval(() => {
+    actualizarInformacion();
+}, 5000);
