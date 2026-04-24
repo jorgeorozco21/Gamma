@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inicio Sesion</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="bg-[#7B1FA2] min-h-screen flex flex-col items-center justify-center p-6">
-    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio Sesion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#7B1FA2] min-h-screen flex flex-col items-center justify-center p-6">
     <x-admin.alertas-usuarios />
 
     <a href="{{ route('pagina-principal') }}" class="absolute top-6 left-6 flex items-center gap-2 text-white hover:opacity-80 transition">

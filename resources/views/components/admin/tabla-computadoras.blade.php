@@ -65,14 +65,14 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+        <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Reportes</h3>
-                <p class="text-[14px] font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded-md" id="numero-computadora">Computadora </p>
+                <p class="text-[14px] font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded-md" id="numero-computadora"></p>
             </div>
 
-            <div id="contenedor-reportes"  class="p-4">
+            <div id="contenedor-reportes" class="p-4">
             </div>
 
             <!-- Boton de Cerrar -->
@@ -97,7 +97,7 @@
                 <p class="text-[14px] font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded-md" id="id-auditoria">#</p>
             </div>
 
-            <div id="contenedor-auditorias"  class="p-4">
+            <div id="contenedor-auditorias" class="p-4 w-full overflow-x-auto no-scrollbar">
             </div>
 
             <!-- Boton de Cerrar -->

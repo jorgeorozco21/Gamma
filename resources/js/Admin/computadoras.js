@@ -11,7 +11,7 @@ document.addEventListener('click', function(e){
 
         consultarReportes(id);
 
-        document.getElementById('numero-computadora').innerHTML = `Computadora ${reportes.dataset.computadora}`;
+        document.getElementById('numero-computadora').innerHTML = `#${reportes.dataset.computadora}`;
         const modal = document.getElementById('reportes-modal');
         modal.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
@@ -109,12 +109,12 @@ function generarAuditorias(informacion){
         `;
     }else{
         let reportes = `
-            <table class="w-full text-left border-collapse min-w-[800px]">
+            <table class="w-full text-left border-collapse min-w-[700px]">
                 <thead>
                     <tr class="border-b border-gray-100 bg-gray-50/50">
                         <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Usuario</th>
-                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Estado</th>
-                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
+                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado</th>
+                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Fecha</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -133,8 +133,12 @@ function generarAuditorias(informacion){
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4 uppercase">${a.estado}</td>
-                    <td class="px-6 py-4">${a.fecha}</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-3 py-1 text-[10px] text-center font-bold rounded-lg bg-green-50 text-green-600 border border-green-100 uppercase">
+                            ${a.estado}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-center text-sm text-gray-500">${a.fecha}</td>
                 </tr>
             `;
 

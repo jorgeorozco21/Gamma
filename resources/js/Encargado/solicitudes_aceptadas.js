@@ -84,12 +84,12 @@ function generarRegistro(informacion){
                 </td>
 
                 <!-- ID de la Solicitud -->
-                <td class="px-6 py-4 text-sm text-black text-center">
+                <td class="px-6 py-4 text-sm text-black text-center font-medium">
                     ${s.id}
                 </td>
 
                 <!-- Laboratorio -->
-                <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
+                <td class="px-6 py-4 text-center text-black text-sm font-medium tracking-tight">
                     ${infoUsuario.nombreLaboratorio}
                 </td>
 

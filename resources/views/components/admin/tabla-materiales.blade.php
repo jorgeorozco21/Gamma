@@ -4,9 +4,9 @@
         <table class="w-full text-left border-collapse min-w-[800px]">
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Descripcion</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipo de Prestamo</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Descripcion</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Tipo de Prestamo</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
@@ -14,24 +14,26 @@
                 @foreach ($materiales as $material)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- Nombre del Material -->
-                        <td class="px-6 py-4 text-sm text-black font-medium">
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">
                             {{ $material->nombre }}
                         </td>
                         <!-- Descripcion del Material -->
                         <td class="px-6 py-4 justify-center">
-                            <button type="button" 
-                                onclick="openMaterialModal('{{ $material->descripcion }}')" 
-                                class="flex items-center gap-2 text-[#7B1FA3] hover:text-white"
-                                title="Ver Descripcion">
-                                <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <div class="flex justify-center">
+                                <button type="button" 
+                                    onclick="openMaterialModal('{{ $material->descripcion }}')" 
+                                    class="flex items-center gap-2 text-[#7B1FA3] hover:text-white"
+                                    title="Ver Descripcion">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
                         <!-- Tipo de Prestamo -->
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 text-center">
                             <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-blue-50 text-blue-600 border border-blue-100">
                                 {{ $material->tipo }}
                             </span>
@@ -64,7 +66,7 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+        <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Material</h3>

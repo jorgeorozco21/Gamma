@@ -36,8 +36,8 @@ function crearRegistro(informacion){
     informacion.forEach(inventario => {
         filas += `
             <tr class="hover:bg-gray-50/50 transition-colors group">
-                <td class="px-6 py-4 text-sm text-black font-medium">${inventario.nombreMaterial}</td>
-                <td class="px-6 py-4 text-sm text-black font-medium">${inventario.nombreLaboratorio}</td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${inventario.nombreMaterial}</td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${inventario.nombreLaboratorio}</td>
                 <td class="px-6 py-4 text-sm text-black font-medium text-center">${inventario.cantidad_disponible}</td>
                 <td class="px-6 py-4 text-sm text-black font-medium text-center">${inventario.cantidad_total}</td>
                 <td class="px-6 py-4">

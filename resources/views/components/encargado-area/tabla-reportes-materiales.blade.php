@@ -19,23 +19,23 @@
                 @foreach ($reportes as $reporte)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- ID de la Solicitud -->
-                        <td class="px-6 py-4 text-sm text-black text-center">
+                        <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $reporte->id }}
                         </td>
 
                         <!-- Nombre del material -->
-                        <td class="px-6 py-4 text-sm text-black text-center">
+                        <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $reporte->nombre }}
                         </td>
 
                         <!-- Cantidad -->
-                        <td class="px-6 py-4 text-sm text-black text-center">
+                        <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $reporte->cantidad }}
                         </td>
 
                         <!-- Laboratorio -->
-                        <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
-                                {{ $reporte->nombreLaboratorio }}
+                        <td class="px-6 py-4 text-center text-black text-sm font-medium tracking-tight">
+                            {{ $reporte->nombreLaboratorio }}
                         </td>
 
                         <!-- Descripcion -->
@@ -61,23 +61,25 @@
 
                         <!-- Estado de la Solicitud -->
                         <td class="px-6 py-4 text-center">
-                            @if ($reporte->estado == null || $reporte->estado == 'en proceso')
-                                <span class="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100 uppercase">
-                                    {{ ($reporte->estado == null)?'Espera':$reporte->estado }}
-                                </span>
-                            @endif
+                            <div class="flex justify-center">
+                                @if ($reporte->estado == null || $reporte->estado == 'en proceso')
+                                    <span class="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100 uppercase">
+                                        {{ ($reporte->estado == null)?'Espera':$reporte->estado }}
+                                    </span>
+                                @endif
 
-                            @if ($reporte->estado == 'reparado')
-                                <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
-                                    {{ $reporte->estado }}
-                                </span>
+                                @if ($reporte->estado == 'reparado')
+                                    <span class="px-2 py-1 bg-orange-50 text-orange-600 text-xs font-bold rounded-lg border border-green-100 uppercase">
+                                        {{ $reporte->estado }}
+                                    </span>
 
-                                <button data-id='{{ $reporte->id }}' data-estado='recibido' data-inventario="{{ $reporte->id_inventario }}" data-cantidad="{{ $reporte->cantidad }}"
-                                    class="completar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
-                                    title="Guardar cambio">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                </button>
-                            @endif
+                                    <button data-id='{{ $reporte->id }}' data-estado='recibido' data-inventario="{{ $reporte->id_inventario }}" data-cantidad="{{ $reporte->cantidad }}"
+                                        class="completar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
+                                        title="Guardar cambio">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -91,7 +93,7 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+        <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Motivo de la Solicitud</h3>

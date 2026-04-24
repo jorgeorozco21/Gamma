@@ -36,12 +36,12 @@
                         </td>
 
                         <!-- ID de Solicitud -->
-                        <td class="px-6 py-4 text-sm text-black text-center">
+                        <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $solicitud->id }}
                         </td>
 
                         <!-- Laboratorio -->
-                        <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
+                        <td class="px-6 py-4 text-center text-black text-sm font-medium tracking-tight">
                                 {{ $info->nombreLaboratorio }}
                         </td>
 
@@ -93,7 +93,7 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+        <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Materiales Solicitados</h3>

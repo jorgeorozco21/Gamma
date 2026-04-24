@@ -4,8 +4,8 @@
         <table class="w-full text-left border-collapse min-w-[800px]">
             <thead>
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Material</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Material</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorio</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad Disponible</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad Total</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
@@ -15,8 +15,8 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($inventarios as $inventario)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-black font-medium">{{ $inventario->nombreMaterial }}</td>
-                        <td class="px-6 py-4 text-sm text-black font-medium">{{ $inventario->nombreLaboratorio }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $inventario->nombreMaterial }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $inventario->nombreLaboratorio }}</td>
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $inventario->cantidad_disponible }}</td>
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $inventario->cantidad_total }}</td>
                         <td class="px-6 py-4">

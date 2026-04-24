@@ -30,7 +30,7 @@
                         <div>
                             <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Reportes</h1>
                             <p class="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                                Administración de Reportes Computo
+                                Administración de Reportes de Computo
                             </p>
                         </div>
                     </div>

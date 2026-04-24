@@ -171,20 +171,20 @@ function generarRegistros(informacion){
         solicitudes += `
             <tr class="hover:bg-gray-50/50 transition-colors group">
                 <!-- ID Solicitud -->
-                <td class="px-6 py-4 text-sm text-black text-center">
+                <td class="px-6 py-4 text-sm text-black text-center font-medium">
                     ${r.id}
                 </td>
                 <!-- Numero de computadora -->
-                <td class="px-6 py-4 text-sm text-black text-center">
+                <td class="px-6 py-4 text-sm text-black text-center font-medium">
                     ${r.numero_computadora}
                 </td>
 
                 <!-- Laboratorio -->
-                <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
+                <td class="px-6 py-4 text-center text-black text-sm font-medium tracking-tight">
                     ${r.nombre}
                 </td>
 
-                <td class="px-6 py-4 text-black text-xs font-bold text-center uppercase">
+                <td class="px-6 py-4 text-black text-sm font-medium text-center uppercase">
                     ${r.tipo}
                 </td>
 

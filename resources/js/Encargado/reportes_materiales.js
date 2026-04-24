@@ -47,21 +47,21 @@ function generarRegistros(informacion){
         registros += `
             <tr class="hover:bg-gray-50/50 transition-colors group">
                 <!-- ID del Reporte -->
-                <td class="px-6 py-4 text-sm text-black text-center">
+                <td class="px-6 py-4 text-sm text-black text-center font-medium">
                     ${r.id}
                 </td>
 
                 <!-- Nombre del material -->
-                <td class="px-6 py-4 text-sm text-black text-center">
+                <td class="px-6 py-4 text-sm text-black text-center font-medium">
                     ${r.nombre}
                 </td>
 
                 <!-- Cantidad -->
-                <td class="px-6 py-4 text-sm text-black text-center">
+                <td class="px-6 py-4 text-sm text-black text-center font-medium">
                     ${r.cantidad}
                 </td>
 
-                <td class="px-6 py-4 text-center text-black text-xs font-bold tracking-tight">
+                <td class="px-6 py-4 text-center text-black text-sm tracking-tight font-medium">
                     ${ r.nombreLaboratorio }
                 </td>
 
