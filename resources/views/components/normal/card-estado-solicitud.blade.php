@@ -1,8 +1,8 @@
 @props(['solicitudes','solicitudes_eliminadas'])
-<div id="contenedor-solicitudes" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-7xl">
+<div id="contenedor-solicitudes" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-7xl mx-auto max-h-[calc(100dvh-250px)] overflow-y-auto no-scrollbar">
 
     @foreach ($solicitudes_eliminadas as $solicitud)
-
+        @for($i=0;$i<=20;$i++)
         <div data-id="{{ $solicitud->id }}" class="solicitud-eliminada bg-white p-6 rounded-[20px] border border-gray-100 shadow-sm flex w-full hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 cursor-pointer">
             <div class="space-y-2 w-full">
                 <div class="flex justify-between w-full">
@@ -31,10 +31,11 @@
                 </div>
             </div>
         </div>
-
+        @endfor
     @endforeach
 
     @foreach ($solicitudes as $solicitud)
+    @for($i=0;$i<=20;$i++)
         <!-- Card de la Solicitud -->
         <div data-id="{{ $solicitud->id }}" data-estado="{{ $solicitud->estado }}" class="solicitud bg-white p-6 rounded-[20px] border border-gray-100 shadow-sm flex w-full hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 cursor-pointer">
             <div class="space-y-2 w-full">
@@ -81,6 +82,6 @@
                 </div>
             </div>
         </div>
-
+        @endfor
     @endforeach
 </div>

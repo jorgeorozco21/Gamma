@@ -1,9 +1,9 @@
 @props(['reportes'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto no-scrollbar">
-        <table class="w-full text-left border-collapse min-w-[1000px]">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-150px)] no-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[800px]">
             <!-- Encabezado de la Tabla -->
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre Material</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad</th>
@@ -18,6 +18,7 @@
             
             <tbody id="contenedor-reportes" class="divide-y divide-gray-50">
                 @foreach ($reportes as $reporte)
+                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $reporte->nombre }}
@@ -87,13 +88,14 @@
                             @if ($reporte->estado == 'en proceso')
                                 <div class="flex justify-center">
                                     <button data-id="{{ $reporte->id }}" data-estado="sin reparacion" data-inventario="{{ $reporte->id_inventario }}" data-cantidad="{{ $reporte->cantidad }}"
-                                        class="reportar flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                        class="reportar flex items-center gap-1 px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
                                         Sin Reparacion
                                     </button>
                                 </div>
                             @endif
                         </td>
                     </tr>
+                    @endfor
                 @endforeach
             </tbody>
         </table>
@@ -114,7 +116,7 @@
             <!-- Descripcion -->
             <div class="px-6 py-8">
                 <div class="relative group">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripción del Problema</p>
+                    <p class="text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripción del Problema</p>
                     <div class="relative">
                         <textarea id="descripcion-solicitud" readonly 
                             class="w-full p-5 bg-gray-50 border border-gray-100 rounded-[20px] text-sm text-gray-600 focus:outline-none resize-none h-40 leading-relaxed shadow-inner"

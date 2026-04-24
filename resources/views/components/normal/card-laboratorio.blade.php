@@ -1,6 +1,7 @@
 @props(["laboratorios"])
-<div id="contenedor-tarjetas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 max-w-8xl mx-auto max-h-[475px] overflow-y-auto pr-2 no-scrollbar">
+<div id="contenedor-tarjetas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 max-w-8xl mx-auto max-h-[calc(100dvh-220px)] overflow-y-auto no-scrollbar">
     @foreach ($laboratorios as $laboratorio)
+    @for($i=0;$i<=20;$i++)
         <!-- Card de Laboratorio -->
         @if ($laboratorio->tipo == 'prestamos')<a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}" class="flex flex-col gap-2 cursor-pointer">@endif
         @if ($laboratorio->tipo == 'computo')<a href="{{ url('/usuario/normal/laboratorios/'.$laboratorio->id.'-laboratorio-computo') }}" class="flex flex-col gap-2 cursor-pointer">@endif
@@ -18,5 +19,6 @@
                 </h3>
             </div>
         </a>
+        @endfor
     @endforeach
 </div>

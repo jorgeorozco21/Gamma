@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +11,8 @@
             .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
     </head>
-    <body class="h-full overflow-hidden">
-        <div class="flex h-full">
+    <body class="h-full">
+        <div class="flex min-h-screen">
         <!-- Sidebar -->
         <x-sidebar-general />
 
@@ -36,7 +36,7 @@
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+            <div class="flex-1 overflow-y-auto p-6 no-scrollbar space-y-6">
                 <!-- Filtro de Solicitudes -->
                 <x-encargado-area.filtro-solicitudes :laboratorios="$laboratorios" />
                 

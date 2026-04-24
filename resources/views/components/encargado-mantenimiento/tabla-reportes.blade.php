@@ -1,9 +1,9 @@
 @props(['reportes'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto no-scrollbar">
-        <table class="w-full text-left border-collapse min-w-[1000px]">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-150px)] no-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[800px]">
             <!-- Encabezado de la Tabla -->
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">No. Computadora</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorio</th>
@@ -18,6 +18,7 @@
             
             <tbody id="contenedor-reportes" class="divide-y divide-gray-50">
                 @foreach ($reportes as $reporte)
+                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $reporte->numero_computadora }}
@@ -74,26 +75,26 @@
                                     <span class="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100 uppercase">
                                         Reparado
                                     </span>
-
-                                    <button data-estado="{{ ($reporte->estado == 'aceptada' || $reporte->estado == 'reprogramado')?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
-                                        class="cambiar px-3 py-1 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98] ml-2"
-                                        title="Guardar cambio">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                    </button>
                                 @endif
+                                <button data-estado="{{ ($reporte->estado == 'aceptada' || $reporte->estado == 'reprogramado')?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
+                                    class="cambiar px-3 py-1 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98] ml-2"
+                                    title="Guardar cambio">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </button>
                             </div>
                         </td>
 
                         <td class="px-6 py-4 text-center">
                             @if ($reporte->estado != 'aceptada' && $reporte->estado != 'reprogramado')
                                 <div class="flex justify-center">
-                                    <button data-id="{{ $reporte->id_computadora }}" class="reportar flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                    <button data-id="{{ $reporte->id_computadora }}" class="reportar flex items-center gap-1 px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
                                         Reportar
                                     </button>
                                 </div>
                             @endif
                         </td>
                     </tr>
+                    @endfor
                 @endforeach
             </tbody>
         </table>
@@ -114,7 +115,7 @@
             <!-- Descripcion -->
             <div class="px-6 py-8">
                 <div class="relative group">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripción del Problema</p>
+                    <p class="text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripción del Problema</p>
                     <div class="relative">
                         <textarea id="descripcion-solicitud" readonly 
                             class="w-full p-5 bg-gray-50 border border-gray-100 rounded-[20px] text-sm text-gray-600 focus:outline-none resize-none h-40 leading-relaxed shadow-inner"

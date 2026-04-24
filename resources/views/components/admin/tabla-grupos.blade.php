@@ -1,8 +1,8 @@
 @props(['grupos'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Grado</th>
@@ -14,6 +14,7 @@
             <!-- En todos los archivos que se va a mostar la informacion la parte del tbody tiene que tener ese id para que funcione el filtro de informacion -->
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($grupos as $grupo)
+                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->nombre }}</td>
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->grado }}</td>
@@ -44,6 +45,7 @@
                             </div>
                         </td>
                     </tr>
+                    @endfor
                 @endforeach
             </tbody>
         </table>

@@ -11,10 +11,10 @@
             .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
     </head>
-    <body class="h-full overflow-hidden bg-[#F7F6F8]">
+    <body class="h-full bg-[#F7F6F8]">
         <!-- Alertas -->
         <x-admin.alertas-usuarios />
-        <div class="flex h-full">
+        <div class="flex min-h-screen">
             <!-- Sidebar -->
             <x-admin.sidebar-admin :admin="$admin" />
 
@@ -61,7 +61,7 @@
                     </div>
                 </header>
 
-                <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+                <div class="flex-1 overflow-y-auto p-6 no-scrollbar space-y-6">
                     <!-- Filtros -->
                     <x-admin.filtro-grupos />
 

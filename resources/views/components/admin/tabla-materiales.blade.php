@@ -1,8 +1,8 @@
 @props(['materiales'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Descripcion</th>
@@ -12,6 +12,7 @@
             </thead>
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($materiales as $material)
+                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- Nombre del Material -->
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">
@@ -55,6 +56,7 @@
                             </div>
                         </td>
                     </tr>
+                    @endfor
                 @endforeach
             </tbody>
         </table>
@@ -75,7 +77,7 @@
             <div class="px-6 py-8">
                 <div class="relative group">
                     <!-- Descripcion -->
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripcion del Material</p>
+                    <p class="text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Descripcion del Material</p>
                     <div class="relative">
                         <textarea id="descripcion-material" readonly 
                             class="w-full p-5 bg-gray-50 border border-gray-100 rounded-[20px] text-sm text-gray-600 focus:outline-none resize-none h-40 leading-relaxed shadow-inner"

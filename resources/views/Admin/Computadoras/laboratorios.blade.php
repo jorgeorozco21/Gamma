@@ -15,8 +15,8 @@
             .scroll-rojo::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
         </style>
     </head>
-    <body class="h-full overflow-hidden bg-[#F7F6F8]">
-        <div class="flex h-full">
+    <body class="h-full bg-[#F7F6F8]">
+        <div class="flex min-h-screen">
             <!-- Sidebar -->
             <x-admin.sidebar-admin :admin="$admin" />
             <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -37,7 +37,7 @@
                     </div>
                 </header>
 
-                <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+                <div class="flex-1 overflow-y-auto p-6 no-scrollbar space-y-6">
                     <x-admin.filtro-laboratorios />
                     <x-admin.card-laboratorio :laboratorios="$laboratorios" />
                 </div>

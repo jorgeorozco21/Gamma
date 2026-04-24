@@ -1,9 +1,9 @@
 @props(['reportes'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto no-scrollbar">
-        <table class="w-full text-left border-collapse min-w-[1000px]">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[800px]">
             <!-- Encabezado de la Tabla -->
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">ID Reporte</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre Material</th>
@@ -17,6 +17,7 @@
             
             <tbody id="contenedor-reportes" class="divide-y divide-gray-50">
                 @foreach ($reportes as $reporte)
+                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- ID de la Solicitud -->
                         <td class="px-6 py-4 text-sm text-black text-center font-medium">
@@ -82,6 +83,7 @@
                             </div>
                         </td>
                     </tr>
+                    @endfor
                 @endforeach
             </tbody>
         </table>
@@ -96,7 +98,7 @@
         <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Motivo de la Solicitud</h3>
+                <h3 class="text-left text-sm font-extrabold text-black tracking-wider uppercase">Motivo de la Solicitud</h3>
                 <p class="text-[14px] font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded-md" id="id-solicitud">#000000</p>
             </div>
 
