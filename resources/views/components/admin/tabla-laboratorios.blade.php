@@ -13,7 +13,6 @@
             <!-- En todos los archivos que se va a mostar la informacion la parte del tbody tiene que tener ese id para que funcione el filtro de informacion -->
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($laboratorios as $laboratorio)
-                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $laboratorio->nombre }}</td>
                         <td class="px-6 py-4 text-center">
@@ -37,7 +36,6 @@
                             </div>
                         </td>
                     </tr>
-                    @endfor
                 @endforeach
             </tbody>
         </table>

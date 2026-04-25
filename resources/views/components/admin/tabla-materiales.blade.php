@@ -12,7 +12,6 @@
             </thead>
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($materiales as $material)
-                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <!-- Nombre del Material -->
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">
@@ -56,7 +55,6 @@
                             </div>
                         </td>
                     </tr>
-                    @endfor
                 @endforeach
             </tbody>
         </table>

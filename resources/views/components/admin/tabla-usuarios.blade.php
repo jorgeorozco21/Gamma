@@ -15,7 +15,6 @@
             
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($usuarios as $usuario)
-                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
@@ -89,7 +88,6 @@
                             </div>
                         </td>
                     </tr>
-                @endfor
                 @endforeach
             </tbody>
         </table>

@@ -1,7 +1,6 @@
 @props(['materiales'])
 <div id="contenedor-materiales" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto max-h-[calc(100dvh-250px)] overflow-y-auto no-scrollbar">
     @foreach ($materiales as $material)
-        @for($i=0;$i<=20;$i++)
         @php
             $color = "";
             $colorLetra = "";
@@ -61,6 +60,5 @@
                 </div>
             </div>
         @endif
-        @endfor
     @endforeach
 </div>

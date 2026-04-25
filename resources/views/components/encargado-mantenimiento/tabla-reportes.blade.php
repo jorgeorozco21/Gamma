@@ -18,7 +18,6 @@
             
             <tbody id="contenedor-reportes" class="divide-y divide-gray-50">
                 @foreach ($reportes as $reporte)
-                @for($i=0;$i<=20;$i++)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
                         <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $reporte->numero_computadora }}
@@ -94,7 +93,6 @@
                             @endif
                         </td>
                     </tr>
-                    @endfor
                 @endforeach
             </tbody>
         </table>

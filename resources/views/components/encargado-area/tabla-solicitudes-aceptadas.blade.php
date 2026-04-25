@@ -17,7 +17,6 @@
             
             <tbody id="contenedor-solicitudes" class="divide-y divide-gray-50">
                 @foreach ($solicitudes as $solicitud)
-                @for($i=0;$i<=20;$i++)
                     @php
                         $info = json_decode($solicitud->info_usuario)
                     @endphp
@@ -93,7 +92,6 @@
                             </div>
                         </td>
                     </tr>
-                    @endfor
                 @endforeach
             </tbody>
         </table>

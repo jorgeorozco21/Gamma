@@ -2,7 +2,7 @@
 <nav class="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center relative z-40">
     <!-- Logo -->
     <a href="{{ url('/seleccionar-tipo-usuario') }}" class="text-[#7B1FA3] font-extrabold text-xl tracking-tight">
-        Gamma
+        GAMMA
     </a>
 
     <!-- Header Menu (Computadora) -->
