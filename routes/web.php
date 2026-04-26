@@ -30,7 +30,17 @@ Route::middleware('check.login')->group(function (){
     Route::middleware(['tipo:admin'])->group(function (){
 
         Route::get('/admin', function(){
-            return view('Admin.indexAdmin');
+            $admin = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.nombre_usuario',
+                    'u.email'
+                )
+                ->where('u.id','=',session('id_usuario'))
+                ->first()
+            ;
+
+            return view('Admin.indexAdmin', compact('admin'));
         });
 
         Route::resource('/admin/usuarios', UsuarioController::class)->names('admin.usuarios');

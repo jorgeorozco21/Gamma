@@ -1,5 +1,5 @@
 @props(['admin'])
-<aside class="w-64 bg-white h-screen flex flex-col border-r border-gray-100 shrink-0">
+<aside class="w-64 bg-white h-dvh flex flex-col border-r border-gray-100 shrink-0">
     <div class="p-6 flex items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center gap-3">

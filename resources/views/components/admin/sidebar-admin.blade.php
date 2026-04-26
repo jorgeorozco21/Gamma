@@ -1,6 +1,6 @@
 @props(['admin'])
 
-<aside class="w-64 bg-white h-screen flex flex-col border-r border-gray-100 shrink-0">
+<aside class="w-64 bg-white h-dvh flex flex-col border-r border-gray-100 shrink-0">
     <div class="p-6 flex items-center justify-between">
         <div class="flex items-center gap-3">
 
@@ -17,9 +17,9 @@
     </div>
 
     <nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-        <a href="{{ url('/Admin/Dashboard') }}" 
-            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('Admin/Dashboard') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
-            <svg class="w-5 h-5 {{ request()->is('Admin/Dashboard') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="{{ url('/admin') }}" 
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('admin') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
+            <svg class="w-5 h-5 {{ request()->is('admin') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10" />
             </svg>
             <span class="text-sm font-semibold">Dashboard</span>

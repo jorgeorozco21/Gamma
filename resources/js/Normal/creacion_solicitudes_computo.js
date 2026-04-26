@@ -17,6 +17,12 @@ document.addEventListener("click", function(e){
         idCom = id;
 
         obtenerReportes(id);
+
+        if(window.innerWidth < 1024){
+            setTimeout(() => {
+                openCart();
+            }, 150);
+        }
     }
 });
 

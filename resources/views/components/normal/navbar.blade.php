@@ -85,8 +85,8 @@
     @endif
 
     <!-- Usuario (Movil) -->
-    <div class="mt-auto border-t pt-6 flex items-center justify-between">
-        <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight mb-4">
+    <div class="mt-auto border-t pt-4 flex items-center justify-between">
+        <a href="{{ url('/perfil') }}" class="flex flex-col leading-tight">
             <span class="font-extrabold text-black text-sm">
                 {{ session('nombre_usuario') }}
             </span>

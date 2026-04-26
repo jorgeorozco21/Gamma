@@ -28,7 +28,7 @@ function generarTarjetas(informacion){
 
                 <!-- Nombre de Computadora -->
                 <h3 class="font-bold text-gray-900 text-base leading-tight">
-                    PC-${s.id}
+                    ${s.id}
                 </h3>
             </div>
         `;
