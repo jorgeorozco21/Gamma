@@ -34,17 +34,19 @@ function generarRegistro(data){
     data.forEach(grupo =>{
         fila += `
             <tr class="hover:bg-gray-50/50 transition-colors group">
-                <td class="px-6 py-4 text-sm text-gray-600 font-medium">${grupo.nombre}</td>
-                <td class="px-6 py-4 text-sm text-gray-600 font-medium">${grupo.grado}</td>
-                <td class="px-6 py-4 text-sm text-gray-600 font-medium">${grupo.grupo}</td>
-                <td>
-                    <button data-laboratorios="${grupo.laboratorios}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
-                        <div class="p-1.5 bg-purple-100 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
-                            </svg>
-                        </div>
-                    </button>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.nombre}</td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.grado}</td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.grupo}</td>
+                <td class="px-6 py-4 justify-center">
+                    <div class="flex justify-center">
+                        <button data-laboratorios="${grupo.laboratorios}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
+                            <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex items-center justify-center gap-2">

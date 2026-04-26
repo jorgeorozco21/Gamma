@@ -1,9 +1,9 @@
 @props(['usuarios'])
 
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Usuario</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre Completo</th>
@@ -20,14 +20,14 @@
                             <div class="flex items-center gap-3">
                                 <!-- Nombre de Usuario y Correo -->
                                 <div class="min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 truncate">{{ $usuario->nombre_usuario }}</p>
+                                    <p class="text-sm font-bold text-black truncate">{{ $usuario->nombre_usuario }}</p>
                                     <p class="text-xs text-gray-400 truncate">{{ $usuario->email }}</p>
                                 </div>
                             </div>
                         </td>
 
                         <!-- Nombre -->
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">
+                        <td class="px-6 py-4 text-sm text-black font-medium">
                             {{ $usuario->nombre }}
                         </td>
 
@@ -92,4 +92,5 @@
             </tbody>
         </table>
     </div>
+    <!-- <div class="p-4 border-t bg-white"></div> -->
 </div>

@@ -1,22 +1,21 @@
 @props(['solicitudes'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto no-scrollbar">
-        <table class="w-full text-left border-collapse min-w-[900px]">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[800px]">
             <!-- Encabezados de la Tabla -->
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Alumno</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID Solicitud</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorio</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Materiales</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fecha</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text">Alumno</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">ID Solicitud</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Materiales</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Fecha</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
             
             <tbody id="contenedor-solicitudes" class="divide-y divide-gray-50">
                 @foreach ($solicitudes as $solicitud)
-
                     @php
                         
                         $info = json_decode($solicitud->info_usuario)
@@ -36,31 +35,31 @@
                         </td>
 
                         <!-- ID de Solicitud -->
-                        <td class="px-6 py-4 text-sm font-mono text-gray-500">
+                        <td class="px-6 py-4 text-sm text-black text-center font-medium">
                             {{ $solicitud->id }}
                         </td>
 
                         <!-- Laboratorio -->
-                        <td class="px-6 py-4">
-                            <span class="py-1 rounded-lg bg-black-50 text-black text-xs font-bold">
+                        <td class="px-6 py-4 text-center text-black text-sm font-medium tracking-tight">
                                 {{ $info->nombreLaboratorio }}
-                            </span>
                         </td>
 
                         <!-- Lista de Materiales -->
                         <td class="px-6 py-4 justify-center">
-                            <button type="button" onclick="openMaterialModal({{ $solicitud->id }}, {{ $solicitud->info_material }})" 
-                                class="flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
-                                <div class="p-1.5 bg-purple-100 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <div class="flex justify-center">
+                                <button type="button" onclick="openMaterialModal({{ $solicitud->id }}, {{ $solicitud->info_material }})" 
+                                    class="flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
 
                         <!-- Fecha -->
-                        <td class="px-6 py-4 text-sm text-gray-500">
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">
                             {{ \Carbon\Carbon::parse($solicitud->fecha)->format('d/m/Y') }}
                         </td>
 
@@ -81,7 +80,6 @@
                             </div>
                         </td>
                     </tr>
-
                 @endforeach
             </tbody>
         </table>
@@ -93,7 +91,7 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="closeMaterialModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+        <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">Materiales Solicitados</h3>

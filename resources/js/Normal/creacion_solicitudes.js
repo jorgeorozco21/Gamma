@@ -36,6 +36,12 @@ document.addEventListener('click', function(e){
         };
 
         generarTarjeta(materiales);
+
+        if (window.innerWidth < 1024) {
+            setTimeout(() => {
+                openCart();
+            }, 150);
+        }
     }
 
     const botonEliminar = e.target.closest(".eliminar-material");

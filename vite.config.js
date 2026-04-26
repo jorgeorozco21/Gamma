@@ -17,7 +17,7 @@ export default defineConfig({
             host: '192.168.1.12', // <-- REEMPLAZA con tu IP local (ej: 192.168.1.64)
         },
         watch: {
-            ignored: ['**/storage/framework/views/**'],
+            ignored: ['*/storage/framework/views/*'],
         },
     },
 });

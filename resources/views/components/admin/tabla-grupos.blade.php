@@ -1,13 +1,13 @@
 @props(['grupos'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Grado</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Grupo</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Laboratorios</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Grado</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Grupo</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorios</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
@@ -15,17 +15,19 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($grupos as $grupo)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $grupo->nombre }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $grupo->grado }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $grupo->grupo }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->nombre }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->grado }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->grupo }}</td>
                         <td class="px-6 py-4 justify-center">
-                            <button data-laboratorios="{{ $grupo->laboratorios }}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-purple-800 transition-colors">
-                                <div class="p-1.5 bg-purple-100 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <div class="flex justify-center">
+                                <button data-laboratorios="{{ $grupo->laboratorios }}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
+                                    <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
@@ -52,7 +54,7 @@
 <div id="modal-laboratorios" class="fixed inset-0 z-[100] hidden overflow-y-auto">
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-[20px] bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+        <div class="relative w-full max-w-md bg-white rounded-[20px] shadow-2xl overflow-hidden transition-all duration-300">
             <!-- Encabezado -->
             <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-sm font-extrabold text-black tracking-wider uppercase">

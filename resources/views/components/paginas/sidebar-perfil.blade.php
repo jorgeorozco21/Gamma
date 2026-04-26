@@ -1,18 +1,8 @@
 @props(['admin'])
-
-<button id="abrir-sidebar" class="md:hidden fixed top-4 left-4 z-[60] bg-white p-2.5 rounded-xl border border-gray-100 shadow-lg text-[#7B1FA3] transition-all duration-300">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-</button>
-
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
-
 <aside class="w-64 bg-white h-screen flex flex-col border-r border-gray-100 shrink-0">
     <div class="p-6 flex items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-[#7B1FA3] rounded-xl flex items-center justify-center shadow-lg shadow-purple-100"></div>
             <a href="{{ url('/seleccionar-tipo-usuario') }}">
                 <h1 class="text-sm font-extrabold text-[#7B1FA3] leading-none">GAMMA</h1>
             </a>
@@ -59,7 +49,7 @@
     </nav>
 
     <!-- Nombre de Usuario y Correo -->
-    <div class="p-4 border-t border-gray-100">
+    <div class="p-2 border-t border-gray-100">
         <div class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors group">
             <a href="{{ url('/perfil') }}" class="flex flex-col items-start gap-0.5">
                 <p class="text-xs font-bold text-gray-800 break-words">{{ session('nombre_usuario') }}</p>

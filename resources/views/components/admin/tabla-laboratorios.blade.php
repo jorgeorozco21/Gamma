@@ -1,12 +1,12 @@
 @props(['laboratorios'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto overflow-y-auto max-h-[600px] no-scrollbar">
+    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead>
+            <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nombre</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tipo de Laboratorio</th>
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cantidad de Computadoras</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Tipo de Laboratorio</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Cantidad de Computadoras</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
@@ -14,9 +14,11 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($laboratorios as $laboratorio)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->nombre }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->tipo }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">{{ $laboratorio->cantidad_computadoras }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $laboratorio->nombre }}</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="px-3 py-1 text-[10px] font-bold uppercase rounded-lg bg-blue-50 text-blue-600 border-blue-100">{{ $laboratorio->tipo }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $laboratorio->cantidad_computadoras }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-2">
                                 <!-- Editar -->

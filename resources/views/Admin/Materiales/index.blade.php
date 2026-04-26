@@ -16,19 +16,19 @@
         .scroll-rojo::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
     </style>
 </head>
-<body class="h-full overflow-hidden bg-[#F7F6F8]">
+<body class="h-full bg-[#F7F6F8]">
     <!-- Alertas -->
     <x-admin.alertas-usuarios />
     <x-admin.alertas-carga-masiva />
     
-    <div class="flex h-full">
+    <div class="flex min-h-screen">
         <!-- Sidebar -->
         <x-admin.sidebar-admin :admin="$admin" />
 
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
             <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex justify-between items-center shrink-0">
                 <div class="flex items-center gap-4">
-                    <button id="abrir-sidebar" class="md:hidden p-2 rounded-xl bg-gray-50 text-[#7B1FA3] hover:bg-purple-50 transition-colors">
+                    <button id="abrir-sidebar" class="md:hidden p-2 text-gray-700 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -83,7 +83,7 @@
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 no-scrollbar space-y-8">
+            <div class="flex-1 overflow-y-auto p-6 no-scrollbar space-y-6">
                 <!-- Filtros -->
                 <x-admin.filtro-materiales />
     
