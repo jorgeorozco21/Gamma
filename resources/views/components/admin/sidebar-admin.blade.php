@@ -72,6 +72,21 @@
             </svg>
             <span class="text-sm font-semibold">Informes de Laboratorios</span>
         </a>
+
+        <a href="{{ url('/admin/analisis-datos') }}" 
+        class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->is('/admin/analisis-datos') ? 'bg-[#F5F3FF] text-[#7B1FA3]' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800' }}">
+            <svg class="w-5 h-5 {{ request()->is('admin/analisis-datos') ? 'text-[#7B1FA3]' : 'text-gray-400 group-hover:text-gray-600' }}" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24" 
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    stroke-width="2.5" 
+                    d="M4 20h16M7 14v6m5-11v11m5-5v5" />
+            </svg>
+            <span class="text-sm font-semibold">Análisis de Datos</span>
+        </a>
     </nav>
     
     <div class="p-2 border-t border-gray-100">

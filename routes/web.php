@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalisisDatosController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\AuditoriaComputoController;
 use App\Http\Controllers\AuditoriaReporteMaterialController;
@@ -684,6 +685,37 @@ Route::middleware('check.login')->group(function (){
 
             return response()->json($reportes);
         });
+
+        Route::get('/admin/analisis-datos', function (){
+            $admin = 
+                DB::table('usuarios as u')
+                ->select(
+                    'u.nombre_usuario',
+                    'u.email'
+                )
+                ->where('u.id','=',session('id_usuario'))
+                ->first()
+            ;
+
+            return view('Admin.Analisis_Datos.indexAnalisis', compact('admin'));
+        });
+
+        Route::get('/admin/analisis-datos/laboratorios-computo', function(){
+            $laboratorios = 
+                DB::table('laboratorios as l')
+                ->select(
+                    'l.id',
+                    'l.nombre'
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->where('l.tipo','=','computo')
+                ->get();
+            ;
+
+            return response()->json($laboratorios);
+        });
+
+        Route::post('/admin/analisis-datos/errores-computo', [AnalisisDatosController::class, 'erroresComunesComputo']);
     });
 
     Route::middleware(['tipo:normal'])->group(function (){
