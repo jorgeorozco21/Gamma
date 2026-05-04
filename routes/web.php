@@ -19,7 +19,6 @@ use App\Http\Controllers\ReporteMaterialController;
 use App\Http\Controllers\SolicitudEliminadaController;
 use App\Http\Controllers\SolicitudesComputoController;
 use App\Http\Controllers\SolicitudesController;
-use App\Models\Grupo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -41,7 +40,68 @@ Route::middleware('check.login')->group(function (){
                 ->first()
             ;
 
-            return view('Admin.indexAdmin', compact('admin'));
+            $computadoras = 
+                DB::table('computadoras as c')
+                ->join('laboratorios as l','l.id','=','c.id_laboratorio')
+                ->select(
+                    'c.estado',
+                    DB::raw('COUNT(*) as cantidad')
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->groupBy('c.estado')
+                ->get()
+            ;
+
+            $inventarios = 
+                DB::table('inventarios as i')
+                ->join('laboratorios as l','l.id','=','i.id_laboratorio')
+                ->join('materiales as m','m.id','=','i.id_material')
+                ->select(
+                    'm.nombre',
+                    'i.cantidad_disponible',
+                    'l.nombre as nombreLaboratorio'
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->orderBy('i.cantidad_disponible','asc')
+                ->limit(5)
+                ->get()
+            ;
+
+            $solicitudesMenos24 = 
+                DB::table('solicitudes_computo as s')
+                ->select(
+                    's.id'
+                )
+                ->where('s.created_at','>=',DB::raw("NOW() - INTERVAL '24 HOURS'"))
+                ->whereRaw('(SELECT estado FROM auditoria_computo 
+                        WHERE id_solicitud = s.id 
+                        ORDER BY id DESC LIMIT 1) != ?', ['completado'])
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria_computo as a')
+                        ->whereColumn('a.id_solicitud', 's.id');
+                })
+                ->get()
+            ;
+
+            $solicitudesMas24 = 
+                DB::table('solicitudes_computo as s')
+                ->select(
+                    's.id'
+                )
+                ->where('s.created_at','<',DB::raw("NOW() - INTERVAL '24 HOURS'"))
+                ->whereRaw('(SELECT estado FROM auditoria_computo 
+                        WHERE id_solicitud = s.id 
+                        ORDER BY id DESC LIMIT 1) != ?', ['completado'])
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('auditoria_computo as a')
+                        ->whereColumn('a.id_solicitud', 's.id');
+                })
+                ->get()
+            ;
+
+            return view('Admin.indexAdmin', compact('admin','computadoras','inventarios','solicitudesMenos24','solicitudesMas24'));
         });
 
         Route::resource('/admin/usuarios', UsuarioController::class)->names('admin.usuarios');
@@ -715,7 +775,34 @@ Route::middleware('check.login')->group(function (){
             return response()->json($laboratorios);
         });
 
+        Route::get('/admin/analisis-datos/laboratorios-prestamos', function(){
+            $laboratorios = 
+                DB::table('laboratorios as l')
+                ->select(
+                    'l.id',
+                    'l.nombre'
+                )
+                ->where('l.id_institucion','=',session('id_institucion'))
+                ->where('l.tipo','=','prestamos')
+                ->get();
+            ;
+
+            return response()->json($laboratorios);
+        });
+
         Route::post('/admin/analisis-datos/errores-computo', [AnalisisDatosController::class, 'erroresComunesComputo']);
+        Route::post('/admin/analisis-datos/computadoras-inactivas', [AnalisisDatosController::class, 'laboratoriosConMasComputadorasInactivas']);
+        Route::post('/admin/analisis-datos/estados-computadoras', [AnalisisDatosController::class, 'estadosComputadoras']);
+        Route::post('/admin/analisis-datos/distribucion-materiales', [AnalisisDatosController::class, 'distribucionMateriales']);
+        Route::post('/admin/analisis-datos/materiales-mas-reportes', [AnalisisDatosController::class, 'materialesConMasReportes']);
+        Route::post('/admin/analisis-datos/distribucion-tipos-usuario', [AnalisisDatosController::class, 'distribucionTiposUsuario']);
+        Route::post('/admin/analisis-datos/distribucion-tipos-laboratorios', [AnalisisDatosController::class, 'distribucionTiposLaboratorios']);
+        Route::post('/admin/analisis-datos/distribucion-equipos-computo', [AnalisisDatosController::class, 'cantidadEquiposComputo']);
+        Route::post('/admin/analisis-datos/laboratorios-mas-menos-solicitudes', [AnalisisDatosController::class, 'laboratoriosPrestamosMasMenosSolicitudes']);
+        Route::post('/admin/analisis-datos/laboratorios-mas-menos-reportes', [AnalisisDatosController::class, 'laboratoriosComputoMasMenosSolicitudes']);
+        Route::post('/admin/analisis-datos/materiales-mas-menos-solicitados', [AnalisisDatosController::class, 'materialesMasMenosSolicitados']);
+        Route::post('/admin/analisis-datos/materiales-mas-menos-solicitados-laboratorio', [AnalisisDatosController::class, 'materialesMasMenosSolicitadosLaboratorio']);
+        Route::post('/admin/analisis-datos/computadoras-mas-fallas', [AnalisisDatosController::class, 'computadorasMasFallas']);
     });
 
     Route::middleware(['tipo:normal'])->group(function (){

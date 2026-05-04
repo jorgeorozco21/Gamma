@@ -91,6 +91,14 @@ class ComputadoraController extends Controller
         ->where('id_laboratorio', $id)
         ->count();
 
+        $registro = DB::table('laboratorios')->where('id', $id)->first();
+
+        if ($registro) {
+            DB::table('laboratorios')
+                ->where('id', $id)
+                ->update(['cantidad_computadoras' => $registro->cantidad_computadoras + 1]);
+        }
+
         $info = [
             'numero_computadora' => $total + 1,
             'estado' => 'activo',
