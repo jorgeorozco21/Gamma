@@ -30,7 +30,7 @@
                     </button>
 
                     <div>
-                        <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Analisis de Datos</h1>
+                        <h2 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Analisis de Datos</h1>
                     </div>
                 </div>
             </header>

@@ -35,7 +35,7 @@
                         </button>
 
                         <div>
-                            <h1 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Laboratorios</h1>
+                            <h2 class="text-lg md:text-xl font-extrabold text-gray-800 leading-tight">Laboratorios</h1>
                             <p class="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-widest">
                                 Administración de Laboratorios
                             </p>
