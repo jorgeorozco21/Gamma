@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/webp" href="{{ asset('images/logos/labores_icono_morado.webp') }}">
 </head>
 <body class="bg-[#F7F6F8]">
     <x-admin.alertas-usuarios />

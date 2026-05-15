@@ -6,6 +6,7 @@
     <title>Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="icon" type="image/webp" href="{{ asset('images/logos/labores_icono_morado.webp') }}">
 </head>
 <body class="h-full bg-[#F7F6F8]">
     <div class="flex min-h-screen">
