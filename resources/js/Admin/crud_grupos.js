@@ -91,21 +91,20 @@ async function mostrarLaboratorios(informacion){
         return;
     }
 
-    const idLaboratorios = informacion.split(',');
+    const info = await obtenerInformacionLaboratorio(informacion);
+
     let lista = '<ul>';
 
-    for (const id of idLaboratorios){
-        const inf = await obtenerInformacionLaboratorio(id.trim());
-
+    info.forEach(lab =>{
         lista += `<li class="flex items-center justify-between p-3 mb-2 bg-gray-50/50 border-l-4 border-[#7B1FA3] rounded-r-xl shadow-sm">
                 <div class="flex items-center gap-3">
                     <span class="text-sm text-gray-700 font-medium">
-                        ${inf.nombre}
+                        ${lab.nombre}
                     </span>
                 </div>
             </li>
         `;
-    }
+    });
 
     lista += '</ul>';
 
@@ -171,13 +170,11 @@ async function asignarInformacionFormularioEditar(informacion){
     document.getElementById("grado-edit").value = informacion.grado;
     document.getElementById("grupo-edit").value = informacion.grupo;
     document.getElementById("inf-laboratorios-edit").value = informacion.laboratorios;
-    const idLaboratorios = informacion.laboratorios.split(",");
 
-    for (const id of idLaboratorios){
-        const clave = await obtenerInformacionLaboratorio(id);
-
-        laboratorios[clave.nombre] = id;
-    }
+    const info = await obtenerInformacionLaboratorio(informacion.id);
+    info.forEach(lab =>{
+        laboratorios[lab.nombre] = lab.id_laboratorio;
+    });
 
     crearTarjetas(document.getElementById("laboratorios-agregados-edit"), document.getElementById("inf-laboratorios-edit"), laboratorios);
 }

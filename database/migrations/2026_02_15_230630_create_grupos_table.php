@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string("nombre");
             $table->string("grado");
             $table->string("grupo");
-            $table->text("laboratorios");
             $table->unsignedBigInteger("id_institucion");
             $table->timestamps();
 
