@@ -38,10 +38,8 @@
                         </div>
                     </div>
                     <div>
-                        <a href="{{ url('/admin/informes/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}">Materiales</a>
-                    </div>
-                    <div>
-                        <a href="{{ url('/admin/informes-reportes/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}">Reportes</a>
+                        <a href="{{ url('/admin/informes/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}"
+                            class="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-white bg-[#7B1FA3] hover:bg-[#6A1B8E] active:scale-95 transition-colors">Materiales</a>
                     </div>
                 </header>
 

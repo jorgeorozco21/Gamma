@@ -29,29 +29,8 @@
 
             <div class="p-6 space-y-6">
                 <x-admin.cards-dashboard-computo :computadoras="$computadoras" :solicitudesMenos24="$solicitudesMenos24" :solicitudesMas24="$solicitudesMas24" />
-            </div>
 
-
-            <div>
-                <div>
-                    <h3>Materiales con menos stock</h3>
-                    <table>
-                        <thead>
-                            <th>Nombre del Material</th>
-                            <th>Cantidad</th>
-                            <th>Laboratorio</th>
-                        </thead>
-                        <tbody>
-                            @foreach ($inventarios as $i)
-                                <tr>
-                                    <td>{{ $i->nombre }}</td>
-                                    <td>{{ $i->cantidad_disponible }}</td>
-                                    <td>{{ $i->nombreLaboratorio }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <x-admin.tabla-materiales-menos-stock :inventarios="$inventarios" />
             </div>
         </main>
     </div>

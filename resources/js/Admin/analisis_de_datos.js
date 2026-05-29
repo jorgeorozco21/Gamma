@@ -203,6 +203,9 @@ function crearGraficaBarras(datos){
 }
 
 function crearGraficaBarrasExtra(datos){
+    const contenedor = document.getElementById("grafica-barras-extra");
+    contenedor.classList.remove('hidden');
+
     const opciones = {
         chart: {
             type: 'bar',
@@ -241,11 +244,14 @@ function crearGraficaBarrasExtra(datos){
 }
 
 function generarGraficaPastel(datos){
+    const contenedor = document.getElementById("grafica-pastel");
+    contenedor.classList.remove('hidden');
+
     const opciones = {
         chart: {
             type: 'pie',
             width: '100%',
-            height: 400,
+            height: 350,
             toolbar: {
                 show: true 
             }
@@ -282,10 +288,14 @@ function generarGraficaPastel(datos){
 }
 
 function generarGraficaDona(datos){
+    const contenedor = document.getElementById("grafica-dona");
+    contenedor.classList.remove('hidden');
+
     const opciones = {
         chart: {
             type: 'donut',
-            height: 380
+            width: '100%',
+            height: 350
         },
         series: datos.series,
         labels: datos.labels,

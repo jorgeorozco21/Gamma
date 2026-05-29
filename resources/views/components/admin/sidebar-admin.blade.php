@@ -10,7 +10,6 @@
     <div class="relative flex items-center justify-center w-full h-20 overflow-hidden">
         <div class="flex items-center justify-center">
             <img id="logo-grande" src="{{ asset('images/logos/labores_logo_horizontal_morado.webp') }}" class="absolute h-16 left-5 opacity-100 scale-100 transition-all duration-300 ease-in-out" alt="Logo">
-
             <img id="logo-pequeno" src="{{ asset('images/logos/labores_icono_morado.webp') }}" class="absolute h-10 w-10 opacity-0 scale-75 transition-all duration-300 ease-in-out" alt="Icono">
         </div>
 

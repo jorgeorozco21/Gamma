@@ -17,11 +17,8 @@
         <span class="text-sm font-semibold">Volver</span>
     </a>
 
-    <!-- Logo -->
-    <a href="{{ route('pagina-principal') }}" class="mb-6">
-        <h1 class="text-white text-3xl font-extrabold tracking-wide">
-            GAMMA
-        </h1>
+    <a href="{{ route('pagina-principal') }}" class="flex items-center justify-center">
+        <img src="{{ asset('images/logos/labores_logo_horizontal_morado.webp') }}" alt="Logo Labores" class="h-24 w-auto object-contain transition-transform duration-300 hover:scale-105 brightness-0 invert">
     </a>
 
     <div class="w-full max-w-[440px] bg-white rounded-[32px] p-10 md:p-12 shadow-2xl shadow-black/20">
