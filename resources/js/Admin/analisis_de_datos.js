@@ -162,11 +162,14 @@ async function obtenerDatosAnalizados(){
 }
 
 function crearGraficaBarras(datos){
+    const contenedor = document.getElementById("grafica-barras");
+    contenedor.classList.remove('hidden');
+    
     const opciones = {
         chart: {
             type: 'bar',
-            width: 700,
-            height: 400,
+            width: '100%',
+            height: 350,
             toolbar: {
                 show: true 
             }
@@ -203,8 +206,8 @@ function crearGraficaBarrasExtra(datos){
     const opciones = {
         chart: {
             type: 'bar',
-            width: 700,
-            height: 400,
+            width: '100%',
+            height: 350,
             toolbar: {
                 show: true 
             }
@@ -241,7 +244,7 @@ function generarGraficaPastel(datos){
     const opciones = {
         chart: {
             type: 'pie',
-            width: 700,
+            width: '100%',
             height: 400,
             toolbar: {
                 show: true 
