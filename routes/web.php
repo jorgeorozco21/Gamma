@@ -241,12 +241,14 @@ Route::middleware('check.login')->group(function (){
 
         Route::get('/api/grupos/laboratorio', function (Illuminate\Http\Request $request){
             $laboratorio = 
-                DB::table("laboratorios as l")
+                DB::table("grupo_laboratorios as gl")
+                ->join('laboratorios as l','l.id','=','gl.id_laboratorio')
                 ->select(
+                    'gl.id_laboratorio',
                     "l.nombre"
                 )
-                ->where("l.id","=",$request->id)
-                ->first()
+                ->where("gl.id_grupo","=",$request->id)
+                ->get()
             ;
 
             return response()->json($laboratorio);
@@ -259,8 +261,7 @@ Route::middleware('check.login')->group(function (){
                     "g.id",
                     "g.nombre",
                     "g.grado",
-                    "g.grupo",
-                    "g.laboratorios"
+                    "g.grupo"
                 )
                 ->where("g.id","=",$request->id)
                 ->first()
@@ -808,35 +809,26 @@ Route::middleware('check.login')->group(function (){
     Route::middleware(['tipo:normal'])->group(function (){
 
         Route::get('/usuario/normal/laboratorios', function(){
-        
-            $labAcceso = 
+            $usuario = 
                 DB::table('usuarios as u')
-                ->join('grupos as g','g.id','=','u.id_grupo')
                 ->select(
-                    'u.id_grupo',
-                    'g.laboratorios'
+                    'u.id_grupo'
                 )
                 ->where('u.id','=',session('id_usuario'))
                 ->first()
             ;
         
-            $idLaboratorios = explode(',',$labAcceso->laboratorios);
-        
-            $laboratorios = [];
-            foreach ($idLaboratorios as $id){
-                $infoLab = 
-                    DB::table('laboratorios as l')
-                    ->select(
-                        'l.id',
-                        'l.nombre',
-                        'l.tipo'
-                    )
-                    ->where('l.id','=',$id)
-                    ->first()
-                ;
-
-                $laboratorios[] = $infoLab;
-            }
+            $laboratorios = 
+                DB::table('grupo_laboratorios as gl')
+                ->join('laboratorios as l','l.id','=','gl.id_laboratorio')
+                ->select(
+                    'l.id',
+                    'l.nombre',
+                    'l.tipo'
+                )
+                ->where('gl.id_grupo','=',$usuario->id_grupo)
+                ->get()
+            ;
         
             return view('Normal.laboratorios', compact('laboratorios'));
         })->name('laboratorios');

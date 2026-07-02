@@ -35,4 +35,8 @@ class Laboratorio extends Model
     public function computadora(){
         return $this->hasMany(Computadora::class, 'id_laboratorio');
     }
+
+    public function grupoLaboratorio(){
+        return $this->hasMany(GrupoLaboratorio::class, 'id_laboratorio');
+    }
 }

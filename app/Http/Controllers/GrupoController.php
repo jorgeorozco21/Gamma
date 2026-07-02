@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
+use App\Models\GrupoLaboratorio;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,8 +42,7 @@ class GrupoController extends Controller
                 "g.id",
                 "g.nombre",
                 "g.grado",
-                "g.grupo",
-                "g.laboratorios"
+                "g.grupo"
             )
             ->where("g.id_institucion","=",session("id_institucion"))
             ->orderBy("g.nombre","ASC")
@@ -65,7 +66,7 @@ class GrupoController extends Controller
      */
     public function store(Request $request)
     {
-        $datosGrupo = $request->except("_token");
+        $datosGrupo = $request->except("_token","laboratorios");
 
         $request->validate([
             "nombre" => "required|string|max:255",
@@ -82,7 +83,18 @@ class GrupoController extends Controller
             "laboratorios.required" => "Debes seleccionar minimo un laboratorio"
         ]);
 
-        Grupo::create($datosGrupo);
+        $grupo = Grupo::create($datosGrupo);
+
+        $laboratorios = explode(',',$request->laboratorios);
+
+        foreach ($laboratorios as $laboratorio){
+            $info = [
+                'id_grupo' => $grupo->id,
+                'id_laboratorio' => $laboratorio
+            ];
+
+            GrupoLaboratorio::create($info);
+        }
 
         return redirect()->route('admin.grupos.index')->with("success",'Grupo creado correctamente');
 
@@ -110,7 +122,7 @@ class GrupoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $datosGrupo = $request->except("_token","_method");
+        $datosGrupo = $request->except("_token","_method","laboratorios");
 
         $request->validate([
             "nombre" => "required|string|max:255",
@@ -127,6 +139,34 @@ class GrupoController extends Controller
             "laboratorios.required" => "Debes seleccionar minimo un laboratorio"
         ]);
 
+        $laboratorios = 
+            DB::table('grupo_laboratorios as gl')
+            ->select(
+                'gl.id_laboratorio'
+            )
+            ->where('gl.id_grupo','=',$id)
+            ->get()
+        ;
+
+        $aux = explode(",",$request->laboratorios);
+
+        foreach ($laboratorios as $lab){
+            $encontro = array_search((string)$lab->id_laboratorio, $aux);
+            if ($encontro){
+                unset($aux[$encontro]);
+            }else{
+                GrupoLaboratorio::where('id_grupo',$id)->where('id_laboratorio',$lab->id_laboratorio)->delete();
+            }
+        }
+
+        foreach ($aux as $lab){
+            $info = [
+                'id_grupo' => $id,
+                'id_laboratorio' => $lab
+            ];
+            GrupoLaboratorio::create($info);
+        }
+
         Grupo::where("id","=",$id)->update($datosGrupo);
 
         return redirect()->route('admin.grupos.index')->with("success",'Informacion editada correctamente');
@@ -140,6 +180,8 @@ class GrupoController extends Controller
     public function destroy(string $id)
     {
         $grupo = Grupo::findOrFail($id);
+
+        Usuario::where('id_grupo',$id)->update(['id_grupo' => null]);
 
         $grupo->delete();
 
