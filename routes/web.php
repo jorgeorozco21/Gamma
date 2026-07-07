@@ -59,10 +59,12 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     'm.nombre',
                     'i.cantidad_disponible',
+                    'i.cantidad_total',
                     'l.nombre as nombreLaboratorio'
                 )
                 ->where('l.id_institucion','=',session('id_institucion'))
-                ->orderBy('i.cantidad_disponible','asc')
+                ->where('i.cantidad_total','>',0)
+                ->orderByRaw('(i.cantidad_disponible / i.cantidad_total) ASC')
                 ->limit(5)
                 ->get()
             ;
@@ -809,34 +811,26 @@ Route::middleware('check.login')->group(function (){
 
         Route::get('/usuario/normal/laboratorios', function(){
         
-            $labAcceso = 
+            $idGrupo = 
                 DB::table('usuarios as u')
-                ->join('grupos as g','g.id','=','u.id_grupo')
                 ->select(
                     'u.id_grupo',
-                    'g.laboratorios'
                 )
                 ->where('u.id','=',session('id_usuario'))
                 ->first()
             ;
         
-            $idLaboratorios = explode(',',$labAcceso->laboratorios);
-        
-            $laboratorios = [];
-            foreach ($idLaboratorios as $id){
-                $infoLab = 
-                    DB::table('laboratorios as l')
-                    ->select(
-                        'l.id',
-                        'l.nombre',
-                        'l.tipo'
-                    )
-                    ->where('l.id','=',$id)
-                    ->first()
-                ;
-
-                $laboratorios[] = $infoLab;
-            }
+            $laboratorios = 
+                DB::table('grupo_laboratorios as gl')
+                ->join('laboratorios as l','l.id','=','gl.id_laboratorio')
+                ->select(
+                    'l.id',
+                    'l.nombre',
+                    'l.tipo'
+                )
+                ->where('gl.id_grupo','=',$idGrupo->id_grupo)
+                ->get();
+            ;
         
             return view('Normal.laboratorios', compact('laboratorios'));
         })->name('laboratorios');
