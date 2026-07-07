@@ -12,6 +12,7 @@
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Descripcion</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Fecha</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado de la Solicitud</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
             </thead>
             
@@ -62,7 +63,7 @@
                         <!-- Estado de la Solicitud -->
                         <td class="px-6 py-4 text-center">
                             <div class="flex justify-center">
-                                @if ($reporte->estado == null || $reporte->estado == 'en proceso')
+                                @if ($reporte->estado == null || $reporte->estado == 'en proceso' || $reporte->estado == 'reprogramado')
                                     <span class="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100 uppercase">
                                         {{ ($reporte->estado == null)?'Espera':$reporte->estado }}
                                     </span>
@@ -80,6 +81,15 @@
                                     </button>
                                 @endif
                             </div>
+                        </td>
+                        <td>
+                            @if ($reporte->estado == 'reparado')
+                                <div class="flex justify-center">
+                                    <button data-id='{{ $reporte->id }}' data-estado='reprogramado' class="reportar flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                        Reportar
+                                    </button>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

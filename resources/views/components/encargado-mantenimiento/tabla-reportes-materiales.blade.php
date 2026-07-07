@@ -64,7 +64,7 @@
 
                         <td class="px-6 py-4 text-center">
                             <div class="flex justify-center">
-                                @if ($reporte->estado == null)
+                                @if ($reporte->estado == null || $reporte->estado == 'reprogramado')
                                     <span class="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100 uppercase">
                                         En proceso
                                     </span>
@@ -75,7 +75,7 @@
                                     </span>
                                 @endif
 
-                                <button data-estado="{{ ($reporte->estado == null)?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
+                                <button data-estado="{{ ($reporte->estado == null || $reporte->estado == 'reprogramado')?'en proceso':'reparado' }}" data-id="{{ $reporte->id }}"
                                     class="cambiar px-3 py-1 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98] ml-2"
                                     title="Guardar cambio">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>

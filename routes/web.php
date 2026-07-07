@@ -1626,6 +1626,7 @@ Route::middleware('check.login')->group(function (){
                 ->join('laboratorios as l','l.id','=','i.id_laboratorio')
                 ->select(
                     'r.id',
+                    'r.id_inventario',
                     'm.nombre',
                     'l.nombre as nombreLaboratorio',
                     'r.cantidad',
@@ -1664,7 +1665,9 @@ Route::middleware('check.login')->group(function (){
             return response()->json($reportes);
         });
 
-        Route::post('/usuario/encargado/actualizar-reportes-materiales', [AuditoriaReporteMaterialController::class, 'completarReporte']);
+        Route::post('/usuario/encargado/reporte-completado', [AuditoriaReporteMaterialController::class, 'completarReporte']);
+
+        Route::post('/usuario/encargado/actualizar-reportes-materiales', [AuditoriaReporteMaterialController::class, 'store']);
 
     });
 
@@ -1799,8 +1802,6 @@ Route::middleware('check.login')->group(function (){
             return view('Encargado_Mantenimiento.reportes_materiales', compact('usuario','reportes'));
         })->name('reportes');
 
-        Route::post('/usuario/mantenimiento/actualizar-reportes-materiales', [AuditoriaReporteMaterialController::class, 'store']);
-
         Route::get('/usuario/mantenimiento/actualizar-informacion-reportes-mateiales', function(){
         
             $reportes = 
@@ -1835,7 +1836,8 @@ Route::middleware('check.login')->group(function (){
         
             return response()->json($reportes);
         });
-
+        
+        Route::post('/usuario/mantenimiento/actualizar-reportes-materiales', [AuditoriaReporteMaterialController::class, 'store']); 
         Route::post('/usuario/mantenimiento/reporte-sin-funcionamiento', [AuditoriaReporteMaterialController::class, 'sinFuncionamiento']);
 
     });

@@ -72,13 +72,13 @@
                                     <span class="px-3 py-1 text-[10px] bg-orange-50 text-orange-600 font-bold rounded-lg border border-orange-100 uppercase">
                                         {{ $reporte->estado }}
                                     </span>
-                                @endif
 
-                                <button data-id='{{ $reporte->id }}' data-estado='completado'
-                                    class="completar px-3 py-1 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-green-100 active:scale-[0.98] ml-2"
-                                    title="Guardar cambio">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                </button>
+                                    <button data-id='{{ $reporte->id }}' data-estado='completado'
+                                        class="completar px-3 py-1 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-green-100 active:scale-[0.98] ml-2"
+                                        title="Guardar cambio">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    </button>
+                                @endif
                             </div>
                         </td>
                         
