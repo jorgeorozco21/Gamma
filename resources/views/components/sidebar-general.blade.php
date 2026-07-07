@@ -8,10 +8,10 @@
     </button>
 
     <div class="relative flex items-center justify-center w-full h-20 overflow-hidden">
-        <div class="flex items-center justify-center">
+        <a href="{{ url('/seleccionar-tipo-usuario') }}" class="flex items-center justify-center">
             <img id="logo-grande" src="{{ asset('images/logos/labores_logo_horizontal_morado.webp') }}" class="absolute h-16 left-5 opacity-100 scale-100 transition-all duration-300 ease-in-out" alt="Logo">
             <img id="logo-pequeno" src="{{ asset('images/logos/labores_icono_morado.webp') }}" class="absolute h-10 w-10 opacity-0 scale-75 transition-all duration-300 ease-in-out" alt="Icono">
-        </div>
+        </a>
 
         <button id="cerrar-sidebar" class="md:hidden absolute right-4 p-1 text-gray-400 hover:text-red-500 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

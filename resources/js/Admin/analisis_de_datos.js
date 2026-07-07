@@ -130,7 +130,7 @@ async function obtenerDatosAnalizados(){
     try{
         const respuesta = await fetch(datos['url'],{
             method: 'POST',
-            headers: {
+            headers:{
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
@@ -139,28 +139,43 @@ async function obtenerDatosAnalizados(){
 
         const resultado = await respuesta.json();
 
-        document.getElementById('grafica-barras').innerHTML = '';
-        document.getElementById('grafica-pastel').innerHTML = '';
-        document.getElementById('grafica-dona').innerHTML = '';
-        document.getElementById('grafica-barras-extra').innerHTML = '';
 
-        grafica = null;
-        graficaPastel = null;
-        graficaDona = null;
-        graficaExtra = null;
+        if (grafica){ 
+            grafica.destroy(); 
+            grafica = null; 
+        }
+        if (graficaExtra){ 
+            graficaExtra.destroy(); 
+            graficaExtra = null; 
+        }
+        if (graficaPastel){ 
+            graficaPastel.destroy(); 
+            graficaPastel = null; 
+        }
+        if (graficaDona){ 
+            graficaDona.destroy(); 
+            graficaDona = null; 
+        }
+
+        const contenedores = ['grafica-barras','grafica-pastel','grafica-dona','grafica-barras-extra'];
+        contenedores.forEach(id =>{
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            el.classList.add('hidden');
+        });
 
         if ('dosGraficos' in resultado){
             crearGraficaBarras(resultado.menos);
             crearGraficaBarrasExtra(resultado.mas);
+        }else if (resultado.graficos){ 
+            if ('barras' in resultado.graficos) crearGraficaBarras(resultado);
+            if ('pastel' in resultado.graficos) generarGraficaPastel(resultado);
+            if ('dona' in resultado.graficos) generarGraficaDona(resultado);
         }
-        if ('barras' in resultado.graficos) crearGraficaBarras(resultado);
-        if ('pastel' in resultado.graficos) generarGraficaPastel(resultado);
-        if ('dona' in resultado.graficos) generarGraficaDona(resultado);
     }catch (error){
-        console.error("Error de conexión:", error);
+        console.error("Error de conexión o renderizado:", error);
     }
 }
-
 function crearGraficaBarras(datos){
     const contenedor = document.getElementById("grafica-barras");
     contenedor.classList.remove('hidden');

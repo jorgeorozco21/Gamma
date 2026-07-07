@@ -22,6 +22,8 @@ const usuario = {
 document.addEventListener('click', function(e){
     if (e.target.closest(".tarjeta-material")){
 
+        if (e.target.dataset.id == undefined) return;
+        
         let id = e.target.dataset.id;
         let nombreMaterial = e.target.dataset.nombre;
         let tipo = e.target.dataset.tipo;

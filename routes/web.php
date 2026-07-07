@@ -59,10 +59,12 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     'm.nombre',
                     'i.cantidad_disponible',
+                    'i.cantidad_total',
                     'l.nombre as nombreLaboratorio'
                 )
                 ->where('l.id_institucion','=',session('id_institucion'))
-                ->orderBy('i.cantidad_disponible','asc')
+                ->where('i.cantidad_total','>',0)
+                ->orderByRaw('(i.cantidad_disponible / i.cantidad_total) ASC')
                 ->limit(5)
                 ->get()
             ;
@@ -809,10 +811,10 @@ Route::middleware('check.login')->group(function (){
     Route::middleware(['tipo:normal'])->group(function (){
 
         Route::get('/usuario/normal/laboratorios', function(){
-            $usuario = 
+            $idGrupo = 
                 DB::table('usuarios as u')
                 ->select(
-                    'u.id_grupo'
+                    'u.id_grupo',
                 )
                 ->where('u.id','=',session('id_usuario'))
                 ->first()
@@ -826,8 +828,8 @@ Route::middleware('check.login')->group(function (){
                     'l.nombre',
                     'l.tipo'
                 )
-                ->where('gl.id_grupo','=',$usuario->id_grupo)
-                ->get()
+                ->where('gl.id_grupo','=',$idGrupo->id_grupo)
+                ->get();
             ;
         
             return view('Normal.laboratorios', compact('laboratorios'));

@@ -96,7 +96,7 @@
         const opciones = {
             chart: {
                 type: 'pie',
-                height: '100%', // 🔥 clave para responsive
+                height: '100%', 
                 toolbar: {
                     show: false
                 }
