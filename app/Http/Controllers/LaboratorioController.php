@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ArchivoLaboratoriosExport;
+use App\Exports\InformacionLaboratoriosExport;
 use App\Models\Computadora;
 use App\Models\Grupo;
 use App\Models\Laboratorio;
@@ -38,8 +39,8 @@ class LaboratorioController extends Controller
                 AND estado = \'activo\') as cantidad_computadoras')
             )
             ->where("l.id_institucion","=",session("id_institucion"))
-            ->orderBy("l.nombre","ASC")
-            ->orderBy("l.created_at","DESC")
+            ->orderBy('l.tipo', 'asc')
+            ->orderBy('l.nombre', 'asc')
             ->get()
         ;
 
@@ -146,31 +147,16 @@ class LaboratorioController extends Controller
 
         $laboratorio->delete();
 
-        $grupos = 
-            DB::table('grupos as g')
-            ->select('g.id','g.laboratorios')
-            ->where('g.laboratorios', '~', "(^|,)$id(,|$)")
-            ->get()
-        ;
-
-        foreach ($grupos as $g){
-            $labs = explode(',', $g->laboratorios);
-
-            if (($key = array_search($id, $labs)) !== false) {
-            unset($labs[$key]); 
-            
-            $nuevosIds = implode(',', $labs);
-
-            $grupo = Grupo::findOrFail($g->id); 
-            $grupo->laboratorios = $nuevosIds;
-            $grupo->save();
-        }
-        }
-
         return redirect()->route('admin.laboratorios.index')->with('success',"Laboratorio borrado correctamente");
     }
 
     public function archivoCarga(){
         return Excel::download(new ArchivoLaboratoriosExport, 'laboratorios.xlsx');
+    }
+
+    public function exportarLaboratorios()
+    {
+        
+        return Excel::download(new InformacionLaboratoriosExport(session('id_institucion')), 'informacion_laboratorios.xlsx');
     }
 }

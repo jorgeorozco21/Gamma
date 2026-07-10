@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ArchivoUsuariosExport;
+use App\Exports\InformacionUsuariosExport;
 use App\Mail\ContrasenaNuevaMail;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -44,12 +45,16 @@ class UsuarioController extends Controller
                 "u.normal",
                 "g.nombre as nombreGrupo",
                 "g.grado",
-                "g.grupo"
+                "g.grupo",
+                "g.turno"
             )
             ->where("u.id_institucion","=",session('id_institucion'))
             ->where("u.admin","!=","1")
-            ->orderBy("u.id","ASC")
-            ->orderBy("u.created_at","DESC")
+            ->orderBy('g.turno', 'asc')
+            ->orderBy('g.grado', 'asc')
+            ->orderBy('g.nombre', 'asc')
+            ->orderBy('g.grupo', 'asc')
+            ->orderBy('u.nombre', 'asc')
             ->get()
         ;
 
@@ -59,11 +64,15 @@ class UsuarioController extends Controller
                 "g.id",
                 "g.nombre",
                 "g.grado",
-                "g.grupo"
+                "g.grupo",
+                "g.turno"
             )
             ->orderBy("g.nombre","ASC")
             ->where("g.id_institucion","=",session('id_institucion'))
-            ->orderBy("g.created_at","DESC")
+            ->orderBy('g.turno', 'asc')
+            ->orderBy('g.grado', 'asc')
+            ->orderBy('g.nombre', 'asc')
+            ->orderBy('g.grupo', 'asc')
             ->get()
         ;
 
@@ -331,5 +340,11 @@ class UsuarioController extends Controller
         ->update(['contrasena' => Hash::make($request->nuevaContrasena)]);
 
         return back()->with('success', '¡Contraseña actualizada correctamente!');
+    }
+
+    public function exportarUsuarios()
+    {
+        
+        return Excel::download(new InformacionUsuariosExport(session('id_institucion')), 'informacion_usuarios.xlsx');
     }
 }

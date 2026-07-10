@@ -120,7 +120,7 @@ function generarRegistro(informacion){
                         <div class="min-w-0">
                             <p class="text-sm font-bold text-gray-800 truncate">${infoUsuario.nombre}</p>
                             <p class="text-[10px] text-gray-400 font-medium">${infoUsuario.email}</p>
-                            <p class="text-[10px] text-gray-400 font-medium">${infoUsuario.grado} ${infoUsuario.grupo} ${infoUsuario.nombreGrupo}</p>
+                            <p class="text-[10px] text-gray-400 font-medium">${infoUsuario.grado}° ${infoUsuario.grupo} - ${infoUsuario.nombreGrupo} - ${infoUsuario.turno}</p>
                         </div>
                     </div>
                 </td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ArchivoInventarioExport;
+use App\Exports\InformacionInventarioExport;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -154,5 +155,11 @@ class InventarioController extends Controller
     public function archivoCarga()
     {
         return Excel::download(new ArchivoInventarioExport(), 'inventario.xlsx');
+    }
+
+    public function exportarInventario()
+    {
+        
+        return Excel::download(new InformacionInventarioExport(session('id_institucion')), 'informacion_inventario.xlsx');
     }
 }

@@ -4,9 +4,10 @@
         <table class="w-full text-left border-collapse min-w-[800px]">
             <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">
-                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Grado</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Grupo</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Nombre</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Turno</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Laboratorios</th>
                     <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Acciones</th>
                 </tr>
@@ -15,9 +16,10 @@
             <tbody id="informacion-filtrada" class="divide-y divide-gray-50">
                 @foreach ($grupos as $grupo)
                     <tr class="hover:bg-gray-50/50 transition-colors group">
-                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->nombre }}</td>
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->grado }}</td>
                         <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->grupo }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->nombre }}</td>
+                        <td class="px-6 py-4 text-sm text-black font-medium text-center">{{ $grupo->turno }}</td>
                         <td class="px-6 py-4 justify-center">
                             <div class="flex justify-center">
                                 <button data-laboratorios="{{ $grupo->id }}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">

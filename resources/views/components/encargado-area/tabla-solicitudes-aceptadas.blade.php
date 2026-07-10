@@ -27,7 +27,7 @@
                                 <div class="min-w-0">
                                     <p class="text-sm font-bold text-gray-800 truncate">{{ $info->nombre }}</p>
                                     <p class="text-[10px] text-gray-400 font-medium">{{ $info->email }}</p>
-                                    <p class="text-[10px] text-gray-400 font-medium">{{ $info->grado }} {{ $info->grupo }} {{ $info->nombreGrupo }}</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">{{ $info->grado }}° {{ $info->grupo }} - {{ $info->nombreGrupo }} - {{ $info->turno }}</p>
                                 </div>
                             </div>
                         </td>

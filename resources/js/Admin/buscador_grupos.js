@@ -2,9 +2,10 @@
 
 const contenedorInformacion = document.getElementById("informacion-filtrada");
 const buscador = document.getElementById("buscador");
+const filtroTurno = document.getElementById("filtrar-turno");
 
 async function buscadorGeneral(){
-    const response = await fetch(`/api/grupos?texto=${buscador.value}`);
+    const response = await fetch(`/api/grupos?texto=${buscador.value}&filtro=${filtroTurno.value}`);
     const data = await response.json();
 
     contenedorInformacion.innerHTML = generarRegistro(data);
@@ -34,9 +35,10 @@ function generarRegistro(data){
     data.forEach(grupo =>{
         fila += `
             <tr class="hover:bg-gray-50/50 transition-colors group">
-                <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.nombre}</td>
                 <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.grado}</td>
                 <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.grupo}</td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.nombre}</td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">${grupo.turno}</td>
                 <td class="px-6 py-4 justify-center">
                     <div class="flex justify-center">
                         <button data-laboratorios="${grupo.laboratorios}" class="ver flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
@@ -68,3 +70,7 @@ function generarRegistro(data){
 
     return fila;
 }
+
+filtroTurno.addEventListener("change",()=>{
+    buscadorGeneral();
+});

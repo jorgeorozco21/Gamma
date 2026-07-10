@@ -6,6 +6,8 @@ use App\Models\AuditoriaComputo;
 use App\Models\Computadora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InformacionReportesComputoExport;
 
 class ComputadoraController extends Controller
 {
@@ -122,5 +124,22 @@ class ComputadoraController extends Controller
         $computadora->save();
 
         return response()->json('todo bien');
+    }
+
+    public function exportarComputadoras(string $id)
+    {
+        $laboratorio = 
+            DB::table('laboratorios as l')
+            ->select(
+                'l.nombre'
+            )
+            ->where('l.id','=',$id)
+            ->first()
+        ;
+
+        $nombreLaboratorio = str_replace(' ','',$laboratorio->nombre);
+        $fecha = date('Y_m_d_H_i_s');
+
+        return Excel::download(new InformacionReportesComputoExport($id), 'informacion_computadoras_'.$nombreLaboratorio.'_'.$fecha.'.xlsx');
     }
 }

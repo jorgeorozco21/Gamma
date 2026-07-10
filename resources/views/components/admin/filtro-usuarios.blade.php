@@ -29,7 +29,7 @@
         <select id="filtrar-grupo" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] appearance-none cursor-pointer">
             <option value="Sin Filtro">Todos los grupos</option>
             @foreach ($grupos as $grupo)
-                <option value="{{ $grupo->id }}">{{ $grupo->grado }}°{{ $grupo->grupo }} - {{ $grupo->nombre }}</option>
+                <option value="{{ $grupo->id }}">{{ $grupo->grado }}°{{ $grupo->grupo }} - {{ $grupo->nombre }} - {{ $grupo->turno }}</option>
             @endforeach
         </select>
     </div>

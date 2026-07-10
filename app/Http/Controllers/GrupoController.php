@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
+use App\Exports\InformacionGruposExport;
 use App\Models\GrupoLaboratorio;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GrupoController extends Controller
 {
@@ -32,7 +34,8 @@ class GrupoController extends Controller
                 "l.nombre"
             )
             ->where("l.id_institucion","=",session("id_institucion"))
-            ->orderBy("l.nombre","ASC")
+            ->orderBy('l.tipo', 'asc')
+            ->orderBy('l.nombre', 'asc')
             ->get()
         ;
 
@@ -42,11 +45,14 @@ class GrupoController extends Controller
                 "g.id",
                 "g.nombre",
                 "g.grado",
-                "g.grupo"
+                "g.grupo",
+                "g.turno"
             )
             ->where("g.id_institucion","=",session("id_institucion"))
-            ->orderBy("g.nombre","ASC")
-            ->orderBy("g.created_at","DESC")
+            ->orderBy('g.turno','asc')
+            ->orderBy('g.grado','asc')
+            ->orderBy('g.grupo','asc')
+            ->orderBy('g.nombre','asc')
             ->get()
         ;
 
@@ -72,6 +78,7 @@ class GrupoController extends Controller
             "nombre" => "required|string|max:255",
             "grado" => "required|string|max:255",
             "grupo" => "required|string|max:255",
+            "turno" => "required|string|max:255",
             "laboratorios" => "required"
         ],[
             "nombre.required" => "El Nombre es obligatorio",
@@ -80,6 +87,8 @@ class GrupoController extends Controller
             "grado.max" => "El Grado no puede exceder los 255 caracteres",
             "grupo.required" => "El Grupo es obligatorio",
             "grupo.max" => "El Grupo no puede exceder los 255 caracteres",
+            "turno.required" => "El Turno es obligatorio",
+            "turno.max" => "El Turno no puede exceder los 255 caracteres",
             "laboratorios.required" => "Debes seleccionar minimo un laboratorio"
         ]);
 
@@ -128,6 +137,7 @@ class GrupoController extends Controller
             "nombre" => "required|string|max:255",
             "grado" => "required|string|max:255",
             "grupo" => "required|string|max:255",
+            "turno" => "required|string|max:255",
             "laboratorios" => "required"
         ],[
             "nombre.required" => "El Nombre es obligatorio",
@@ -136,6 +146,8 @@ class GrupoController extends Controller
             "grado.max" => "El Grado no puede exceder los 255 caracteres",
             "grupo.required" => "El Grupo es obligatorio",
             "grupo.max" => "El Grupo no puede exceder los 255 caracteres",
+            "turno.required" => "El Turno es obligatorio",
+            "turno.max" => "El Turno no puede exceder los 255 caracteres",
             "laboratorios.required" => "Debes seleccionar minimo un laboratorio"
         ]);
 
@@ -186,5 +198,11 @@ class GrupoController extends Controller
         $grupo->delete();
 
         return redirect()->route('admin.grupos.index')->with('success',"Grupo borrado correctamente");
+    }
+
+    public function exportarGrupos()
+    {
+        
+        return Excel::download(new InformacionGruposExport(session('id_institucion')), 'informacion_grupos.xlsx');
     }
 }

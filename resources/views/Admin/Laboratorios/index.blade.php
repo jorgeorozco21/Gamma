@@ -43,6 +43,8 @@
                         </div>
                     </div>
 
+                    <a href="{{ route('admin.laboratorios.exportarLaboratorios') }}">Exportar Excel</a>
+
                     <!-- Boton con Opciones (Nuevo Laboratorio y Carga Masiva) -->
                     <div class="relative inline-block text-left" id="dropdown-container">
                         <button id="btn-dropdown" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">

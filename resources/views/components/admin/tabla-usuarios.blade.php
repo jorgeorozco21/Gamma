@@ -57,7 +57,7 @@
                         <!-- Grado / Grupo -->
                         <td class="px-6 py-4 text-sm text-gray-500">
                             @if($usuario->nombreGrupo)
-                                {{ $usuario->grado }}°{{ $usuario->grupo }} - {{ $usuario->nombreGrupo }}
+                                {{ $usuario->grado }}°{{ $usuario->grupo }} - {{ $usuario->nombreGrupo }} - {{ $usuario->turno }}
                             @else
                                 <span class="text-gray-300">Sin Grupo</span>
                             @endif

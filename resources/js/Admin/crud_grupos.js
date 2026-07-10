@@ -55,6 +55,7 @@ cerrarModal.addEventListener("click",()=>{
     document.getElementById("nombre").value = '';
     document.getElementById("grado").value = '';
     document.getElementById("grupo").value = '';
+    document.getElementById("truno").selectedIndex = 0;
     document.getElementById("laboratorios").selectedIndex = 0;
     document.getElementById('laboratorios-agregados').innerHTML = '';
     vaciar();
@@ -139,6 +140,7 @@ cerrarModalEdit.addEventListener("click",()=>{
     document.getElementById("nombre-edit").value = '';
     document.getElementById("grado-edit").value = '';
     document.getElementById("grupo-edit").value = '';
+    document.getElementById("turno-edit").selectedIndex = 0;
     document.getElementById("inf-laboratorios-edit").value = '';
     document.getElementById("laboratorios-edit").selectedIndex = 0;
     document.getElementById('laboratorios-agregados-edit').innerHTML = '';
@@ -170,6 +172,9 @@ async function asignarInformacionFormularioEditar(informacion){
     document.getElementById("grado-edit").value = informacion.grado;
     document.getElementById("grupo-edit").value = informacion.grupo;
     document.getElementById("inf-laboratorios-edit").value = informacion.laboratorios;
+
+    if (informacion.turno === 'Matutino') document.getElementById("turno-edit").selectedIndex = 0;
+    else if (informacion.turno === 'Vespertino') document.getElementById("turno-edit").selectedIndex = 1
 
     const info = await obtenerInformacionLaboratorio(informacion.id);
     info.forEach(lab =>{

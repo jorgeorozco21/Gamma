@@ -21,7 +21,7 @@ class GruposUsuarioExport implements FromCollection, WithTitle
         return Grupo::where('id_institucion','=',session('id_institucion'))->get()->map(function ($grupo){
             return [
                 'id' => $grupo->id,
-                'nombre' => "{$grupo->grado}-{$grupo->grupo}-{$grupo->nombre}"
+                'nombre' => "{$grupo->grado}-{$grupo->grupo}-{$grupo->nombre}-{$grupo->turno}",
             ];
         });
     }

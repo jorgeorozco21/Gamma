@@ -50,6 +50,7 @@
 <input type="hidden" id="grado" value="{{ $usuario->grado }}">
 <input type="hidden" id="grupo" value="{{ $usuario->grupo }}">
 <input type="hidden" id="nombreGrupo" value="{{ $usuario->nombreGrupo }}">
+<input type="hidden" id="turno" value="{{ $usuario->turno }}">
 
 @vite(['resources/js/Normal/buscador_materiales.js','resources/js/Normal/creacion_solicitudes.js'])
 </html>

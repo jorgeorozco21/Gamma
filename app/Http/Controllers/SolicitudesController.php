@@ -6,6 +6,8 @@ use App\Models\Inventario;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InformacionSolicitudesExport;
 
 class SolicitudesController extends Controller
 {
@@ -98,5 +100,22 @@ class SolicitudesController extends Controller
         $solicitud->delete();
         
         return response()->json(['success' => true, 'message' => 'Eliminado correctamente']);
+    }
+
+    public function exportarSolicitudes(string $id)
+    {
+        $laboratorio = 
+            DB::table('laboratorios as l')
+            ->select(
+                'l.nombre'
+            )
+            ->where('l.id','=',$id)
+            ->first()
+        ;
+
+        $nombreLaboratorio = str_replace(' ','',$laboratorio->nombre);
+        $fecha = date('Y_m_d_H_i_s');
+
+        return Excel::download(new InformacionSolicitudesExport($id), 'informacion_solicitudes_'.$nombreLaboratorio.'_'.$fecha.'.xlsx');
     }
 }

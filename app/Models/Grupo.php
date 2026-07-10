@@ -16,7 +16,7 @@ class Grupo extends Model
         "nombre",
         "grado",
         "grupo",
-        "laboratorios",
+        "turno",
         "id_institucion"
     ];
 

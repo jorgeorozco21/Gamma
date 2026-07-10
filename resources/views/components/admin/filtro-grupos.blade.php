@@ -11,4 +11,14 @@
                 class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#7B1FA3]/10 focus:border-[#7B1FA3] transition-all">
         </div>
     </div>
+
+    <!-- Tipos de Usuario -->
+    <div class="w-full md:w-64">
+        <label id="label-filtrar-turno" for="filtrar-turno" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Turno</label>
+        <select id="filtrar-turno" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] appearance-none cursor-pointer">
+            <option value="Sin Filtro">Todos los turnos</option>
+            <option value="Matutino">Matutino</option>
+            <option value="Vespertino">Vespertino</option>
+        </select>
+    </div>
 </div>

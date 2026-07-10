@@ -13,6 +13,14 @@
     </div>
 
     <div>
+        <label for="turno" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Turno</label>
+        <select id="turno" name="turno" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all">
+            <option value="Matutino">Matutino</option>
+            <option value="Vespertino">Vespertino</option>
+        </select>
+    </div>
+
+    <div>
         <label for="laboratorios" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Laboratorios</label>
         <div class="flex gap-2">
             <select id="laboratorios"

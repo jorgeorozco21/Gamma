@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ArchivoMaterialesExport;
+use App\Exports\InformacionMaterialesExport;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -128,4 +129,10 @@ class MaterialController extends Controller
 
         return Excel::download(new ArchivoMaterialesExport, 'materiales.xlsx');
     } 
+
+    public function exportarMateriales()
+    {
+        
+        return Excel::download(new InformacionMaterialesExport(session('id_institucion')), 'informacion_materiales.xlsx');
+    }
 }

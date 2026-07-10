@@ -62,7 +62,7 @@ function generarRegistro(data){
                 </td>
 
                 <td class="px-6 py-4 text-sm text-gray-500">
-                    ${(usuario.nombreGrupo) ? `${usuario.grado}°${usuario.grupo} - ${usuario.nombreGrupo}` : 'Sin Grupo'}
+                    ${(usuario.nombreGrupo) ? `${usuario.grado}°${usuario.grupo} - ${usuario.nombreGrupo} - ${usuario.turno}` : 'Sin Grupo'}
                 </td>
 
                 <td class="px-6 py-4">

@@ -23,8 +23,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-use function Laravel\Prompts\select;
-
 Route::middleware('check.login')->group(function (){
 
     Route::middleware(['tipo:admin'])->group(function (){
@@ -106,6 +104,8 @@ Route::middleware('check.login')->group(function (){
             return view('Admin.indexAdmin', compact('admin','computadoras','inventarios','solicitudesMenos24','solicitudesMas24'));
         });
 
+        Route::get('/admin/usuarios/exportar-usuarios', [UsuarioController::class, 'exportarUsuarios'])->name('admin.usuarios.exportarUsuarios');
+
         Route::resource('/admin/usuarios', UsuarioController::class)->names('admin.usuarios');
 
         Route::post('/admin/usuarios/{id}/cambiar-contrasena',[UsuarioController::class, 'cambioContrasena'])->name('admin.usuarios.cambiarContrasena');
@@ -124,7 +124,8 @@ Route::middleware('check.login')->group(function (){
                     "u.normal",
                     "g.nombre as nombreGrupo",
                     "g.grado",
-                    "g.grupo"
+                    "g.grupo",
+                    "g.turno"
                 )
             ;
 
@@ -148,7 +149,7 @@ Route::middleware('check.login')->group(function (){
             $query->where('u.id_institucion',"=",session("id_institucion"));
             $query->where("u.admin","!=","1");
 
-            $query->orderBy("u.id","ASC")->orderBy("u.created_at","DESC");
+            $query->orderBy('g.turno', 'asc')->orderBy('g.grado', 'asc')->orderBy('g.nombre', 'asc')->orderBy('g.grupo', 'asc')->orderBy('u.nombre', 'asc');
 
             $usuarios = $query->get();
                 
@@ -190,6 +191,8 @@ Route::middleware('check.login')->group(function (){
             return response()->json($datos);
         });
 
+        Route::get('/admin/laboratorios/exportar-laboratorios', [LaboratorioController::class, 'exportarLaboratorios'])->name('admin.laboratorios.exportarLaboratorios');
+
         Route::resource('/admin/laboratorios', LaboratorioController::class)->names('admin.laboratorios');
 
         Route::get('/api/laboratorios', function(Illuminate\Http\Request $request){
@@ -205,6 +208,8 @@ Route::middleware('check.login')->group(function (){
                     AND estado = \'activo\') as cantidad_computadoras')
                 )
                 ->where("l.nombre","ilike","%".$request->texto."%")
+                ->orderBy('l.tipo', 'asc')
+                ->orderBy('l.nombre', 'asc')
             ;
 
             if ($request->tipo != "Sin Filtro"){
@@ -213,7 +218,7 @@ Route::middleware('check.login')->group(function (){
 
             $query->where("l.id_institucion","=",session("id_institucion"));
 
-            $query->orderBy("l.nombre","ASC")->orderBy("l.created_at","DESC");
+            $query->orderBy('l.tipo', 'asc')->orderBy('l.nombre', 'asc');
 
             $laboratorios = $query->get();
 
@@ -239,6 +244,8 @@ Route::middleware('check.login')->group(function (){
             return response()->json($laboratorio);
         });
 
+        Route::get('/admin/grupos/exportar-grupos', [GrupoController::class, 'exportarGrupos'])->name('admin.grupos.exportarGrupos');
+
         Route::resource('/admin/grupos', GrupoController::class)->names('admin.grupos');
 
         Route::get('/api/grupos/laboratorio', function (Illuminate\Http\Request $request){
@@ -263,9 +270,14 @@ Route::middleware('check.login')->group(function (){
                     "g.id",
                     "g.nombre",
                     "g.grado",
-                    "g.grupo"
+                    "g.grupo",
+                    "g.turno"
                 )
                 ->where("g.id","=",$request->id)
+                ->orderBy('g.turno','asc')
+                ->orderBy('g.grado','asc')
+                ->orderBy('g.grupo','asc')
+                ->orderBy('g.nombre','asc')
                 ->first()
             ;
 
@@ -273,14 +285,14 @@ Route::middleware('check.login')->group(function (){
         });
 
         Route::get('/api/grupos', function (Illuminate\Http\Request $request){
-            $grupos = 
+            $query = 
                 DB::table("grupos as g")
                 ->select(
                     "g.id",
                     "g.nombre",
                     "g.grado",
                     "g.grupo",
-                    "g.laboratorios"
+                    "g.turno"
                 )
                 ->where("g.id_institucion","=",session("id_institucion"))
                 ->where(function ($buscador) use ($request){
@@ -290,11 +302,20 @@ Route::middleware('check.login')->group(function (){
                 })
                 ->orderBy("g.nombre","ASC")
                 ->orderBy("g.created_at","DESC")
-                ->get()
             ;
+
+            if ($request->filtro != "Sin Filtro"){
+                $query->where("g.turno","=",$request->filtro);
+            }
+
+            $query->orderBy('g.turno','asc')->orderBy('g.grado','asc')->orderBy('g.grupo','asc')->orderBy('g.nombre','asc');
+
+            $grupos = $query->get();
 
             return response()->json($grupos);
         });
+
+        Route::get('/admin/materiales/exportar-materiales', [MaterialController::class, 'exportarMateriales'])->name('admin.materiales.exportarMateriales');
 
         Route::resource('/admin/materiales', MaterialController::class)->names('admin.materiales');
 
@@ -339,6 +360,8 @@ Route::middleware('check.login')->group(function (){
 
             return response()->json($materiales);
         });
+
+        Route::get('/admin/inventario/exportar-inventario', [InventarioController::class, 'exportarInventario'])->name('admin.inventario.exportarInventario');
 
         Route::resource('/admin/inventario', InventarioController::class)->names('admin.inventario');
 
@@ -429,12 +452,6 @@ Route::middleware('check.login')->group(function (){
 
         Route::get('/archivo-usuarios', [UsuarioController::class, 'archivoCarga']);
 
-        Route::get('/Generar/Hash/Contrasenas/Administradores', function(){
-            $contrasena = Hash::make('hola');
-            
-            return response()->json($contrasena);
-        });
-
         Route::get('/admin/informes/laboratorios', function (){
             $admin = 
                 DB::table('usuarios as u')
@@ -459,6 +476,8 @@ Route::middleware('check.login')->group(function (){
 
             return view('Admin.Informes.laboratorios', compact('admin','laboratorios'));
         });
+
+        Route::get('/admin/reportes/exportar-reportes-computo-{id}',[ComputadoraController::class, 'exportarComputadoras']);
 
         Route::get('/admin/informes/laboratorios/{id}-laboratorio-computo/computadoras', function($id){
             $admin = 
@@ -561,6 +580,8 @@ Route::middleware('check.login')->group(function (){
 
         Route::post('/admin/informes/laboratorios/laboratorio-computo/crear-computadora-{id}', [ComputadoraController::class, 'crearComputadora']);
 
+        Route::get('/admin/solicitudes/exportar-solicitudes-{id}',[SolicitudesController::class, 'exportarSolicitudes']);
+
         Route::get('/admin/informes/laboratorios/{id}-laboratorio-normal', function($id){
             $admin = 
                 DB::table('usuarios as u')
@@ -656,6 +677,8 @@ Route::middleware('check.login')->group(function (){
 
             return response()->json($solicitudes);
         });
+
+        Route::get('/admin/reportes/exportar-reportes-{id}',[ReporteMaterialController::class, 'exportarReportes']);
 
         Route::get('/admin/informes-reportes/laboratorios/{id}-laboratorio-normal', function($id){
             $admin = 
@@ -871,7 +894,8 @@ Route::middleware('check.login')->group(function (){
                     "u.email",
                     "g.grado",
                     "g.grupo",
-                    "g.nombre as nombreGrupo"
+                    "g.nombre as nombreGrupo",
+                    "g.turno"
                 )
                 ->where('u.id','=',session("id_usuario"))
                 ->first()
@@ -1869,7 +1893,8 @@ Route::middleware('check.login')->group(function (){
                 ->select(
                     'g.grado',
                     'g.grupo',
-                    'g.nombre'
+                    'g.nombre',
+                    'g.turno'
                 )
                 ->where('u.id','=',session('id_usuario'))
                 ->first()

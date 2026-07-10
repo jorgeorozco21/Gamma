@@ -55,9 +55,9 @@
             <!-- Input Especialidad -->
             <div class="space-y-2">
                 <label for="specialty" class="block text-[10px] font-extrabold text-[#7B1FA3] uppercase tracking-[0.10em] ml-1">
-                    Especialidad
+                    Especialidad / Turno
                 </label>
-                <input type="text" value="{{ $datos['grupo']->nombre }}" disabled
+                <input type="text" value="{{ $datos['grupo']->nombre }} - {{ $datos['grupo']->turno }}" disabled
                     class="w-full bg-gray-100 px-5 py-3 rounded-lg text-sm text-gray-700 font-bold border-b-2 border-gray-200 focus:border-[#7B1FA3] focus:outline-none transition-colors">
             </div>
         @endif

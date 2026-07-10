@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\ReporteMaterial;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InformacionReportesMaterialesExport;
 
 class ReporteMaterialController extends Controller
 {
@@ -82,5 +85,22 @@ class ReporteMaterialController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function exportarReportes(string $id)
+    {
+        $laboratorio = 
+            DB::table('laboratorios as l')
+            ->select(
+                'l.nombre'
+            )
+            ->where('l.id','=',$id)
+            ->first()
+        ;
+
+        $nombreLaboratorio = str_replace(' ','',$laboratorio->nombre);
+        $fecha = date('Y_m_d_H_i_s');
+
+        return Excel::download(new InformacionReportesMaterialesExport($id), 'informacion_reportes_'.$nombreLaboratorio.'_'.$fecha.'.xlsx');
     }
 }

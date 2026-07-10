@@ -15,6 +15,7 @@ const usuario = {
     'grado': document.getElementById('grado').value,
     'grupo': document.getElementById('grupo').value,
     'nombreGrupo': document.getElementById('nombreGrupo').value,
+    'turno': document.getElementById('turno').value,
     'idLaboratorio': idLaboratorio,
     'nombreLaboratorio': document.getElementById('nombreLaboratorio').value
 };
