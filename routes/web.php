@@ -20,7 +20,6 @@ use App\Http\Controllers\SolicitudEliminadaController;
 use App\Http\Controllers\SolicitudesComputoController;
 use App\Http\Controllers\SolicitudesController;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('check.login')->group(function (){
@@ -102,6 +101,16 @@ Route::middleware('check.login')->group(function (){
             ;
 
             return view('Admin.indexAdmin', compact('admin','computadoras','inventarios','solicitudesMenos24','solicitudesMas24'));
+        });
+
+        Route::patch('/admin/usuarios/edicion-masiva', function (Illuminate\Http\Request $request){
+
+            DB::table('usuarios')
+            ->where('id_grupo', (int)$request->grupoActual)
+            ->update(['id_grupo' => (int)$request->grupoNuevo]);
+
+            session()->flash('success', 'Registros actualizados correctamente.');
+            return response()->json(['success' => true]);
         });
 
         Route::get('/admin/usuarios/exportar-usuarios', [UsuarioController::class, 'exportarUsuarios'])->name('admin.usuarios.exportarUsuarios');
@@ -300,8 +309,6 @@ Route::middleware('check.login')->group(function (){
                     ->orwhere("g.grado","ilike","%".$request->texto."%")
                     ->orwhere("g.grupo","ilike","%".$request->texto."%");
                 })
-                ->orderBy("g.nombre","ASC")
-                ->orderBy("g.created_at","DESC")
             ;
 
             if ($request->filtro != "Sin Filtro"){
@@ -829,6 +836,16 @@ Route::middleware('check.login')->group(function (){
         Route::post('/admin/analisis-datos/materiales-mas-menos-solicitados', [AnalisisDatosController::class, 'materialesMasMenosSolicitados']);
         Route::post('/admin/analisis-datos/materiales-mas-menos-solicitados-laboratorio', [AnalisisDatosController::class, 'materialesMasMenosSolicitadosLaboratorio']);
         Route::post('/admin/analisis-datos/computadoras-mas-fallas', [AnalisisDatosController::class, 'computadorasMasFallas']);
+
+        Route::delete('/admin/registros/borrar-multiples', function (Illuminate\Http\Request $request){
+
+            DB::table($request->input('tabla'))
+            ->whereIn('id', $request->input('ids'))
+            ->delete();
+
+            session()->flash('success', 'Registros eliminados correctamente.');
+            return response()->json(['success' => true]);
+        });
     });
 
     Route::middleware(['tipo:normal'])->group(function (){

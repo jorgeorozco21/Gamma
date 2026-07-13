@@ -46,6 +46,10 @@
                     Exportar Excel
                 </a>
 
+                <button id="borrar-algunos">Borrar Algunos</button>
+
+                <button id="edicion-masiva">Edicion Masiva</button>
+
                 <!-- Boton con Opciones (Nuevo Usuario y Carga Masiva) -->
                 <div class="relative inline-block text-left" id="dropdown-container">
                     <button id="btn-dropdown" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">
@@ -87,6 +91,14 @@
             </header>
 
             <div class="flex-1 p-6 no-scrollbar space-y-6">
+                <div id="opciones-borrado" class="hidden flex bg-white p-[5px]">
+                    <p id="mostrar-cantidad-elementos">0 elemento(s) seleccionado(s)</p>
+                    <button id="seleccionar-todo" class="ml-[30px] mr-[30px]">Seleccionar Todo</button>
+                    <button id="limpiar-todo" class="ml-[30px] mr-[30px]">Limpiar Todo</button>
+                    <button id="borrar-elementos" class="ml-[30px] mr-[30px]">Borrar</button>
+                    <button id="anular-borrado" class="bg-red-500 p-[5px] ml-[30px] mr-[30px]">X</button>
+                </div>
+
                 <!-- Filtros -->
                 <x-admin.filtro-usuarios :grupos="$grupos" />
 
@@ -94,6 +106,33 @@
                 <x-admin.tabla-usuarios :usuarios="$usuarios" />
             </div>
         </main>
+    </div>
+
+    <!-- Modal edicion masiva -->
+    <div id="modal-edicion-masiva" style="display: none;" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
+            <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+                <h3 class="font-extrabold text-gray-800">Cambiar Grupo</h3>
+                <button id="cerrar-modal-edicion-masiva" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
+            </div>
+            <!-- Form de Agregar Usuario -->
+            <div class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
+                <label for="grupo-actual" id="label-grupo" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo Actual</label>
+                <select id="grupo-actual" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all">
+                    @foreach ($grupos as $grupo)
+                        <option value="{{ $grupo->id }}">{{ $grupo->grado }}°{{ $grupo->grupo }} - {{ $grupo->nombre }} - {{ $grupo->turno }}</option>
+                    @endforeach
+                </select>
+                <label for="grupo-nuevo" id="label-grupo" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Grupo Nuevo</label>
+                <select id="grupo-nuevo" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] transition-all">
+                    @foreach ($grupos as $grupo)
+                        <option value="{{ $grupo->id }}">{{ $grupo->grado }}°{{ $grupo->grupo }} - {{ $grupo->nombre }} - {{ $grupo->turno }}</option>
+                    @endforeach
+                </select>
+
+                <button id="boton-edicion-masiva">Editar</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal de Agregar Usuario -->
@@ -163,6 +202,8 @@
         </div>
     </div>
 
-    @vite(['resources/js/Admin/crud_usuarios.js', 'resources/js/Admin/buscador_usuarios.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/modal.js', 'resources/js/Admin/boton_modales.js'])
+    <input type="hidden" id="nombre-tabla" value="usuarios">
+
+    @vite(['resources/js/Admin/crud_usuarios.js', 'resources/js/Admin/buscador_usuarios.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/modal.js', 'resources/js/Admin/boton_modales.js', 'resources/js/Admin/borrado_masivo.js'])
 </body>
 </html>

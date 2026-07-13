@@ -5,8 +5,11 @@ const buscador = document.getElementById("buscador");
 const filtroTipo = document.getElementById("filtrar-tipo");
 const filtroGrupo = document.getElementById("filtrar-grupo");
 
+import { funcionActiva } from "./borrado_masivo";
+import { ids } from "./borrado_masivo";
+
 async function buscadorGeneral(){
-    console.log(buscador.value, filtroTipo.value, filtroGrupo.value);
+    //console.log(buscador.value, filtroTipo.value, filtroGrupo.value);
     const response = await fetch(`/api/usuarios?texto=${buscador.value}&tipoUsuario=${filtroTipo.value}&grupo=${filtroGrupo.value}`);
     const data = await response.json();
     
@@ -66,7 +69,10 @@ function generarRegistro(data){
                 </td>
 
                 <td class="px-6 py-4">
-                    <div class="flex items-center justify-center gap-2">
+                    <div class="seleccionar-registro ${(funcionActiva) ? "" : "hidden" }">
+                        <input type="checkbox" value="${usuario.id}" class="check-borrar" ${ (ids.includes(String(usuario.id))) ? "checked" : "" }>
+                    </div>
+                    <div class="acciones ${ (funcionActiva) ? "hidden" : "" } flex items-center justify-center gap-2">
                         <button title="Cambiar Contraseña" class="btn-cambiar-contrasena p-2 text-gray-400 hover:text-amber-500 transition-colors" 
                                 data-id="${usuario.id}" data-url="/admin/usuarios/${usuario.id}/cambiar-contrasena">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>

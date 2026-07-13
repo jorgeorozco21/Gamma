@@ -65,7 +65,10 @@
 
                         <!-- Acciones -->
                         <td class="px-6 py-4">
-                            <div class="flex items-center justify-center gap-2">
+                            <div class="seleccionar-registro hidden">
+                                <input type="checkbox" value="{{ $usuario->id }}" class="check-borrar">
+                            </div>
+                            <div class="acciones flex items-center justify-center gap-2">
                                 <!-- Cambiar Contraseña -->
                                 <button title="Cambiar Contraseña" class="btn-cambiar-contrasena p-2 text-gray-400 hover:text-amber-500 transition-colors" 
                                         data-id="{{ $usuario->id }}" data-url="{{ route('admin.usuarios.cambiarContrasena', $usuario->id) }}">

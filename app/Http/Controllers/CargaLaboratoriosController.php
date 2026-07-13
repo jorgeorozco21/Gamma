@@ -50,7 +50,7 @@ class CargaLaboratoriosController extends Controller
 
         // Obtenemos todas las columnas que tengan minimo una columna llena
         $datos = $hoja->filter(function ($fila){
-            return count(array_filter($fila->toArray())) >= 1;
+            return count(array_filter($fila->toArray())) >= 2;
         });
 
         // Comenzamos la validacion de las filas
@@ -60,6 +60,10 @@ class CargaLaboratoriosController extends Controller
             $info = $fila->toArray();
             if (isset($info['tipo'])) {
                 $info['tipo'] = strtolower(trim($info['tipo']));
+            }
+
+            if (isset($info['cantidad_computadoras']) && trim($info['cantidad_computadoras']) === '') {
+                $info['cantidad_computadoras'] = null;
             }
 
             $validator = Validator::make($info, [
@@ -76,11 +80,20 @@ class CargaLaboratoriosController extends Controller
                 if ($info['tipo'] == "prestamos" && $info['cantidad_computadoras'] != null){
                     $validator->errors()->add('cantidad_computadoras', "Fila {$index}: Un Laboratorio de tipo de Préstamos no puede tener computadoras.");
                 }
+
+                if ($info['tipo'] == "computo") {
+                    if (is_null($info['cantidad_computadoras'])) {
+                        $validator->errors()->add('cantidad_computadoras', "Fila {$index}: Si el laboratorio es de tipo 'computo', debes asignar una cantidad de computadoras.");
+                    } elseif (!is_numeric($info['cantidad_computadoras']) || (int)$info['cantidad_computadoras'] <= 0) {
+                        $validator->errors()->add('cantidad_computadoras', "Fila {$index}: La cantidad de computadoras debe ser un número entero mayor a 0.");
+                    }
+                }
             });
 
             if ($validator->fails()){
                 $errores = array_merge($errores, $validator->errors()->all());
             }else{
+                $info['cantidad_computadoras'] = is_null($info['cantidad_computadoras']) ? null : (int)$info['cantidad_computadoras'];
                 $info['id_institucion'] = session('id_institucion');
                 $datosValidados[] = $info;
             }

@@ -26,7 +26,6 @@ class CargaUsuariosController extends Controller
         ]);
 
         $archivo = $request->file('archivo');
-        $archivo = $request->file('archivo');
         $columnasEsperadas = ['nombre_usuario','email','nombre','mantenimiento','encargado','normal','id_grupo'];
 
         $contenido = Excel::toCollection(new FilasImport, $archivo);
@@ -35,16 +34,12 @@ class CargaUsuariosController extends Controller
 
         if ($hoja->isEmpty()){
             throw ValidationException::withMessages([
-                'archivo' => ["El Archivo Excel está vacio."]
+                'archivo' => ["El Archivo Excel está vacío."]
             ]); 
         }
 
-        // Convertir encabezados del usuario a minusculas
-        $columnas = $hoja->first()->keys()->map(function($item) {
-            return strtolower($item);
-        })->toArray();
-
-        // Validamos las columnas sin imporar el orden y la mayuculas y minusuclas
+        // Convertir encabezados a minúsculas
+        $columnas = $hoja->first()->keys()->map(fn($item) => strtolower($item))->toArray();
         $faltantes = array_diff($columnasEsperadas, $columnas);
 
         if (count($faltantes) > 0) {
@@ -53,32 +48,41 @@ class CargaUsuariosController extends Controller
             ]);
         }
 
-        // Obtenemos todas las columnas que tengan minimo una columna llena
-        $datos = $hoja->filter(function ($fila){
-            return count(array_filter($fila->toArray())) >= 1;
-        });
+        // Filtrar filas válidas
+        $datos = $hoja->filter(fn($fila) => count(array_filter($fila->toArray())) >= 1);
 
-        $institucion = 
-            DB::table("instituciones as i")
-            ->select(
-                "i.tag"
-            )
-            ->where("i.id","=",session('id_institucion'))
-            ->first()
-        ;
+        // 1. OBTENER EL PREFIJO DE LA INSTITUCIÓN
+        $institucion = DB::table("instituciones")
+            ->where("id", session('id_institucion'))
+            ->select("tag")
+            ->first();
+        $tag = $institucion ? $institucion->tag : '';
 
-        $tag = $institucion->tag;
+        // 2. OPTIMIZACIÓN CRÍTICA: Traer todos los grupos de una sola consulta indexados por su string único
+        $gruposMapeados = DB::table("grupos")
+            ->select('id', DB::raw("CONCAT(grado,'-',grupo,'-',nombre,'-',turno) as clave_grupo"))
+            ->where('id_institucion',session('id_institucion'))
+            ->get()
+            ->pluck('id', 'clave_grupo') 
+            ->toArray();
+
+        // 3. OPTIMIZACIÓN CRÍTICA: Guardar registros en memoria temporal usando Hash Maps (Llaves) en lugar de in_array
+        $usuariosEnArchivo = [];
+        $correosEnArchivo = [];
+
         $index = 2;
         $datosValidados = [];
-        $correos = [];
-        $usuarios = [];
+
         foreach ($datos as $fila){
             $info = $fila->toArray();
-            $nombreUsuario = $info['nombre_usuario'] ?? '';
-            $info['mantenimiento'] = strtolower($info['mantenimiento']);
-            $info['encargado'] = strtolower($info['encargado']);
-            $info['normal'] = strtolower($info['normal']);
-            $band = false;
+            
+            // Sanitización previa
+            $nombreUsuario = isset($info['nombre_usuario']) ? trim($info['nombre_usuario']) : '';
+            $email = isset($info['email']) ? strtolower(trim($info['email'])) : '';
+            
+            $info['mantenimiento'] = isset($info['mantenimiento']) ? strtolower(trim($info['mantenimiento'])) : 'no';
+            $info['encargado'] = isset($info['encargado']) ? strtolower(trim($info['encargado'])) : 'no';
+            $info['normal'] = isset($info['normal']) ? strtolower(trim($info['normal'])) : 'no';
 
             $validator = Validator::make($info, [
                 'nombre_usuario' => "required|string|max:255|unique:usuarios,nombre_usuario",
@@ -89,106 +93,81 @@ class CargaUsuariosController extends Controller
                 'normal' => "required|in:si,no",
             ],[
                 'nombre_usuario.required' => "Fila {$index}: El Nombre de Usuario es obligatorio",
-                'nombre_usuario.max' => "Fila {$index}: El Nombre de Usuario de debe de exceder los 255 caracteres",
-                'nombre_usuario.unique' => "Fila {$index}: Nombre de Usuario ya existente",
+                'nombre_usuario.max' => "Fila {$index}: El Nombre de Usuario no debe exceder los 255 caracteres",
+                'nombre_usuario.unique' => "Fila {$index}: Nombre de Usuario ya existente en la base de datos",
                 'email.required' => "Fila {$index}: El Email es obligatorio",
-                'email.email' => "Fila {$index}: Email invalido",
+                'email.email' => "Fila {$index}: Email inválido",
                 'email.max' => "Fila {$index}: El email no debe exceder los 255 caracteres",
-                'email.unique' => "Fila {$index}: Email ya registrado",
+                'email.unique' => "Fila {$index}: Email ya registrado en la base de datos",
                 'nombre.required' => "Fila {$index}: El Nombre es obligatorio",
-                'nombre.max' => "Fila {$index}: El Nombre no debe de exceder los 255 caracteres",
-                'mantenimiento.required' => "Fila {$index}: Tienes que indicar si el Usuario puede acceder a las funciones de un Usuario de Mantenimiento",
-                'mantenimiento.in' => "Fila {$index}: La columna de Mantenimiento solo permite como respuesta si o no",
-                'encargado.required' => "Fila {$index}: Tienes que indicar si el Usuario puede acceder a las funciones de un Usuario de Encargado",
-                'encargado.in' => "Fila {$index}: La columna de Encargado solo permite como respuesta si o no",
-                'normal.required' => "Fila {$index}: Tienes que indicar si el Usuario puede acceder a las funciones de un Usuario Normal",
-                'normal.in' => "Fila {$index}: La columna de Normal solo permite como respuesta si o no"
+                'nombre.max' => "Fila {$index}: El Nombre no debe exceder los 255 caracteres",
+                'mantenimiento.in' => "Fila {$index}: La columna Mantenimiento solo permite 'si' o 'no'",
+                'encargado.in' => "Fila {$index}: La columna Encargado solo permite 'si' o 'no'",
+                'normal.in' => "Fila {$index}: La columna Normal solo permite 'si' o 'no'"
             ]);
 
-            if (in_array($info['nombre_usuario'], $usuarios)){
-                $validator->after(function ($validator) use ($index){
-                    $validator->errors()->add('nombre_usuario', "Fila {$index}: Nombre de Usuario ya usado en este archivo.");
-                });
-            }else{
-                $usuarios[] = $info['nombre_usuario'];
-            }
+            $validator->after(function ($validator) use ($nombreUsuario, $email, $tag, $index, $info, $gruposMapeados, &$usuariosEnArchivo, &$correosEnArchivo) {
+                // Duplicados dentro del mismo Excel (Uso de isset en lugar de in_array: O(1) vs O(N))
+                if (isset($usuariosEnArchivo[$nombreUsuario])) {
+                    $validator->errors()->add('nombre_usuario', "Fila {$index}: Nombre de Usuario ya repetido en este archivo.");
+                } else if ($nombreUsuario !== '') {
+                    $usuariosEnArchivo[$nombreUsuario] = true;
+                }
 
-            // 1. Verificar si NO comienza con el tag de la institución
-            if (!str_starts_with($nombreUsuario, $tag) && $info['nombre_usuario'] != null){
-                $validator->after(function ($validator) use ($index, $tag){
+                if (isset($correosEnArchivo[$email])) {
+                    $validator->errors()->add('email', "Fila {$index}: Email ya repetido en este archivo.");
+                } else if ($email !== '') {
+                    $correosEnArchivo[$email] = true;
+                }
+
+                // Prefijo institucional
+                if ($tag !== '' && !str_starts_with($nombreUsuario, $tag) && $nombreUsuario !== '') {
                     $validator->errors()->add('nombre_usuario', "Fila {$index}: El Nombre de Usuario debe iniciar con el prefijo '{$tag}'.");
-                });
-            }
+                }
 
-            // 2. Verificar si tiene espacios
-            if (str_contains($nombreUsuario, ' ') && $info['nombre_usuario'] != null) {
-                $validator->after(function ($validator) use ($index){
+                // Validación de espacios
+                if (str_contains($nombreUsuario, ' ')) {
                     $validator->errors()->add('nombre_usuario', "Fila {$index}: El Nombre de Usuario no puede contener espacios.");
-                });
-            }
+                }
 
-            if (in_array($info['email'], $correos)){
-                $validator->after(function ($validator) use ($index){
-                    $validator->errors()->add('email', "Fila {$index}: Email ya usado en este archivo.");
-                });
-            }else{
-                $correos[] = $info['email'];
-            }
+                // Validación de Roles lógicos y obtención de grupo mapeado sin queries internas
+                $tieneRol = false;
 
-            if ($info['mantenimiento'] == 'si'){
-                $info['mantenimiento'] = "1";
-                $band = true;
-            }else if ($info['mantenimiento'] == 'no') $info['mantenimiento'] = "0";
-
-            if ($info['encargado'] == 'si'){
-                $info['encargado'] = "1";
-                $band = true;
-            }else if ($info['encargado'] == 'no') $info['encargado'] = "0";
-
-            if ($info['normal'] == 'no'){
-                $info['normal'] = "0";
-                $info['id_grupo'] = null;
-            }else if ($info['normal'] == 'si'){
-                $band = true;
-                if ($info['id_grupo'] == null){
-                    $validator->after(function ($validator) use ($index){
-                        $validator->errors()->add('id_grupo', "Fila {$index}: EL Grupo es obligatorio.");
-                    });
-                }else{
-                    $grupo = 
-                        DB::table("grupos as g")
-                        ->select(
-                            "g.id"
-                        )
-                        ->whereRaw("CONCAT(g.grado,'-',g.grupo,'-',g.nombre) = ?", [$info['id_grupo']])
-                        ->first()
-                    ;
-    
-                    if (!$grupo){
-                        $validator->after(function ($validator) use ($info, $index){
-                            $validator->errors()->add('id_grupo', "Fila {$index}: El grupo '{$info['id_grupo']}' no existe.");
-                        });
-                    }else{
-                        $info['id_grupo'] = $grupo->id;
-                        $info['normal'] = "1";
+                if ($info['mantenimiento'] === 'si') $tieneRol = true;
+                if ($info['encargado'] === 'si') $tieneRol = true;
+                
+                if ($info['normal'] === 'si') {
+                    $tieneRol = true;
+                    $claveGrupo = $info['id_grupo'] ?? '';
+                    
+                    if (empty($claveGrupo)) {
+                        $validator->errors()->add('id_grupo', "Fila {$index}: El Grupo es obligatorio para usuarios de tipo 'normal'.");
+                    } elseif (!isset($gruposMapeados[$claveGrupo])) {
+                        $validator->errors()->add('id_grupo', "Fila {$index}: El grupo '{$claveGrupo}' no existe en el sistema.");
                     }
                 }
-            }
 
-            if (!$band){
-                $validator->after(function ($validator) use ($info, $index){
-                    $validator->errors()->add('tipo', "Fila {$index}: Debes seleccionar minimo un tipo de usuario.");
-                });
-            }
+                if (!$tieneRol) {
+                    $validator->errors()->add('tipo', "Fila {$index}: Debes seleccionar mínimo un tipo de usuario ('si' en mantenimiento, encargado o normal).");
+                }
+            });
 
             if ($validator->fails()){
                 $errores = array_merge($errores, $validator->errors()->all());
-            }else{
-                $info['admin'] = "0";
-                $info['id_institucion'] = session('id_institucion');
-                $datosValidados[] = $info;
+            } else {
+                $claveGrupo = $info['id_grupo'] ?? '';
+                $datosValidados[] = [
+                    'nombre_usuario'   => $nombreUsuario,
+                    'email'            => $email,
+                    'nombre'           => $info['nombre'],
+                    'mantenimiento'    => $info['mantenimiento'] === 'si' ? '1' : '0',
+                    'encargado'        => $info['encargado'] === 'si' ? '1' : '0',
+                    'normal'           => $info['normal'] === 'si' ? '1' : '0',
+                    'id_grupo'         => ($info['normal'] === 'si' && isset($gruposMapeados[$claveGrupo])) ? $gruposMapeados[$claveGrupo] : null,
+                    'admin'            => '0',
+                    'id_institucion'   => session('id_institucion'),
+                ];
             }
-
             $index++;
         }
 
@@ -196,17 +175,18 @@ class CargaUsuariosController extends Controller
             return redirect()->route('admin.usuarios.index')->withErrors($errores, 'errores_excel');
         }
 
-        foreach ($datosValidados as $usuario){
-            $contrasena = Str::random(12);
-            $contrasenaHash = Hash::make($contrasena);
+        // 4. TRANSACCIÓN MASIVA Y PREPARACIÓN DE CORREOS
+        DB::transaction(function () use ($datosValidados) {
+            foreach ($datosValidados as $data) {
+                $contrasenaOriginal = Str::random(12);
+                $data['contrasena'] = Hash::make($contrasenaOriginal);
 
-            $usuario['contrasena'] = $contrasenaHash;
+                Usuario::create($data);
 
-            Usuario::create($usuario);
+                Mail::to($data["email"])->queue(new UsuarioCreadoMail($data["nombre_usuario"], $contrasenaOriginal)->from('hola.gamma.web@gmail.com','Administracion'));
+            }
+        });
 
-            Mail::to($usuario["email"])->send(new UsuarioCreadoMail($usuario["nombre_usuario"],$contrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
-        }
-
-        return redirect()->route('admin.usuarios.index')->with("success",'Informacion agregada correctamente');
+        return redirect()->route('admin.usuarios.index')->with("success", 'Información agregada correctamente de forma masiva.');
     }
 }

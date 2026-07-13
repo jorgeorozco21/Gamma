@@ -45,6 +45,8 @@
 
                 <a href="{{ route('admin.materiales.exportarMateriales') }}">Exportar Excel</a>
 
+                <button id="borrar-algunos">Borrar Algunos</button>
+
                 <!-- Boton con Opciones (Nuevo Material y Carga Masiva) -->
                 <div class="relative inline-block text-left" id="dropdown-container">
                     <button id="btn-dropdown" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">
@@ -86,6 +88,14 @@
             </header>
 
             <div class="flex-1 overflow-y-auto p-6 no-scrollbar space-y-6">
+                <div id="opciones-borrado" class="hidden flex bg-white p-[5px]">
+                    <p id="mostrar-cantidad-elementos">0 elemento(s) seleccionado(s)</p>
+                    <button id="seleccionar-todo" class="ml-[30px] mr-[30px]">Seleccionar Todo</button>
+                    <button id="limpiar-todo" class="ml-[30px] mr-[30px]">Limpiar Todo</button>
+                    <button id="borrar-elementos" class="ml-[30px] mr-[30px]">Borrar</button>
+                    <button id="anular-borrado" class="bg-red-500 p-[5px] ml-[30px] mr-[30px]">X</button>
+                </div>
+
                 <!-- Filtros -->
                 <x-admin.filtro-materiales />
     
@@ -160,6 +170,8 @@
         </div>
     </div>
 
-    @vite(['resources/js/Admin/modal.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/crud_materiales.js', 'resources/js/Admin/buscador_materiales.js', 'resources/js/Admin/boton_modales.js'])
+    <input type="hidden" id="nombre-tabla" value="materiales">
+
+    @vite(['resources/js/Admin/modal.js', 'resources/js/Admin/alertas.js', 'resources/js/Admin/crud_materiales.js', 'resources/js/Admin/buscador_materiales.js', 'resources/js/Admin/boton_modales.js', 'resources/js/Admin/borrado_masivo.js'])
 </body>
 </html>

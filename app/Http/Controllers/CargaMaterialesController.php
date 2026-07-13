@@ -49,7 +49,7 @@ class CargaMaterialesController extends Controller
 
         // Obtenemos todas las columnas que tengan minimo una columna llena
         $datos = $hoja->filter(function ($fila){
-            return count(array_filter($fila->toArray())) >= 1;
+            return count(array_filter($fila->toArray())) >= 2;
         });
         
         // Comenzamos la validacion de las filas

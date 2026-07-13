@@ -154,6 +154,65 @@ document.addEventListener("click", async function(e){
     }
 });
 
+const modalEdicionMasiva = document.getElementById("modal-edicion-masiva");
+const abrirModalEdicionMasiva = document.getElementById("edicion-masiva");
+const cerrarModalEdicionMasiva = document.getElementById("cerrar-modal-edicion-masiva");
+const botonEdicionMasiva = document.getElementById("boton-edicion-masiva");
+const grupoActual = document.getElementById('grupo-actual');
+const grupoNuevo = document.getElementById("grupo-nuevo");
+
+abrirModalEdicionMasiva.addEventListener('click', function (){
+    modalEdicionMasiva.style.display = "flex";
+});
+
+botonEdicionMasiva.addEventListener('click', function (){
+    if (grupoActual.value == grupoNuevo.value){
+        alert('No de puede editar si esta seleccionado el mismo grupo');
+    }else{
+        if (confirm('Deseas realizar los cambios ??')){
+
+            editarRegistros(grupoActual.value, grupoNuevo.value);
+
+            grupoActual.selectedIndex = 0;
+            grupoNuevo.selectedIndex = 0;
+            modalEdicionMasiva.style.display = "none";
+        }
+    }
+});
+
+function editarRegistros(grupoactual, gruponuevo){
+    fetch(`/admin/usuarios/edicion-masiva`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ 
+            grupoActual: grupoactual,
+            grupoNuevo: gruponuevo
+        })
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        if (datos.success) {
+
+            location.reload(); 
+        } else {
+            alert("Error: " + datos.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error en la petición:", error);
+        alert("No se pudo conectar con el servidor.");
+    });
+}
+
+cerrarModalEdicionMasiva.addEventListener('click', function (){
+    grupoActual.selectedIndex = 0;
+    grupoNuevo.selectedIndex = 0;
+    modalEdicionMasiva.style.display = "none";
+});
+
 /*const filtroTipo = document.getElementById("filtrar-tipo");
 
 // Funcion para desaparecer y desaparecer el filtro de grupo

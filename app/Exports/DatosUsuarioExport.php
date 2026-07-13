@@ -36,7 +36,7 @@ class DatosUsuarioExport implements FromCollection, WithTitle, WithEvents
 
                 $cantGrupos = Grupo::where("id_institucion", $id_institucion)->count() + 1;
 
-                for ($fila = 2; $fila <= 1000; $fila++) {
+                for ($fila = 2; $fila <= 100; $fila++) {
                     $validarSiNo = new DataValidation();
                     $validarSiNo->setType(DataValidation::TYPE_LIST)
                                 ->setErrorStyle(DataValidation::STYLE_STOP) // No permite ignorar el error

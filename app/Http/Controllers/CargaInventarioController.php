@@ -50,7 +50,7 @@ class CargaInventarioController extends Controller
         }
 
         $datos = $contenido[0]->filter(function ($fila){
-            return count(array_filter($fila->toArray())) >= 1;
+            return count(array_filter($fila->toArray())) >= 3;
         });
 
         // Comenzamos la validacion de las filas
