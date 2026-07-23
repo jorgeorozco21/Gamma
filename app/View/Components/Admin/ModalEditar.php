@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ModalCargaMasiva extends Component
+class ModalEditar extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class ModalCargaMasiva extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.modal-carga-masiva');
+        return view('components.admin.modal-editar');
     }
 }

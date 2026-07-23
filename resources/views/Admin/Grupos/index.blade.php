@@ -36,21 +36,22 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('admin.grupos.exportarGrupos') }}">Exportar Excel</a>
-
                     <button id="borrar-algunos">Borrar Algunos</button>
 
                     <!-- Boton con Opciones (Nuevo Grupo) -->
-                    <div class="relative inline-block text-left" id="dropdown-container">
+                    <div class="relative flex gap-2 text-left" id="dropdown-container">
                         <button id="btn-dropdown" class="bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-4 md:px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-purple-100 flex items-center gap-2 active:scale-95">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                         </button>
+
+                        <x-admin.boton-exportar-excel route="admin.grupos.exportarGrupos" title="Exportar Grupos" />
+
                         <div id="dropdown-menu" class="absolute right-0 mt-2 w-56 origin-top-right bg-white border border-gray-100 rounded-2xl shadow-2xl opacity-0 scale-95 pointer-events-none transition-all duration-200 z-50 overflow-hidden">
                             <div class="py-2">
                                 <!-- Nuevo Grupo -->
-                                <button id="abrir-modal" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-[#7B1FA3] transition-colors group">
+                                <button id="abrir-modal" class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-[#7B1FA3] transition-colors group">
                                     <div class="p-2 bg-purple-50 rounded-lg">
                                         <svg class="w-4 h-4 text-[#7B1FA3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -83,38 +84,15 @@
             </main>
         </div>
 
-        <!-- Modal para crear  -->
-        <div id="modal" style="display: none;" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
-                <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
-                    <h3 class="font-extrabold text-gray-800">Registrar Grupo</h3>
-                    <button id="cerrar-modal" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
-                </div>
-                <div id="contenido-modal" class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
-                    <form action="{{ route('admin.grupos.store') }}" method="post" class="space-y-4">
-                        @csrf
-                        @include('Admin.Grupos.form')
-                    </form>
-                </div>
-            </div>
-        </div>
+        <!-- Modal Crear Grupo  -->
+        <x-admin.modal-nuevo titulo="Registrar Grupo" :action="route('admin.grupos.store')">
+            @include('Admin.Grupos.form')
+        </x-admin.modal-nuevo>
 
-        <!-- Modal para editar -->
-        <div id="modal-edit" style="display: none;" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white rounded-[30px] shadow-2xl w-full max-w-lg relative overflow-hidden">
-                <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
-                    <h3 class="font-extrabold text-gray-800">Editar Grupo</h3>
-                    <button id="cerrar-modal-edit" class="text-gray-400 hover:text-red-500 font-bold text-xl transition-colors">✕</button>
-                </div>
-                <div id="contenido-modal-edit" class="p-8 pt-0 max-h-[80vh] overflow-y-auto">
-                    <form method="post" id="formulario-editar" class="space-y-4">
-                        @csrf
-                        {{ method_field('PATCH') }}
-                        @include('Admin.Grupos.form_editar')
-                    </form>
-                </div>
-            </div>
-        </div>
+        <!-- Modal Editar Grupo -->
+        <x-admin.modal-editar titulo="Editar Grupo">
+            @include('Admin.Grupos.form_editar')
+        </x-admin.modal-editar>
 
         <div id="modal-laboratorios" style="display: none;">
             <button id="cerrar-modal-laboratorios">✕</button>

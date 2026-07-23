@@ -38,11 +38,10 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/admin/solicitudes/exportar-solicitudes-'.$laboratorio->id) }}">Exportar Excel</a>
-
-                <div>
+                <div class="flex relative gap-2 text-left">
                     <a href="{{ url('/admin/informes-reportes/laboratorios/'.$laboratorio->id.'-laboratorio-normal') }}"
                         class="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-white bg-[#7B1FA3] hover:bg-[#6A1B8E] active:scale-95 transition-colors">Reportes</a>
+                    <x-admin.boton-exportar-excel :route="url('/admin/solicitudes/exportar-solicitudes-'.$laboratorio->id)" title="Exportar Informes de Materiales" />
                 </div>
             </header>
 
