@@ -41,7 +41,8 @@ class LaboratorioController extends Controller
             ->where("l.id_institucion","=",session("id_institucion"))
             ->orderBy('l.tipo', 'asc')
             ->orderBy('l.nombre', 'asc')
-            ->get()
+            ->paginate(40)
+            ->withQueryString();
         ;
 
         return view('Admin.Laboratorios.index', compact('laboratorios','admin'));

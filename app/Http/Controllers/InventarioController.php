@@ -66,7 +66,8 @@ class InventarioController extends Controller
             ->orderBy("l.nombre","ASC")
             ->orderBy("m.nombre","ASC")
             ->orderBy("i.created_at","DESC")
-            ->get()
+            ->paginate(40)
+            ->withQueryString();
         ;
 
         return view('Admin.Inventario.index', compact("materiales","laboratorios","inventarios","admin"));

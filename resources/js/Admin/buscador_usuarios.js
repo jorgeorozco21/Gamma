@@ -13,7 +13,7 @@ async function buscadorGeneral(){
     const response = await fetch(`/api/usuarios?texto=${buscador.value}&tipoUsuario=${filtroTipo.value}&grupo=${filtroGrupo.value}`);
     const data = await response.json();
     
-    contenedorInformacion.innerHTML = generarRegistro(data);
+    contenedorInformacion.innerHTML = generarRegistro(data.data);
 }
 
 // donde se almacena el temporizador

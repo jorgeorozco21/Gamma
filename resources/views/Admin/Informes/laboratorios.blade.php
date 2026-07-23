@@ -17,7 +17,7 @@
         </style>
     </head>
     <body class="h-full bg-[#F7F6F8]">
-        <div class="flex min-h-screen">
+        <div class="flex h-screen overflow-hidden">
             <!-- Sidebar -->
             <x-admin.sidebar-admin :admin="$admin" />
             <main class="flex-1 flex flex-col min-w-0 overflow-hidden">

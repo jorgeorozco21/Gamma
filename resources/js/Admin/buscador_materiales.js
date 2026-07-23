@@ -11,7 +11,7 @@ async function buscadorGeneral(){
     const response = await fetch(`/api/materiales?texto=${buscador.value}&filtro=${filtroTipo.value}`);
     const data = await response.json();
     
-    generarRegistro(data);
+    generarRegistro(data.data);
 }
 
 // donde se almacena el temporizador

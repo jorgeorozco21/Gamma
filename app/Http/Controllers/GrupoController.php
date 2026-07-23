@@ -53,7 +53,8 @@ class GrupoController extends Controller
             ->orderBy('g.grado','asc')
             ->orderBy('g.grupo','asc')
             ->orderBy('g.nombre','asc')
-            ->get()
+            ->paginate(40)
+            ->withQueryString();
         ;
 
         return view('Admin.Grupos.index',compact("grupos","laboratorios","admin"));

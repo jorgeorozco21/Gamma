@@ -1,6 +1,6 @@
 @props(['computadoras'])
 <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto overflow-y-auto max-h-[calc(100dvh-300px)] no-scrollbar">
+    <div class="overflow-x-auto no-scrollbar">
         <table class="w-full text-left border-collapse min-w-[800px]">
             <thead class="sticky top-0 z-10 bg-gray-50">
                 <tr class="border-b border-gray-100 bg-gray-50/50">

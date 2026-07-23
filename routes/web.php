@@ -160,7 +160,7 @@ Route::middleware('check.login')->group(function (){
 
             $query->orderBy('g.turno', 'asc')->orderBy('g.grado', 'asc')->orderBy('g.nombre', 'asc')->orderBy('g.grupo', 'asc')->orderBy('u.nombre', 'asc');
 
-            $usuarios = $query->get();
+            $usuarios = $query->paginate(40);
                 
             return response()->json($usuarios);
         });
@@ -229,7 +229,7 @@ Route::middleware('check.login')->group(function (){
 
             $query->orderBy('l.tipo', 'asc')->orderBy('l.nombre', 'asc');
 
-            $laboratorios = $query->get();
+            $laboratorios = $query->paginate(40);
 
             return response()->json($laboratorios);
         });
@@ -317,7 +317,7 @@ Route::middleware('check.login')->group(function (){
 
             $query->orderBy('g.turno','asc')->orderBy('g.grado','asc')->orderBy('g.grupo','asc')->orderBy('g.nombre','asc');
 
-            $grupos = $query->get();
+            $grupos = $query->paginate(40);
 
             return response()->json($grupos);
         });
@@ -363,7 +363,7 @@ Route::middleware('check.login')->group(function (){
 
             $query->orderBy("m.nombre","ASC")->orderBy("m.created_at","DESC");
 
-            $materiales = $query->get();
+            $materiales = $query->paginate(40);
 
             return response()->json($materiales);
         });
@@ -438,7 +438,7 @@ Route::middleware('check.login')->group(function (){
 
             $query->orderBy("l.nombre","ASC")->orderBy("m.nombre","ASC")->orderBy("i.created_at","DESC");
 
-            $inventarios = $query->get();
+            $inventarios = $query->paginate(40);
 
             return response()->json($inventarios);
         });

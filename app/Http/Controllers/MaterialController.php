@@ -37,7 +37,8 @@ class MaterialController extends Controller
             ->where("m.id_institucion","=",session("id_institucion"))
             ->orderBy("m.nombre","ASC")
             ->orderBy("m.created_at","DESC")
-            ->get()
+            ->paginate(40)
+            ->withQueryString();
         ;
 
         return view('Admin.Materiales.index', compact("materiales","admin"));

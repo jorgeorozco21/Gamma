@@ -55,7 +55,8 @@ class UsuarioController extends Controller
             ->orderBy('g.nombre', 'asc')
             ->orderBy('g.grupo', 'asc')
             ->orderBy('u.nombre', 'asc')
-            ->get()
+            ->paginate(40)
+            ->withQueryString();
         ;
 
         $grupos = 
