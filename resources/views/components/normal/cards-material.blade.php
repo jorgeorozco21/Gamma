@@ -31,7 +31,7 @@
                     <h3 class="font-bold text-gray-900 leading-tight mb-2 h-10 text-base">{{ $material->nombre }}</h3>
                     <p class="text-xs text-gray-500 line-clamp-3 flex-grow leading-relaxed">{{ $material->descripcion }}</p>
 
-                    <button data-id="{{ $material->id }}" data-nombre="{{ $material->nombre }}" data-tipo="{{ $material->tipo }}" data-cantidaddisponible="{{ $material->cantidad_disponible }}" class="tarjeta-material mt-6 w-full py-2 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-[#facc15] hover:bg-[#eab308] text-gray-900">
+                    <button data-id="{{ $material->id }}" data-nombre="{{ $material->nombre }}" data-tipo="{{ $material->tipo }}" data-cantidaddisponible="{{ $material->cantidad_disponible }}" class="tarjeta-material mt-6 w-full py-2 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white">
                         <span class="text-lg">+</span> Añadir
                     </button>
                 </div>

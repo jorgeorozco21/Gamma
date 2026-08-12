@@ -144,16 +144,21 @@
 
         materiales.forEach(item => {
             const li = document.createElement('li');
-            li.className = "flex items-center justify-between p-3 bg-gray-50/50 border-l-4 border-[#7B1FA3] rounded-r-xl shadow-sm";
-            li.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-700 font-medium">${item.nombre}</span>
-                </div>
-                <span class="px-2 py-1 bg-purple-50 text-[#7B1FA3] text-xs font-bold rounded-lg border border-purple-100">
-                    ${item.cantidad}
-                </span>
-            `;
-            listContainer.appendChild(li);
+                li.className = "group flex items-center justify-between p-3.5 mb-2.5 bg-white hover:bg-[#F5F3FF] border-l-4 border-[#7B1FA3] rounded-r-xl border-gray-100 shadow-sm hover:shadow-md transition-all duration-200";
+                li.innerHTML = `
+                    <div class="flex items-center gap-3.5 min-w-0">
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-gray-800 group-hover:text-[#7B1FA3] transition-colors truncate">
+                                ${item.nombre}
+                            </p>
+                        </div>
+                    </div>
+
+                    <span class="shrink-0 ml-2 px-2.5 py-1 bg-purple-50 group-hover:bg-purple-100/70 text-[#7B1FA3] text-xs font-bold rounded-lg border border-purple-100 transition-colors">
+                        ${item.cantidad}
+                    </span>
+                `;
+                listContainer.appendChild(li);
         });
 
         // Mostrar modal

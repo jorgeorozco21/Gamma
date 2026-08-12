@@ -26,9 +26,18 @@ function crearTarjetas(contenedor, infLaboratorios, informacion){
         else cadena += informacion[lab].toString();
 
         contenedor.innerHTML += `
-            <div class="flex items-center justify-between p-2 mb-0.5 bg-gray-50/50 border-l-4 border-[#7B1FA3] rounded-r-xl shadow-sm">
-                <span class="text-sm text-gray-700 font-medium">${lab}</span>
-                <button type="button" class="eliminar-laboratorio hover:text-red-600" data-clave="${lab}">✕</button>
+            <div class="group flex items-center justify-between p-1 mb-2.5 bg-white hover:bg-[#F5F3FF] border-l-4 border-[#7B1FA3] rounded-r-xl border-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
+                <div class="flex items-center gap-3.5 min-w-0">
+                    <div class="min-w-0">
+                        <p class="text-sm font-bold text-gray-800 group-hover:text-[#7B1FA3] transition-colors truncate">
+                            ${lab}
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="eliminar-laboratorio shrink-0 p-1.5 ml-2 text-gray-400 hover:text-red-600 transition-all active:scale-95" 
+                        data-clave="${lab}" title="Eliminar">
+                    ✕
+                </button>
             </div>
         `;
 
@@ -97,11 +106,14 @@ async function mostrarLaboratorios(informacion){
     let lista = '<ul>';
 
     info.forEach(lab =>{
-        lista += `<li class="flex items-center justify-between p-3 mb-2 bg-gray-50/50 border-l-4 border-[#7B1FA3] rounded-r-xl shadow-sm">
-                <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-700 font-medium">
-                        ${lab.nombre}
-                    </span>
+        lista += `
+            <li class="group flex items-center justify-between p-3.5 mb-2.5 bg-white hover:bg-[#F5F3FF] border-l-4 border-[#7B1FA3] rounded-r-xl border-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
+                <div class="flex items-center gap-3.5 min-w-0">
+                    <div class="min-w-0">
+                        <p class="text-sm font-bold text-gray-800 group-hover:text-[#7B1FA3] transition-colors truncate">
+                            ${lab.nombre}
+                        </p>
+                    </div>
                 </div>
             </li>
         `;

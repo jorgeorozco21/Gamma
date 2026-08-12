@@ -1,7 +1,7 @@
 @props(['infoLaboratorio','reportes'])
 <div id="contenedor-tarjetas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 max-w-8xl mx-auto max-h-[calc(100dvh-250px)] overflow-y-auto no-scrollbar">
     @foreach ($infoLaboratorio as $com)
-        <div data-id="{{ $com->id }}" data-numerocomputadora="{{ $com->numero_computadora }}" class="tarjeta bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full cursor-pointer">
+        <div data-id="{{ $com->id }}" data-numerocomputadora="{{ $com->numero_computadora }}" class="tarjeta bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-all duration-300 h-full cursor-pointer">
             <!-- Cantidad de Reportes -->
             <div class="mb-4">
                 <span class="bg-[#E0E7FF] text-[#3730A3] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider">

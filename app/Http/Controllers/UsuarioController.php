@@ -170,7 +170,7 @@ class UsuarioController extends Controller
         
         Usuario::create($datosUsuario);
 
-        Mail::to($datosUsuario['email'])->send(new UsuarioCreadoMail($datosUsuario['nombre_usuario'],$contrasena)->from('hola.gamma.web@gmail.com','Administracion'));
+        //Mail::to($datosUsuario['email'])->send(new UsuarioCreadoMail($datosUsuario['nombre_usuario'],$contrasena)->from('hola.gamma.web@gmail.com','Administracion'));
 
         return redirect()->route('admin.usuarios.index')->with('success',"Usuario creado correctamente");
     }

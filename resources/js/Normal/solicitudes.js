@@ -156,7 +156,7 @@ function generarTarjetasSolicitudes(informacion){
 
     informacion.solicitudes_eliminadas.forEach(s =>{
         tarjetas += `
-            <div data-id="${solicitud.id}" class="solicitud-eliminada bg-white p-6 rounded-[20px] border border-gray-100 shadow-sm flex w-full hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-shadow cursor-pointer">
+            <div data-id="${solicitud.id}" class="solicitud-eliminada bg-white p-6 rounded-[20px] border border-gray-100 shadow-sm flex w-full hover:shadow-md hover:border-2 transition-shadow cursor-pointer">
                 <div class="space-y-2 w-full">
                     <div class="flex justify-between w-full">
                         <h2 class="text-lg font-extrabold text-[#1e293b] tracking-tight">

@@ -12,8 +12,12 @@
     </div>
     <div class="flex items-center gap-4 py-4">
         @if(Route::is('pagina-principal'))
-            <a href="{{ url('/login') }}" class="group flex items-center gap-2 bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-5 py-2 rounded-xl transition-all shadow-md active:scale-[0.98]">
-                <span class="text-[14px] font-bold">Login</span>
+            <a href="{{ url('/login') }}" class="group flex items-center gap-2.5 bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white px-5 py-2.5 rounded-xl transition-all shadow-md active:scale-[0.98]">
+                <svg class="w-4 h-4 text-white/90 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+
+                <span class="text-xs font-bold tracking-wide">Iniciar Sesión</span>
             </a>
 
         @elseif(Route::is('seleccionar-perfil'))

@@ -89,52 +89,54 @@ function generarRegistro(informacion){
                 </td>
 
                 <!-- Material Dañado -->
-                <td class="px-6 py-4">
-                    <span class="py-1 rounded-lg text-black text-xs font-bold tracking-tight">
+                <td class="px-6 py-4 text-center text-black text-sm font-medium tracking-tight">
                         ${r.nombre}
-                    </span>
                 </td>
 
-                <td class="px-6 py-4 text-sm font-mono text-gray-500 uppercase">
+                <td class="px-6 py-4 text-sm text-black uppercase text-center font-medium">
                     ${r.tipo}
                 </td>
 
                 <!-- Descripcion -->
                 <td class="px-6 py-4 justify-center">
-                    <button type="button" 
-                        onclick="openMaterialModal('${r.id}', '${r.descripcion}')" 
-                        class="flex items-center gap-2 text-[#7B1FA3]"
-                        title="Ver Reporte">
-                        <div class="p-1.5 bg-purple-100 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                            </svg>
-                        </div>
-                    </button>
+                    <div class="flex justify-center">
+                        <button type="button" onclick="openMaterialModal('${r.id}', '${r.descripcion}')" 
+                            class="flex items-center gap-2 text-[#7B1FA3]" title="Ver Reporte">
+                            <div class="p-1.5 bg-purple-100 rounded-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
                 </td>
 
                 <!-- Fecha -->
-                <td class="px-6 py-4 text-sm text-gray-500">
+                <td class="px-6 py-4 text-sm text-gray-500 text-center">
                     ${fechaFormateada}
                 </td>
 
                 <!-- Estado del Reporte -->
                 <td class="px-6 py-4 text-center">
-                    <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
-                        ${r.estado}
-                    </span>
+                    <div class="flex justify-center">
+                        <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-lg border border-green-100 uppercase">
+                            ${r.estado}
+                        </span>
+                    </div>
                 </td>
 
                 <td class="px-6 py-4 text-center">
-                    <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
-                        ${ (r.estado == 'aceptada' || r.estado == 'reprogramado')?'en proceso':'reparado' }
-                    </span>
+                    <div class="flex justify-center">
+                        <span class="px-2 py-1 bg-orange-50 text-orange-700 text-xs font-bold rounded-lg border border-orange-100 uppercase">
+                            ${ (r.estado == 'aceptada' || r.estado == 'reprogramado')?'en proceso':'reparado' }
+                        </span>
 
-                    <button data-estado="${ (r.estado == 'aceptada' || r.estado == 'reprogramado')?'en proceso':'reparado' }" data-id="${r.id}"
-                        class="cambiar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]"
-                        title="Guardar cambio">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    </button>
+                        <button data-estado="${ (r.estado == 'aceptada' || r.estado == 'reprogramado')?'en proceso':'reparado' }" data-id="${r.id}"
+                            class="cambiar p-2 bg-[#7B1FA3] text-white rounded-xl hover:bg-[#6A1B8E] transition-all shadow-lg shadow-purple-100 active:scale-[0.98]"
+                            title="Guardar cambio">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </button>
+                    </div>
                 </td>
                 <td class="px-6 py-4 text-center">
         `;

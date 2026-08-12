@@ -2,7 +2,7 @@
     <!-- Descripcion y Plantilla -->
     <div class="bg-gray-50 border border-gray-100 p-4 rounded-2xl">
         <p class="text-xs text-gray-500 leading-relaxed">
-            Sube un archivo <strong class="text-gray-700">.csv</strong> o <strong class="text-gray-700">.xlsx</strong> con el formato establecido. Si no tienes la plantilla, descárgala aquí:
+            Sube un archivo <strong class="text-gray-700">.xlsx</strong> con el formato establecido. Si no tienes la plantilla, descárgala aquí:
         </p>
         <a href="{{ url('/archivo-laboratorios') }}" class="inline-flex items-center gap-2 mt-3 text-[#7B1FA3] text-xs font-bold hover:underline">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

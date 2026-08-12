@@ -33,7 +33,7 @@ function generarRegistro(data){
     data.forEach(laboratorio =>{
         fila += `
             <a href="/admin/informes/laboratorios/${laboratorio.id}-${ (laboratorio.tipo == 'prestamos')?'laboratorio-normal':'laboratorio-computo/computadoras' }" class="flex flex-col gap-2 cursor-pointer">
-                <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full">
+                <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-all h-full">
                     <!-- Tipo de laboratorio -->
                     <div class="mb-4">
                         <span class="bg-[#E0E7FF] text-[#3730A3] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider uppercase">

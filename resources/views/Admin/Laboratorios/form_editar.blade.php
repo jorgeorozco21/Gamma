@@ -4,11 +4,11 @@
 </div>
 <div>
     <label for="tipo-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tipo de Laboratorio</label>
-    <p id="tipo-edit" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-[#7B1FA3] uppercase"></p>
+    <p id="tipo-edit" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400 uppercase"></p>
 </div>
 <div>
     <label for="cantidad-edit" id="label-cantidad-edit" class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Cantidad de Computadoras</label>
-    <p id="cantidad-edit" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-[#7B1FA3]"></p>
+    <p id="cantidad-edit" readonly class="w-full px-4 py-2 bg-gray-100 border border-gray-100 rounded-xl text-gray-400"></p>
 </div>
 
 <input type="hidden" name="id_institucion" value="{{ session("id_institucion") }}">

@@ -36,7 +36,7 @@ export function generarTarjetas(informacion){
         if (band){
             tarjetas += `
                 <div class="flex flex-col gap-2">
-                    <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full">
+                    <div class="bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-all h-full">
                         <div class="mb-4">
                             <span class="bg-[${color}] text-[${colorLetra}] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider">
                                 ${m.cantidad_disponible} Disponibles
@@ -46,7 +46,7 @@ export function generarTarjetas(informacion){
                         <h3 class="font-bold text-gray-900 leading-tight mb-2 h-10 text-base">${m.nombre}</h3>
                         <p class="text-xs text-gray-500 line-clamp-3 flex-grow leading-relaxed">${m.descripcion}</p>
 
-                        <button data-id="${m.id}" data-nombre="${m.nombre}" data-tipo="${m.tipo}" data-cantidaddisponible="${m.cantidad_disponible}" class="tarjeta-material mt-6 w-full py-2 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-[#facc15] hover:bg-[#eab308] text-gray-900">
+                        <button data-id="${m.id}" data-nombre="${m.nombre}" data-tipo="${m.tipo}" data-cantidaddisponible="${m.cantidad_disponible}" class="tarjeta-material mt-6 w-full py-2 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-[#7B1FA3] hover:bg-[#6A1B8E] text-white">
                             <span class="text-lg">+</span> Añadir
                         </button>
                     </div>

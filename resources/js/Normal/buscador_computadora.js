@@ -18,7 +18,7 @@ function generarTarjetas(informacion){
 
     informacion.forEach(s =>{
         tarjetas += `
-            <div data-id="${s.id}" data-numerocomputadora="${s.numero_computadora}" class="tarjeta bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:border-[#7B1FA3] hover:border-2 transition-all h-full cursor-pointer">
+            <div data-id="${s.id}" data-numerocomputadora="${s.numero_computadora}" class="tarjeta bg-white p-5 rounded-[20px] border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-all duration-300 h-full cursor-pointer">
                 <!-- Cantidad de Reportes -->
                 <div class="mb-4">
                     <span class="bg-[#E0E7FF] text-[#3730A3] text-[10px] font-bold px-3 py-1 rounded-full tracking-wider">
