@@ -1,0 +1,230 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-DUX-asKb.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/Admin/alertas.js": {
+    "file": "assets/alertas-DR1-FO_b.js",
+    "name": "alertas",
+    "src": "resources/js/Admin/alertas.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/analisis_de_datos.js": {
+    "file": "assets/analisis_de_datos-D3CXgiPJ.js",
+    "name": "analisis_de_datos",
+    "src": "resources/js/Admin/analisis_de_datos.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/borrado_masivo.js": {
+    "file": "assets/borrado_masivo-Bka9kyio.js",
+    "name": "borrado_masivo",
+    "src": "resources/js/Admin/borrado_masivo.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/boton_modales.js": {
+    "file": "assets/boton_modales-DqR6xZYR.js",
+    "name": "boton_modales",
+    "src": "resources/js/Admin/boton_modales.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/buscador_grupos.js": {
+    "file": "assets/buscador_grupos-Dj_BKWiv.js",
+    "name": "buscador_grupos",
+    "src": "resources/js/Admin/buscador_grupos.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Admin/borrado_masivo.js"
+    ]
+  },
+  "resources/js/Admin/buscador_inventario.js": {
+    "file": "assets/buscador_inventario-CIOegCTv.js",
+    "name": "buscador_inventario",
+    "src": "resources/js/Admin/buscador_inventario.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Admin/borrado_masivo.js"
+    ]
+  },
+  "resources/js/Admin/buscador_laboratorios.js": {
+    "file": "assets/buscador_laboratorios-CqfHWZmJ.js",
+    "name": "buscador_laboratorios",
+    "src": "resources/js/Admin/buscador_laboratorios.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Admin/borrado_masivo.js"
+    ]
+  },
+  "resources/js/Admin/buscador_materiales.js": {
+    "file": "assets/buscador_materiales-iqZE750a.js",
+    "name": "buscador_materiales",
+    "src": "resources/js/Admin/buscador_materiales.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Admin/borrado_masivo.js"
+    ]
+  },
+  "resources/js/Admin/buscador_usuarios.js": {
+    "file": "assets/buscador_usuarios-B_ZFWKUZ.js",
+    "name": "buscador_usuarios",
+    "src": "resources/js/Admin/buscador_usuarios.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Admin/borrado_masivo.js"
+    ]
+  },
+  "resources/js/Admin/computadoras.js": {
+    "file": "assets/computadoras-Dd8jTs1G.js",
+    "name": "computadoras",
+    "src": "resources/js/Admin/computadoras.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/crud_grupos.js": {
+    "file": "assets/crud_grupos-DdzwNPfL.js",
+    "name": "crud_grupos",
+    "src": "resources/js/Admin/crud_grupos.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/crud_inventario.js": {
+    "file": "assets/crud_inventario-CxANODCK.js",
+    "name": "crud_inventario",
+    "src": "resources/js/Admin/crud_inventario.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/crud_laboratorios.js": {
+    "file": "assets/crud_laboratorios-DtOr9CpI.js",
+    "name": "crud_laboratorios",
+    "src": "resources/js/Admin/crud_laboratorios.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/crud_materiales.js": {
+    "file": "assets/crud_materiales-DK1pqXwj.js",
+    "name": "crud_materiales",
+    "src": "resources/js/Admin/crud_materiales.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/crud_usuarios.js": {
+    "file": "assets/crud_usuarios-BrLA5L3o.js",
+    "name": "crud_usuarios",
+    "src": "resources/js/Admin/crud_usuarios.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/laboratorios_informes.js": {
+    "file": "assets/laboratorios_informes-qAOODFb8.js",
+    "name": "laboratorios_informes",
+    "src": "resources/js/Admin/laboratorios_informes.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/materiales.js": {
+    "file": "assets/materiales-DOTucbpL.js",
+    "name": "materiales",
+    "src": "resources/js/Admin/materiales.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/modal.js": {
+    "file": "assets/modal-C5xykMjz.js",
+    "name": "modal",
+    "src": "resources/js/Admin/modal.js",
+    "isEntry": true
+  },
+  "resources/js/Admin/reportes.js": {
+    "file": "assets/reportes-B255Fqsz.js",
+    "name": "reportes",
+    "src": "resources/js/Admin/reportes.js",
+    "isEntry": true
+  },
+  "resources/js/Encargado/reportes_materiales.js": {
+    "file": "assets/reportes_materiales-BbJgR8vK.js",
+    "name": "reportes_materiales",
+    "src": "resources/js/Encargado/reportes_materiales.js",
+    "isEntry": true
+  },
+  "resources/js/Encargado/solicitudes_aceptadas.js": {
+    "file": "assets/solicitudes_aceptadas-3hCQG1km.js",
+    "name": "solicitudes_aceptadas",
+    "src": "resources/js/Encargado/solicitudes_aceptadas.js",
+    "isEntry": true
+  },
+  "resources/js/Encargado/solicitudes_aceptadas_computo.js": {
+    "file": "assets/solicitudes_aceptadas_computo-C-lRH_dh.js",
+    "name": "solicitudes_aceptadas_computo",
+    "src": "resources/js/Encargado/solicitudes_aceptadas_computo.js",
+    "isEntry": true
+  },
+  "resources/js/Encargado/solicitudes_pendientes.js": {
+    "file": "assets/solicitudes_pendientes-CQVTi8Ih.js",
+    "name": "solicitudes_pendientes",
+    "src": "resources/js/Encargado/solicitudes_pendientes.js",
+    "isEntry": true
+  },
+  "resources/js/Encargado/solicitudes_pendientes_computo.js": {
+    "file": "assets/solicitudes_pendientes_computo-D4NefUWJ.js",
+    "name": "solicitudes_pendientes_computo",
+    "src": "resources/js/Encargado/solicitudes_pendientes_computo.js",
+    "isEntry": true
+  },
+  "resources/js/Mantenimiento/reportes_computo.js": {
+    "file": "assets/reportes_computo-DKJa-fiM.js",
+    "name": "reportes_computo",
+    "src": "resources/js/Mantenimiento/reportes_computo.js",
+    "isEntry": true
+  },
+  "resources/js/Mantenimiento/reportes_materiales.js": {
+    "file": "assets/reportes_materiales-CjU7cGes.js",
+    "name": "reportes_materiales",
+    "src": "resources/js/Mantenimiento/reportes_materiales.js",
+    "isEntry": true
+  },
+  "resources/js/Normal/buscador_computadora.js": {
+    "file": "assets/buscador_computadora-BiaR--E9.js",
+    "name": "buscador_computadora",
+    "src": "resources/js/Normal/buscador_computadora.js",
+    "isEntry": true
+  },
+  "resources/js/Normal/buscador_materiales.js": {
+    "file": "assets/buscador_materiales-CuP23CSm.js",
+    "name": "buscador_materiales",
+    "src": "resources/js/Normal/buscador_materiales.js",
+    "isEntry": true
+  },
+  "resources/js/Normal/creacion_solicitudes.js": {
+    "file": "assets/creacion_solicitudes-bVNrEXlB.js",
+    "name": "creacion_solicitudes",
+    "src": "resources/js/Normal/creacion_solicitudes.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Normal/buscador_materiales.js"
+    ]
+  },
+  "resources/js/Normal/creacion_solicitudes_computo.js": {
+    "file": "assets/creacion_solicitudes_computo-CjaV4vhU.js",
+    "name": "creacion_solicitudes_computo",
+    "src": "resources/js/Normal/creacion_solicitudes_computo.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/Normal/buscador_computadora.js"
+    ]
+  },
+  "resources/js/Normal/laboratorios_normal.js": {
+    "file": "assets/laboratorios_normal-z1kkQGIH.js",
+    "name": "laboratorios_normal",
+    "src": "resources/js/Normal/laboratorios_normal.js",
+    "isEntry": true
+  },
+  "resources/js/Normal/solicitudes.js": {
+    "file": "assets/solicitudes-CbkpYPWO.js",
+    "name": "solicitudes",
+    "src": "resources/js/Normal/solicitudes.js",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CKl8NZMC.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}

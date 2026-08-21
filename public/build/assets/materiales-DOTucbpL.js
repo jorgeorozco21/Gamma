@@ -1,0 +1,79 @@
+const d=document.getElementById("contenedor-auditorias");let r,s=!1;document.addEventListener("click",o=>{const a=o.target.closest(".auditoria");if(a){const e=a.dataset.id;p(e),r=e,s=!0,document.getElementById("id-auditoria").innerHTML=`#${e}`,document.getElementById("auditoria-modal").classList.remove("hidden"),document.body.classList.add("overflow-hidden")}o.target.closest(".cerrar-modal-auditoria")&&(s=!1,r=null)});async function p(o){const t=await(await fetch(`/admin/informes/laboratorios/laboratorio-normal/auditorias?id=${o}`)).json();m(t)}function m(o){if(o.length===0)d.innerHTML=`
+            <div class="mb-4 p-4 bg-[#F7F6F8] rounded-2xl relative group transition-all cursor-default">
+                <p class="text-[11px] text-gray-700 font-bold leading-relaxed line-clamp-3">
+                    No hay auditorias.
+                </p>
+            </div>
+        `;else{let a=`
+            <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                    <tr class="border-b border-gray-100 bg-gray-50/50">
+                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Usuario</th>
+                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Estado</th>
+                        <th class="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+        `;o.forEach(t=>{const e=JSON.parse(t.info_usuario);a+=`
+                <tr class="hover:bg-gray-50/50 transition-colors group">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div>
+                                <p class="text-sm font-bold text-gray-800">${e.nombre}</p>
+                                <p class="text-xs text-gray-400">${e.email}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-3 py-1 text-[10px] text-center font-bold rounded-lg bg-green-50 text-green-600 border border-green-100 uppercase">
+                            ${t.estado}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-center text-sm text-gray-500">${t.fecha}</td>
+                </tr>
+            `}),a+=`
+                </tbody>
+            </table>
+        `,d.innerHTML=a}}setInterval(()=>{s&&p(r)},5e3);const l=document.getElementById("informacion-filtrada"),u=document.getElementById("buscador"),x=document.getElementById("filtro-tipo");async function n(){const a=await(await fetch(`/api/admin/informes/laboratorios/laboratorio-normal/buscador?idLab=${document.getElementById("id-lab").value}&texto=${u.value}&filtro=${x.value}`)).json();h(a)}let c;const f=300;u.addEventListener("input",()=>{clearTimeout(c),c=setTimeout(()=>{n()},f)});x.addEventListener("change",()=>{n()});setInterval(()=>{n()},5e3);function h(o){l.innerHTML="";let a="";o.forEach(t=>{const e=JSON.parse(t.info_usuario),i=JSON.parse(t.info_material),g=JSON.stringify(i).replace(/"/g,"&quot;");a+=`
+            <tr class="hover:bg-gray-50/50 transition-colors group">
+                <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-gray-800 truncate">${e.nombre}</p>
+                            <p class="text-[10px] text-gray-400 font-medium">${e.email}</p>
+                            <p class="text-[10px] text-gray-400 font-medium">${e.grado}° ${e.grupo} - ${e.nombreGrupo} - ${e.turno}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-black font-medium text-center">
+                    ${t.id}
+                </td>
+                <td class="px-6 py-4 justify-center">
+                    <div class="flex justify-center">
+                        <button type="button" onclick="openMaterialModal('${t.id}',${g})" 
+                            class="flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
+                            <div class="p-1.5 bg-purple-100 rounded-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex justify-center">
+                        <button data-id="${t.id}"
+                            class="auditoria flex items-center gap-2 text-[#7B1FA3] hover:text-white transition-colors">
+                            <div class="p-1.5 bg-purple-100 hover:bg-[#7B1FA3] rounded-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500 text-center">
+                    ${t.fecha}
+                </td>
+            </tr>
+        `}),l.innerHTML=a}
