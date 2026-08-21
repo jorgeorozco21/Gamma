@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BrevoService;
 use App\Exports\ArchivoUsuariosExport;
 use App\Exports\InformacionUsuariosExport;
 use App\Mail\ContrasenaNuevaMail;
@@ -10,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\UsuarioCreadoMail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -90,7 +90,7 @@ class UsuarioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, BrevoService $brevo)
     {
         $datosUsuario = $request->except('_token');
 
@@ -170,7 +170,17 @@ class UsuarioController extends Controller
         
         Usuario::create($datosUsuario);
 
-        Mail::to($datosUsuario['email'])->send(new UsuarioCreadoMail($datosUsuario['nombre_usuario'],$contrasena)->from('hola.labores.web@gmail.com','Administracion'));
+        $html = view('emails.usuario_creado', [
+            'usuario' => $datosUsuario['nombre_usuario'],
+            'contrasena' => $contrasena,
+        ])->render();
+
+        $brevo->send(
+            $datosUsuario['email'],
+            'Tu cuenta Gamma fue creada',
+            $html,
+            $datosUsuario['nombre_usuario']
+        );
 
         return redirect()->route('admin.usuarios.index')->with('success',"Usuario creado correctamente");
     }
