@@ -170,7 +170,7 @@ class UsuarioController extends Controller
         
         Usuario::create($datosUsuario);
 
-        //Mail::to($datosUsuario['email'])->send(new UsuarioCreadoMail($datosUsuario['nombre_usuario'],$contrasena)->from('hola.gamma.web@gmail.com','Administracion'));
+        Mail::to($datosUsuario['email'])->send(new UsuarioCreadoMail($datosUsuario['nombre_usuario'],$contrasena)->from('hola.labores.web@gmail.com','Administracion'));
 
         return redirect()->route('admin.usuarios.index')->with('success',"Usuario creado correctamente");
     }
@@ -305,7 +305,7 @@ class UsuarioController extends Controller
 
         Usuario::where("id","=",$id)->update(['contrasena' => Hash::make($nuevaContrasena)]);
 
-        Mail::to($usuario['email'])->send(new ContrasenaNuevaMail($usuario['nombre_usuario'],$nuevaContrasena)->from('jeduardoorozco06@gmail.com','Administracion'));
+        Mail::to($usuario['email'])->send(new ContrasenaNuevaMail($usuario['nombre_usuario'],$nuevaContrasena)->from('hola.labores.web@gmail.com','Administracion'));
 
         return response()->json([
             'message' => 'Contraseña cambiada correctamente'

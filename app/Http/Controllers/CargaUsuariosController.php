@@ -183,7 +183,7 @@ class CargaUsuariosController extends Controller
 
                 Usuario::create($data);
 
-                Mail::to($data["email"])->queue(new UsuarioCreadoMail($data["nombre_usuario"], $contrasenaOriginal)->from('hola.gamma.web@gmail.com','Administracion'));
+                Mail::to($data["email"])->queue(new UsuarioCreadoMail($data["nombre_usuario"], $contrasenaOriginal)->from('hola.labores.web@gmail.com','Administracion'));
             }
         });
 
