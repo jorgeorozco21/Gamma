@@ -3,6 +3,7 @@ FROM php:8.4-cli
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    curl \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
@@ -15,13 +16,15 @@ RUN apt-get update && apt-get install -y \
         pdo_pgsql \
         bcmath \
         opcache \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
+COPY . .
 
 RUN composer install \
     --optimize-autoloader \
@@ -29,7 +32,9 @@ RUN composer install \
     --no-interaction \
     --no-progress
 
-COPY . .
+RUN npm install
+
+RUN npm run build
 
 EXPOSE 8080
 
