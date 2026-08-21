@@ -15,7 +15,7 @@
         <div class="text-center mb-16 max-w-6xl mx-auto">
             <h1 class="text-3xl md:text-4xl font-extrabold text-[#1A1A1A] mb-6">Selecciona tu Perfil</h1>
             <p class="text-gray-500 max-w-5xl mx-auto text-sm md:text-base leading-relaxed">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis architecto aliquam tempora laboriosam saepe magnam, consequuntur ipsa magni hic libero culpa ducimus accusantium, consectetur aut nulla numquam reiciendis excepturi error.
+                Bienvenido al sistema de gestión de laboratorios. Por favor, selecciona tu tipo de perfil para acceder a las funcionalidades y herramientas asignadas a tu cuenta.            
             </p>
         </div>
         <!-- Cards de Roles -->
