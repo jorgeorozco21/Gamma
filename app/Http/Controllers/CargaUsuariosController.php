@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BrevoService;
 use App\Imports\FilasImport;
-use App\Mail\UsuarioCreadoMail;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class CargaUsuariosController extends Controller
 {
-    public function cargaMasivaUsuarios(Request $request)
+    public function cargaMasivaUsuarios(Request $request, BrevoService $brevo)
     {
         $request->validate([
             'archivo' => 'required|file|mimes:xlsx,xls'
@@ -176,16 +175,40 @@ class CargaUsuariosController extends Controller
         }
 
         // 4. TRANSACCIÓN MASIVA Y PREPARACIÓN DE CORREOS
-        DB::transaction(function () use ($datosValidados) {
-            foreach ($datosValidados as $data) {
+        $correos = [];
+
+        DB::transaction(function () use ($datosValidados, &$correos){
+
+            foreach ($datosValidados as $data){
+
                 $contrasenaOriginal = Str::random(12);
+
                 $data['contrasena'] = Hash::make($contrasenaOriginal);
 
                 Usuario::create($data);
 
-                Mail::to($data["email"])->queue(new UsuarioCreadoMail($data["nombre_usuario"], $contrasenaOriginal)->from('hola.labores.web@gmail.com','Administracion'));
+                $correos[] = [
+                    'email' => $data['email'],
+                    'nombre_usuario' => $data['nombre_usuario'],
+                    'contrasena' => $contrasenaOriginal,
+                ];
             }
         });
+
+        foreach ($correos as $correo){
+
+            $html = view('emails.usuario_creado', [
+                'usuario' => $correo['nombre_usuario'],
+                'contrasena' => $correo['contrasena'],
+            ])->render();
+
+            $brevo->send(
+                $correo['email'],
+                'Tu cuenta Labores fue creada',
+                $html,
+                $correo['nombre_usuario']
+            );
+        }
 
         return redirect()->route('admin.usuarios.index')->with("success", 'Información agregada correctamente de forma masiva.');
     }

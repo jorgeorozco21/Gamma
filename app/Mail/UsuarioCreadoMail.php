@@ -31,7 +31,7 @@ class UsuarioCreadoMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Tu cuenta Gamma fue creada',
+            subject: 'Tu cuenta Labores fue creada',
         );
     }
 

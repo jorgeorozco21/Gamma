@@ -30,7 +30,7 @@ class ContrasenaNuevaMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'La contraseña de tu cuenta Gamma a sido cambiada',
+            subject: 'La contraseña de tu cuenta Labores a sido cambiada',
         );
     }
 

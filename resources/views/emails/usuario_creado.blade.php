@@ -34,7 +34,7 @@
                         <table width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 30px;">
                             <tr>
                                 <td align="center">
-                                    <a href="#" target="_blank" style="display: inline-block; background-color: #7B1FA3; color: #ffffff; padding: 14px 30px; font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);">
+                                    <a href="https://labores-production.up.railway.app/login" target="_blank" style="display: inline-block; background-color: #7B1FA3; color: #ffffff; padding: 14px 30px; font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);">
                                         Iniciar Sesión
                                     </a>
                                 </td>

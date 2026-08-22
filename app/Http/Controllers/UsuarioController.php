@@ -177,7 +177,7 @@ class UsuarioController extends Controller
 
         $brevo->send(
             $datosUsuario['email'],
-            'Tu cuenta Gamma fue creada',
+            'Tu cuenta Labores fue creada',
             $html,
             $datosUsuario['nombre_usuario']
         );
@@ -307,7 +307,7 @@ class UsuarioController extends Controller
     /**
      * Funcion para cambio de contrasena
      */
-    public function cambioContrasena(string $id)
+    public function cambioContrasena(string $id, BrevoService $brevo)
     {
         $nuevaContrasena = Str::random(12);
 
@@ -315,7 +315,17 @@ class UsuarioController extends Controller
 
         Usuario::where("id","=",$id)->update(['contrasena' => Hash::make($nuevaContrasena)]);
 
-        Mail::to($usuario['email'])->send(new ContrasenaNuevaMail($usuario['nombre_usuario'],$nuevaContrasena)->from('hola.labores.web@gmail.com','Administracion'));
+        $html = view('emails.cambio_contrasena', [
+            'usuario' => $usuario['nombre_usuario'],
+            'contrasena' => $nuevaContrasena,
+        ])->render();
+
+        $brevo->send(
+            $usuario['email'],
+            'Tu contraseña ha sido actualizada',
+            $html,
+            $usuario['nombre_usuario']
+        );
 
         return response()->json([
             'message' => 'Contraseña cambiada correctamente'
